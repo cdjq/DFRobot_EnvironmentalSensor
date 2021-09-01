@@ -58,9 +58,9 @@ def setup():
   '''
   sen050x.test()
   while (sen050x.begin(DEVICE_PID_GRAVITY) == False):
-    print("init fail!")
+    print("Sensor initialize failed！！")
     time.sleep(1)
-  print("init success!")
+  print("Sensor  initialize success！！")
   
 def loop():
   print("-----------------------\r\n")

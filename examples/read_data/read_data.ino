@@ -23,10 +23,12 @@
 #if defined(ARDUINO_AVR_UNO)||defined(ESP8266)
 #include <SoftwareSerial.h>
 #endif
+
 #if 0
 //使用IIC通信时请将该部分放出，隐藏串口部分
 DFRobot_Multifunctional_Environmental_Sensor environment(/*addr = */SEN050X_DEFAULT_DEVICE_ADDRESS, /*pWire = */&Wire);
 #endif
+
 #if 1
 
 #if defined(ARDUINO_AVR_UNO)||defined(ESP8266)
@@ -63,10 +65,10 @@ void setup()
   * @n      -1:失败
   */
   while(environment.begin(DEVICE_PID_GRAVITY) != 0){
-    Serial.println(" Sensor initialize failed");
+    Serial.println(" Sensor initialize failed！！");
     delay(1000);
   }
-  Serial.println(" Sensor  initialize success");
+  Serial.println(" Sensor  initialize success！！");
 }
 
 void loop()
