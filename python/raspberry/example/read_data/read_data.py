@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*
 '''
-  * @file  gain_heartbeat_SPO2.py
-  *@brief 这个demo演示获取SEN050X传感器上的数据，通过IIC或串口连接传感器
-  *@n 将SEN050X返回的数据打印在串口监视器上
-  * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
-  * @licence     The MIT License (MIT)
-  * @author      PengKaixing(jie.tang@dfrobot.com)
-  * @version     V1.0
-  * @date        2021-08-31
-  * @get         from https://www.dfrobot.com
-  * @url         https://github.com
+  @file  read_data.py
+  @brief 这个demo演示获取SEN050X传感器上的数据，通过IIC或串口连接传感器
+  @n 将SEN050X返回的数据打印在串口监视器上
+  @copyright   Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
+  @licence     The MIT License (MIT)
+  @author      TangJie(jie.tang@dfrobot.com)
+  @version     V1.0
+  @date        2021-08-31
+  @get         from https://www.dfrobot.com
+  @url         https://github.com/cdjq/DFRobot_EnvironmentalSensor
 '''
 import sys
 import os
@@ -23,7 +23,7 @@ from dfrobot_environmental_sensor import *
   ctype=1：UART
   ctype=0：IIC
 '''
-ctype=1
+ctype=0
 
 if ctype==0:
   I2C_1       = 0x01               # I2C_1 使用i2c1接口驱动传感器， 可以调整为i2c0但是需要配置树莓派的文件
@@ -47,20 +47,18 @@ TEMP_F                    = 0X04
  
 def setup():
   '''
-  * @brief 初始化SEN050X传感器
-  * 
-  * @param pid 初始化传感器的PID
-  * @n     DEVICE_PID_GRAVITY 初始化SEN0501传感器
-  * @n     DEVICE_PID_BREAKOUT 初始化SEN0500传感器
-  * @return 返回值;
-  * @n      0：成功
-  * @n      -1:失败
+    @brief 初始化SEN050X传感器
+    @param pid 初始化传感器的PID
+    @n     DEVICE_PID_GRAVITY 初始化SEN0501传感器
+    @n     DEVICE_PID_BREAKOUT 初始化SEN0500传感器
+    @return 返回值;
+    @n      0:成功
+    @n      -1:失败
   '''
-  sen050x.test()
   while (sen050x.begin(DEVICE_PID_GRAVITY) == False):
-    print("Sensor initialize failed！！")
+    print("Sensor initialize failed!!")
     time.sleep(1)
-  print("Sensor  initialize success！！")
+  print("Sensor  initialize success!!")
   
 def loop():
   print("-----------------------\r\n")

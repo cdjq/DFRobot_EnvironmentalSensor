@@ -1,22 +1,14 @@
-/*
- MIT License
-
- Copyright (C) <2019> <@DFRobot Frank>
-
-��Permission is hereby granted, free of charge, to any person obtaining a copy of this
-��software and associated documentation files (the "Software"), to deal in the Software
-��without restriction, including without limitation the rights to use, copy, modify,
-��merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
-��permit persons to whom the Software is furnished to do so.
-
-��The above copyright notice and this permission notice shall be included in all copies or
-��substantial portions of the Software.
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
- INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
- PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
- FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
- ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
+/*!
+ * @file  DFRobot_Sensor.h
+ * @brief DFRobot_EnvironmentalSensor 类的基础结构
+ * 
+ * @copyright	Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
+ * @licence   The MIT License (MIT)
+ * @author    [TangJie](jie.tang@dfrobot.com)
+ * @version   V1.0
+ * @date      2021-08-31
+ * @url       https://github.com/cdjq/DFRobot_EnvironmentalSensor
+ */
 
 #ifndef DFROBOT_MULTIFUNCTIONAL_ENVIRONMENTAL_SENSOR_H
 #define DFROBOT_MULTIFUNCTIONAL_ENVIRONMENTAL_SENSOR_H
@@ -25,7 +17,6 @@
 #include "Wire.h"
 #include "DFRobot_RTU.h"
 #include "String.h"
-#include "DFRobot_RTU.h"
 
 #if (!defined ARDUINO_ESP32_DEV) && (!defined __SAMD21G18A__)
 #include "SoftwareSerial.h"
@@ -62,6 +53,20 @@ public:
 #define TEMP_C                    0X03
 #define TEMP_F                    0X04
 
+#define REG_PID                   0x0000 //协议转换板的寄存器
+#define REG_VID                   0x0001 //协议转换板的寄存器
+#define REG_DEVICE_ADDR           0x0002 //协议转换板的寄存器
+#define REG_UART_CTRL0            0x0003 //协议转换板的寄存器
+#define EG_UART_CTRL1             0x0004 //协议转换板的寄存器
+#define REG_VERSION               0x0005 //协议转换板的寄存器
+
+#define REG_ULTRAVIOLET_INTENSITY 0x0008 //协议转换板的寄存器
+#define REG_LUMINOUS_INTENSITY    0x0009 //协议转换板的寄存器
+#define REG_TEMP                  0x000A //协议转换板的寄存器
+#define REG_HUMIDITY              0x000B //协议转换板的寄存器
+#define REG_ATMOSPHERIC_PRESSURE  0x000C //协议转换板的寄存器
+#define REG_ELEVATION             0x000D //协议转换板的寄存器
+
 
 
 /**
@@ -90,22 +95,7 @@ public:
  * @n      0:成功
  * @n      -1:失败
  */
-uint8_t begin(uint16_t pid);
-/**
- * @brief 获取设备PID(产品标识ID),注意此功能只有地址不为广播地址的类对象可以使用，
- * @n     广播地址类对象调用该方法无效。
- * @return PID:
- * @n      0:获取失败
- * @n      设备PID
- */
-uint16_t getDevicePID();
-/**
- * @brief 获取设备VID（厂商标识ID）,注意此功能只有地址不为广播地址的类对象可以使用，广播地址类对象调用该方法无效。
- * @return VID:
- * @n      0:获取失败
- * @n      DEVICE_VID or 0x3343：设备VID
- */
-uint16_t getDeviceVID();
+int8_t begin(uint16_t pid);
 /**
  * @brief 获取SEN050X温度数据
  * 
@@ -152,6 +142,8 @@ uint16_t getElevation(void);
 
 
 protected:
+  uint16_t getDevicePID();
+  uint16_t getDeviceVID();
   uint8_t  readReg(uint16_t reg, void *pBuf, uint8_t size);
   bool detectDeviceAddress(uint8_t addr);
   

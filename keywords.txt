@@ -7,7 +7,7 @@
 # Datatypes (KEYWORD1)
 #######################################
 
-DFRobot_Multifunctional_Environmental_Sensor	KEYWORD1
+DFRobot_EnvironmentalSensor	KEYWORD1
 
 
 #######################################
@@ -15,8 +15,6 @@ DFRobot_Multifunctional_Environmental_Sensor	KEYWORD1
 #######################################
 
 begin	KEYWORD2
-getDevicePID	KEYWORD2
-getDeviceVID	KEYWORD2
 getTemperature	KEYWORD2
 getHumidity	KEYWORD2
 getUltravioletIntensity	KEYWORD2

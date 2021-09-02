@@ -1,5 +1,5 @@
 /*!
- *@file read_data.ino
+ *@file  read_data.ino
  *@brief 这个demo演示获取SEN050X传感器上的数据，通过IIC或串口连接传感器
  *@n 将SEN050X返回的数据打印在串口监视器上
  *
@@ -14,35 +14,32 @@
  * 
  * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @licence     The MIT License (MIT)
- * @author [Arya](jie.tang@dfrobot.com)
- * @version  V1.0
- * @date  2021-08-31
- * @https://www.dfrobot.co
+ * @author      [TangJie](jie.tang@dfrobot.com)
+ * @version     V1.0
+ * @date        2021-08-31
+ * @get         from https://www.dfrobot.com
+ * @url         https://github.com/cdjq/DFRobot_EnvironmentalSensor
  */
 #include "DFRobot_EnvironmentalSensor.h"
 #if defined(ARDUINO_AVR_UNO)||defined(ESP8266)
 #include <SoftwareSerial.h>
 #endif
 
-#if 0
-//使用IIC通信时请将该部分放出，隐藏串口部分
-DFRobot_EnvironmentalSensor environment(/*addr = */SEN050X_DEFAULT_DEVICE_ADDRESS, /*pWire = */&Wire);
-#endif
+#define MODESWITCH        /*UART:*/1 /*I2C: 0*/
 
-#if 1
-
+#if MODESWITCH
 #if defined(ARDUINO_AVR_UNO)||defined(ESP8266)
   SoftwareSerial mySerial(/*rx =*/4, /*tx =*/5);
   DFRobot_EnvironmentalSensor environment(/*addr =*/SEN050X_DEFAULT_DEVICE_ADDRESS, /*s =*/&mySerial);//创建一个广播地址的对象，可批量配置总线上的所有设备
 #else
   DFRobot_EnvironmentalSensor environment(/*addr =*/SEN050X_DEFAULT_DEVICE_ADDRESS, /*s =*/&Serial1); //创建一个广播地址的对象，可批量配置总线上的所有设备
 #endif
-
+#else
+DFRobot_EnvironmentalSensor environment(/*addr = */SEN050X_DEFAULT_DEVICE_ADDRESS, /*pWire = */&Wire);
 #endif
 void setup()
 {
-#if 1
-
+#if MODESWITCH
   //初始化MCU通信串口
 #if defined(ARDUINO_AVR_UNO)||defined(ESP8266)
   mySerial.begin(9600);
@@ -51,7 +48,6 @@ void setup()
 #else
   Serial1.begin(9600);
 #endif
-
 #endif
   Serial.begin(115200);
  /**

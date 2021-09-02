@@ -55,20 +55,6 @@ To use this library, first download the library file, paste it into the \Arduino
  */
 uint8_t begin(uint16_t pid);
 /**
- * @brief 获取设备PID(产品标识ID),注意此功能只有地址不为广播地址的类对象可以使用，广播地址类对象调用该方法无效。
- * @return PID:
- * @n      0:  获取失败
- * @n      DEVICE_PID or 0x01F5：设备PID
- */
-uint16_t getDevicePID();
-/**
- * @brief 获取设备VID（厂商标识ID）,注意此功能只有地址不为广播地址的类对象可以使用，广播地址类对象调用该方法无效。
- * @return PID:
- * @n      0:  获取失败
- * @n      DEVICE_VID or 0x3343：设备PID
- */
-uint16_t getDeviceVID();
-/**
  * @brief 获取SEN0501温度数据
  * 
  * @return 返回获取的温度数据
