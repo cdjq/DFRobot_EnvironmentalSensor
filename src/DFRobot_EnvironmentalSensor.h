@@ -25,6 +25,7 @@
 #include "Wire.h"
 #include "DFRobot_RTU.h"
 #include "String.h"
+#include "DFRobot_RTU.h"
 
 #if (!defined ARDUINO_ESP32_DEV) && (!defined __SAMD21G18A__)
 #include "SoftwareSerial.h"
@@ -45,7 +46,7 @@
 #endif
 #define SEN050X_DEFAULT_DEVICE_ADDRESS             0x22 /**<SEN0501传感器的默认设备地址为0x20*/
 
-class DFRobot_MultifunctionalEnvironmentalSensor: public DFRobot_RTU{
+class DFRobot_EnvironmentalSensor: public DFRobot_RTU{
 
 
 public:
@@ -69,7 +70,7 @@ public:
  * @param pWire 指向TowWire流的I2C指针,此种传递方式需要在demo中调用begin初始化ArduinoI2C配置。
  * @param addr  SEN0501设备I2C通信的I2C地址。
  */
-  DFRobot_MultifunctionalEnvironmentalSensor(uint8_t addr, TwoWire *pWire = &Wire);
+  DFRobot_EnvironmentalSensor(uint8_t addr, TwoWire *pWire = &Wire);
 /**
  * @brief DFRobot_Multifunctional_Environmental_Sensor构造函数。
  * @param addr: 主机要和SEN0501从机设备通信的设备地址
@@ -77,8 +78,8 @@ public:
  * @param s   : 指向Stream流的串口指针，此种传递方式需要在demo中调用begin初始化Arduino主控的通信串口配置，需和SEN0501设备从机的串口配置一致
  * * @n SEN0501串口配置为：9600波特率，8位数据位，无校验位，1位停止位，参数无法修改。
  */
-  DFRobot_MultifunctionalEnvironmentalSensor(uint8_t addr, Stream *s);
-  ~DFRobot_MultifunctionalEnvironmentalSensor(){};
+  DFRobot_EnvironmentalSensor(uint8_t addr, Stream *s);
+  ~DFRobot_EnvironmentalSensor(){};
 /**
  * @brief 初始化SEN050X传感器
  * 

@@ -34,14 +34,14 @@ TEMP_F                    = 0X04
 
 
 
-class dfrobot_multifunctional_environmental_sensor(DFRobot_RTU):
+class dfrobot_environmental_sensor(DFRobot_RTU):
     
   def __init__(self ,bus ,Baud):
     if bus != 0:
       self.i2cbus = smbus.SMBus(bus)
       self.__uart_i2c = I2C_MODE
     else:
-      super(dfrobot_multifunctional_environmental_sensor, self).__init__(Baud, 8, 'N', 1)
+      super(dfrobot_environmental_sensor, self).__init__(Baud, 8, 'N', 1)
       #self.ser = serial.Serial("/dev/ttyAMA0" ,baudrate=Baud,stopbits=1, timeout=0.5)
       self.__uart_i2c = UART_MODE
       if self.ser.isOpen == False:
@@ -181,7 +181,7 @@ class dfrobot_multifunctional_environmental_sensor(DFRobot_RTU):
 '''
   @brief An example of an i2c interface module
 '''
-class dfrobot_multifunctional_environmental_sensor_i2c(dfrobot_multifunctional_environmental_sensor):
+class dfrobot_environmental_sensor_i2c(dfrobot_environmental_sensor):
   def __init__(self ,bus ,addr):
     self.__addr = addr
     super(dfrobot_multifunctional_environmental_sensor_i2c, self).__init__(bus,0)     
@@ -201,7 +201,7 @@ class dfrobot_multifunctional_environmental_sensor_i2c(dfrobot_multifunctional_e
 '''
   @brief An example of an UART interface module
 '''
-class dfrobot_multifunctional_environmental_sensor_uart(dfrobot_multifunctional_environmental_sensor):
+class dfrobot_environmental_sensor_uart(dfrobot_environmental_sensor):
   SERIAL_DATA_BUF_MAX_SIZE = 20
   RTU_READ_REG_CMD = 0x03
   RTU_WRITE_REG_CMD = 0x06
