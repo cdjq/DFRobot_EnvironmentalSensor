@@ -65,10 +65,10 @@ void setup()
   * @n      -1:失败
   */
   while(environment.begin(DEVICE_PID_GRAVITY) != 0){
-    Serial.println(" Sensor initialize failed！！");
+    Serial.println(" Sensor initialize failed!!");
     delay(1000);
   }
-  Serial.println(" Sensor  initialize success！！");
+  Serial.println(" Sensor  initialize success!!");
 }
 
 void loop()

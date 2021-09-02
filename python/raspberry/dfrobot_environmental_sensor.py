@@ -184,7 +184,7 @@ class dfrobot_environmental_sensor(DFRobot_RTU):
 class dfrobot_environmental_sensor_i2c(dfrobot_environmental_sensor):
   def __init__(self ,bus ,addr):
     self.__addr = addr
-    super(dfrobot_multifunctional_environmental_sensor_i2c, self).__init__(bus,0)     
+    super(dfrobot_environmental_sensor_i2c, self).__init__(bus,0)     
     
   '''
     @brief read the data from the register
@@ -209,7 +209,7 @@ class dfrobot_environmental_sensor_uart(dfrobot_environmental_sensor):
   def __init__(self ,Baud):
     self.__Baud = Baud
     try:
-      super(dfrobot_multifunctional_environmental_sensor, self).__init__(Baud, 8, 'N', 1)
+      super(dfrobot_environmental_sensor_uart, self).__init__(Baud, 8, 'N', 1)
       #super(dfrobot_blood_oxygen_s_uart, self).__init__(0,Baud)
     except:
       print ("plese get root!")
