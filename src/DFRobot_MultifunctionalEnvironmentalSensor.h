@@ -45,7 +45,7 @@
 #endif
 #define SEN050X_DEFAULT_DEVICE_ADDRESS             0x22 /**<SEN0501传感器的默认设备地址为0x20*/
 
-class DFRobot_Multifunctional_Environmental_Sensor: public DFRobot_RTU{
+class DFRobot_MultifunctionalEnvironmentalSensor: public DFRobot_RTU{
 
 
 public:
@@ -69,7 +69,7 @@ public:
  * @param pWire 指向TowWire流的I2C指针,此种传递方式需要在demo中调用begin初始化ArduinoI2C配置。
  * @param addr  SEN0501设备I2C通信的I2C地址。
  */
-  DFRobot_Multifunctional_Environmental_Sensor(uint8_t addr, TwoWire *pWire = &Wire);
+  DFRobot_MultifunctionalEnvironmentalSensor(uint8_t addr, TwoWire *pWire = &Wire);
 /**
  * @brief DFRobot_Multifunctional_Environmental_Sensor构造函数。
  * @param addr: 主机要和SEN0501从机设备通信的设备地址
@@ -77,8 +77,8 @@ public:
  * @param s   : 指向Stream流的串口指针，此种传递方式需要在demo中调用begin初始化Arduino主控的通信串口配置，需和SEN0501设备从机的串口配置一致
  * * @n SEN0501串口配置为：9600波特率，8位数据位，无校验位，1位停止位，参数无法修改。
  */
-  DFRobot_Multifunctional_Environmental_Sensor(uint8_t addr, Stream *s);
-  ~DFRobot_Multifunctional_Environmental_Sensor(){};
+  DFRobot_MultifunctionalEnvironmentalSensor(uint8_t addr, Stream *s);
+  ~DFRobot_MultifunctionalEnvironmentalSensor(){};
 /**
  * @brief 初始化SEN050X传感器
  * 
@@ -148,6 +148,7 @@ uint16_t getAtmospherePressure(uint8_t units);
  * @return 返回获取的海拔数据
  */
 uint16_t getElevation(void);
+
 
 protected:
   uint8_t  readReg(uint16_t reg, void *pBuf, uint8_t size);

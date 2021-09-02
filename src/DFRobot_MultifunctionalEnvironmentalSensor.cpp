@@ -40,19 +40,19 @@ typedef uint32_t    platformBitWidth_t;
 #define REG_ATMOSPHERIC_PRESSURE  0x000C //协议转换板的寄存器
 #define REG_ELEVATION             0x000D //协议转换板的寄存器
 
-DFRobot_Multifunctional_Environmental_Sensor::DFRobot_Multifunctional_Environmental_Sensor(uint8_t addr, TwoWire *pWire)
+DFRobot_MultifunctionalEnvironmentalSensor::DFRobot_MultifunctionalEnvironmentalSensor(uint8_t addr, TwoWire *pWire)
 {
   _pWire = pWire;
   _addr = addr;
 };
 
-DFRobot_Multifunctional_Environmental_Sensor::DFRobot_Multifunctional_Environmental_Sensor(uint8_t addr, Stream *s):DFRobot_RTU(s)
+DFRobot_MultifunctionalEnvironmentalSensor::DFRobot_MultifunctionalEnvironmentalSensor(uint8_t addr, Stream *s):DFRobot_RTU(s)
 {
   _s = s;
   _addr = addr;
 }
 
-uint8_t DFRobot_Multifunctional_Environmental_Sensor::begin(uint16_t pid)
+uint8_t DFRobot_MultifunctionalEnvironmentalSensor::begin(uint16_t pid)
 {
   delay(500);
   setTimeoutTimeMs(200);
@@ -79,7 +79,7 @@ uint8_t DFRobot_Multifunctional_Environmental_Sensor::begin(uint16_t pid)
   return 0;
 }
 
-uint16_t DFRobot_Multifunctional_Environmental_Sensor::getDevicePID(void)
+uint16_t DFRobot_MultifunctionalEnvironmentalSensor::getDevicePID(void)
 {
   uint8_t buf[2];
   if(_pWire){
@@ -91,7 +91,7 @@ uint16_t DFRobot_Multifunctional_Environmental_Sensor::getDevicePID(void)
 
 }
 
-uint16_t DFRobot_Multifunctional_Environmental_Sensor::getDeviceVID(void)
+uint16_t DFRobot_MultifunctionalEnvironmentalSensor::getDeviceVID(void)
 {
   uint8_t buf[2];
   if(_pWire){
@@ -103,7 +103,7 @@ uint16_t DFRobot_Multifunctional_Environmental_Sensor::getDeviceVID(void)
 
 }
 
-float DFRobot_Multifunctional_Environmental_Sensor::getTemperature(uint8_t unist)
+float DFRobot_MultifunctionalEnvironmentalSensor::getTemperature(uint8_t unist)
 {
   uint8_t buffer[2];
   int16_t data;
@@ -126,7 +126,7 @@ float DFRobot_Multifunctional_Environmental_Sensor::getTemperature(uint8_t unist
   return temp;
 }
 
-uint16_t DFRobot_Multifunctional_Environmental_Sensor::getHumidity(void)
+uint16_t DFRobot_MultifunctionalEnvironmentalSensor::getHumidity(void)
 {
   uint8_t buffer[2];
   int16_t humidity;
@@ -136,7 +136,7 @@ uint16_t DFRobot_Multifunctional_Environmental_Sensor::getHumidity(void)
   return humidity;
 }
 
-float DFRobot_Multifunctional_Environmental_Sensor::getUltravioletIntensity(void)
+float DFRobot_MultifunctionalEnvironmentalSensor::getUltravioletIntensity(void)
 {
   uint16_t ultraviolet;
   uint8_t buffer[2];
@@ -145,7 +145,7 @@ float DFRobot_Multifunctional_Environmental_Sensor::getUltravioletIntensity(void
   return (ultraviolet / 100) + (ultraviolet % 100) * 0.01;
 }
 
-uint16_t DFRobot_Multifunctional_Environmental_Sensor::getLuminousIntensity(void)
+uint16_t DFRobot_MultifunctionalEnvironmentalSensor::getLuminousIntensity(void)
 {
   uint16_t luminous;
   uint8_t buffer[2];
@@ -154,7 +154,7 @@ uint16_t DFRobot_Multifunctional_Environmental_Sensor::getLuminousIntensity(void
   return luminous;
 }
 
-uint16_t DFRobot_Multifunctional_Environmental_Sensor::getAtmospherePressure(uint8_t units)
+uint16_t DFRobot_MultifunctionalEnvironmentalSensor::getAtmospherePressure(uint8_t units)
 {
   uint16_t atmosphere;
   uint8_t buffer[2];
@@ -166,7 +166,7 @@ uint16_t DFRobot_Multifunctional_Environmental_Sensor::getAtmospherePressure(uin
   return atmosphere;
 }
 
-uint16_t DFRobot_Multifunctional_Environmental_Sensor::getElevation(void)
+uint16_t DFRobot_MultifunctionalEnvironmentalSensor::getElevation(void)
 {
   uint16_t elevation;
   uint8_t buffer[2];
@@ -175,7 +175,7 @@ uint16_t DFRobot_Multifunctional_Environmental_Sensor::getElevation(void)
   return elevation;
 }
 
-uint8_t DFRobot_Multifunctional_Environmental_Sensor::readReg(uint16_t reg, void *pBuf, uint8_t size)
+uint8_t DFRobot_MultifunctionalEnvironmentalSensor::readReg(uint16_t reg, void *pBuf, uint8_t size)
 {
   uint8_t* _pBuf = (uint8_t*)pBuf;
   
@@ -199,7 +199,7 @@ uint8_t DFRobot_Multifunctional_Environmental_Sensor::readReg(uint16_t reg, void
   }
 }
 
-bool  DFRobot_Multifunctional_Environmental_Sensor::detectDeviceAddress(uint8_t addr)
+bool  DFRobot_MultifunctionalEnvironmentalSensor::detectDeviceAddress(uint8_t addr)
 {
    if(_pWire){
    uint8_t buf[2];
