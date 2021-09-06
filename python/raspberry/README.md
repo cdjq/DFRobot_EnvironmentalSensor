@@ -34,7 +34,7 @@ DFRobot_Environmental_Sensor库是DFRobot专门为该传感器写的一个Arduin
             True:成功
             False:失败
   '''
-  def begin(self,pid)
+  def begin(self)
   '''
     @brief 获取SEN050X温度数据
     @param unist 返回数据单位选择

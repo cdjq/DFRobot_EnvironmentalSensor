@@ -46,14 +46,11 @@ To use this library, first download the library file, paste it into the \Arduino
 /**
  * @brief 初始化SEN050X传感器
  * 
- * @param pid 初始化传感器的PID
- * @n     DEVICE_PID_GRAVITY 初始化SEN0501传感器
- * @n     DEVICE_PID_BREAKOUT 初始化SEN0500传感器
  * @return 返回值;
  * @n      0：成功
  * @n      -1:失败
  */
-uint8_t begin(uint16_t pid);
+uint8_t begin(void);
 /**
  * @brief 获取SEN0501温度数据
  * 
