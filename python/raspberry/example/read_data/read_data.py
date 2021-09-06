@@ -33,9 +33,6 @@ else:
   sen050x = dfrobot_environmental_sensor_uart(9600)
 
 
-'''设备选择'''
-DEVICE_PID_GRAVITY        = 0x1F5
-DEVICE_PID_BREAKOUT       = 0x1F4
 
 '''大气压强单位选择'''
 HPA                       = 0x01
@@ -48,14 +45,11 @@ TEMP_F                    = 0X04
 def setup():
   '''
     @brief 初始化SEN050X传感器
-    @param pid 初始化传感器的PID
-    @n     DEVICE_PID_GRAVITY 初始化SEN0501传感器
-    @n     DEVICE_PID_BREAKOUT 初始化SEN0500传感器
     @return 返回值;
-    @n      0:成功
-    @n      -1:失败
+    @n      True:成功
+    @n      False:失败
   '''
-  while (sen050x.begin(DEVICE_PID_GRAVITY) == False):
+  while (sen050x.begin() == False):
     print("Sensor initialize failed!!")
     time.sleep(1)
   print("Sensor  initialize success!!")

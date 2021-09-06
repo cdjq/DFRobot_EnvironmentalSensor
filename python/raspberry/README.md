@@ -28,15 +28,11 @@ DFRobot_Environmental_Sensor库是DFRobot专门为该传感器写的一个Arduin
 
 ```python
 
-    '''
+  '''
     @brief 初始化SEN050X传感器
-  
-    @param pid 初始化传感器的PID, 用于判断通行是否正确
-    @n     DEVICE_PID_GRAVITY    SEN0501传感器
-    @n     DEVICE_PID_BREAKOUT   SEN0500传感器
     @return 返回值；
-            0:成功
-           -1:失败
+            True:成功
+            False:失败
   '''
   def begin(self,pid)
   '''
@@ -101,10 +97,10 @@ DFRobot_Environmental_Sensor库是DFRobot专门为该传感器写的一个Arduin
 
 ## History
 
-- data 2021-09-01
+- data 2021-08-31
 - version V1.0
 
 
 ## Credits
 
-Written by qsjhyy(qsj.huang@dfrobot.com), 2021. (Welcome to our [website](https://www.dfrobot.com/))
+Written by TangJie(jie.tang@dfrobot.com), 2021. (Welcome to our [website](https://www.dfrobot.com/))

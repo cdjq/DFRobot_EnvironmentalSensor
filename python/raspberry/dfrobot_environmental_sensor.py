@@ -46,28 +46,6 @@ class dfrobot_environmental_sensor(DFRobot_RTU):
       self.__uart_i2c = UART_MODE
       if self.ser.isOpen == False:
         self.ser.open() 
-
-  '''
-    @brief 获取设备PID(产品标识ID),注意此功能只有地址不为广播地址的类对象可以使用,
-    @n     广播地址类对象调用该方法无效
-    @return PID:
-    @n     0:获取失败
-    @n     设备PID
-  '''
-  def _get_device_pid(self):
-    rbuf = self._read_reg(0x00, 2)
-    return rbuf[0] << 8 | rbuf[1]
-
-  '''
-    @brief 获取设备VID（厂商标识ID）,注意此功能只能有地址不为广播地址的类对象可以使用，
-    @n     广播地址类对象调用该方法无效
-    @return VID:
-    @n     0:获取失败
-    @n     DEVICE_VID or 0x3344:设备VID
-  '''
-  def _get_device_vid(self):
-    rbuf = self._read_reg(0x02, 2)
-    return rbuf[0] << 8 | rbuf[1]
   
   '''
     @brief 判断地址是否正确
@@ -82,18 +60,12 @@ class dfrobot_environmental_sensor(DFRobot_RTU):
     @brief 初始化SEN050X传感器
   
     @param pid 初始化传感器的PID, 用于判断通行是否正确
-    @n     DEVICE_PID_GRAVITY    SEN0501传感器
-    @n     DEVICE_PID_BREAKOUT   SEN0500传感器
     @return 返回值；
-            0:成功
-           -1:失败
+            True:成功
+            False:失败
   '''
-  def begin(self,pid):
+  def begin(self):
     if self._detect_device_address() != DEV_ADDRESS:
-      return False
-    if self._get_device_pid() != pid:
-      return False
-    if self._get_device_vid() != DEVICE_VID:
       return False
     return True
 

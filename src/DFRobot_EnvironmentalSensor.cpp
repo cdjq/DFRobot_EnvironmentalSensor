@@ -32,7 +32,7 @@ DFRobot_EnvironmentalSensor::DFRobot_EnvironmentalSensor(uint8_t addr, Stream *s
   _addr = addr;
 }
 
-int8_t DFRobot_EnvironmentalSensor::begin(uint16_t pid)
+int8_t DFRobot_EnvironmentalSensor::begin(void)
 {
   delay(500);
   setTimeoutTimeMs(200);
@@ -44,17 +44,8 @@ int8_t DFRobot_EnvironmentalSensor::begin(uint16_t pid)
       DBG("Device addr Error.");
       return -1;
     }
-
-    if(getDevicePID() != pid){
-      DBG("PID Error");
-      return -1;
-    }
-    
-    if(getDeviceVID() != DEVICE_VID){
-          DBG("VID Error");
-          return -1;
-      }
-
+  }else{
+    return -1;
   }
   return 0;
 }

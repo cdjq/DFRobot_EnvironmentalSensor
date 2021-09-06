@@ -88,14 +88,11 @@ public:
 /**
  * @brief 初始化SEN050X传感器
  * 
- * @param pid 初始化传感器的PID，用于判断通信是否正确
- * @n     DEVICE_PID_GRAVITY  SEN0501传感器
- * @n     DEVICE_PID_BREAKOUT SEN0500传感器
  * @return 返回值;
  * @n      0:成功
  * @n      -1:失败
  */
-int8_t begin(uint16_t pid);
+int8_t begin(void);
 /**
  * @brief 获取SEN050X温度数据
  * 
