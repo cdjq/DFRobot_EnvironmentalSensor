@@ -16,7 +16,11 @@ import os
 import math
 import RPi.GPIO as GPIO
 import math
-from DFRobot_RTU import *
+
+import modbus_tk
+import modbus_tk.defines as cst
+from modbus_tk import modbus_rtu
+
 I2C_MODE                  = 0x01
 UART_MODE                 = 0x02
 DEV_ADDRESS               = 0x22
@@ -32,20 +36,18 @@ KPA                       = 0X02
 TEMP_C                    = 0X03
 TEMP_F                    = 0X04
 
-
-
-class dfrobot_environmental_sensor(DFRobot_RTU):
+class DFRobot_Environmental_Sensor():
     
-  def __init__(self ,bus ,Baud):
+  def __init__(self ,bus ,baud):
     if bus != 0:
       self.i2cbus = smbus.SMBus(bus)
-      self.__uart_i2c = I2C_MODE
+      self._uart_i2c = I2C_MODE
+      
     else:
-      super(dfrobot_environmental_sensor, self).__init__(Baud, 8, 'N', 1)
-      #self.ser = serial.Serial("/dev/ttyAMA0" ,baudrate=Baud,stopbits=1, timeout=0.5)
-      self.__uart_i2c = UART_MODE
-      if self.ser.isOpen == False:
-        self.ser.open() 
+      self.master = modbus_rtu.RtuMaster(serial.Serial(port="/dev/ttyAMA0",baudrate=9600, bytesize=8, parity='N', stopbits=1))
+      self.master.set_timeout(1.0)
+      self._uart_i2c = UART_MODE
+       
   
   '''
     @brief 判断地址是否正确
@@ -54,7 +56,11 @@ class dfrobot_environmental_sensor(DFRobot_RTU):
   '''
   def _detect_device_address(self):
     rbuf = self._read_reg(0x04,2)
-    return (rbuf[0] << 8 | rbuf[1])
+    if self._uart_i2c == I2C_MODE:
+      data = rbuf[0] << 8 | rbuf[1]
+    elif self._uart_i2c == UART_MODE:
+      data = rbuf[0]
+    return data
 
   '''
     @brief 初始化SEN050X传感器
@@ -78,7 +84,11 @@ class dfrobot_environmental_sensor(DFRobot_RTU):
   '''
   def get_temperature(self,unist):
     rbuf = self._read_reg(0x14, 2)
-    data = rbuf[0] << 8 | rbuf[1]
+    if self._uart_i2c == I2C_MODE:
+      data = rbuf[0] << 8 | rbuf[1]
+    elif self._uart_i2c == UART_MODE:
+      data = rbuf[0]
+    print(data)
     if data >= 4500:
       data -= 4500
       temp = data / 100 + (data % 100) * 0.01
@@ -96,7 +106,10 @@ class dfrobot_environmental_sensor(DFRobot_RTU):
   '''
   def get_humidity(self):
     rbuf = self._read_reg(0x16, 2)
-    humidity = rbuf[0] << 8 | rbuf[1]
+    if self._uart_i2c == I2C_MODE:
+      humidity = rbuf[0] << 8 | rbuf[1]
+    elif self._uart_i2c == UART_MODE:
+      humidity = rbuf[0]
     return humidity
 
   '''
@@ -106,7 +119,10 @@ class dfrobot_environmental_sensor(DFRobot_RTU):
   '''
   def get_ultraviolet_intensity(self):
     rbuf = self._read_reg(0x10, 2)
-    data = rbuf[0] << 8 | rbuf[1]
+    if self._uart_i2c == I2C_MODE:
+      data = rbuf[0] << 8 | rbuf[1]
+    elif self._uart_i2c == UART_MODE:
+      data = rbuf[0]
     ultraviolet = (data / 100) + (data % 100) * 0.01
     return ultraviolet
 
@@ -117,7 +133,10 @@ class dfrobot_environmental_sensor(DFRobot_RTU):
   '''
   def get_luminousintensity(self):
     rbuf = self._read_reg(0x12 ,2)
-    luminous = rbuf[0] << 8 | rbuf[1]
+    if self._uart_i2c == I2C_MODE:
+      luminous = rbuf[0] << 8 | rbuf[1]
+    elif self._uart_i2c == UART_MODE:
+      luminous = rbuf[0]
     return luminous
 
   '''
@@ -129,7 +148,10 @@ class dfrobot_environmental_sensor(DFRobot_RTU):
   '''
   def get_atmosphere_pressure(self, units):
     rbuf = self._read_reg(0x18, 2)
-    atmosphere = rbuf[0] << 8 | rbuf[1]
+    if self._uart_i2c == I2C_MODE:
+      atmosphere = rbuf[0] << 8 | rbuf[1]
+    elif self._uart_i2c == UART_MODE:
+      atmosphere = rbuf[0]
     if units == KPA:
       atmosphere /= 10
     return atmosphere
@@ -141,17 +163,20 @@ class dfrobot_environmental_sensor(DFRobot_RTU):
   '''
   def get_elevation(self):
     rbuf = self._read_reg(0x1A, 2)
-    elevation = rbuf[0] << 8 | rbuf[1]
+    if self._uart_i2c == I2C_MODE:
+      elevation = rbuf[0] << 8 | rbuf[1]
+    elif self._uart_i2c == UART_MODE:
+      elevation = rbuf[0]
     return elevation
 
         
 '''
   @brief An example of an i2c interface module
 '''
-class dfrobot_environmental_sensor_i2c(dfrobot_environmental_sensor):
+class DFRobot_Environmental_Sensor_I2C(DFRobot_Environmental_Sensor):
   def __init__(self ,bus ,addr):
-    self.__addr = addr
-    super(dfrobot_environmental_sensor_i2c, self).__init__(bus,0)     
+    self._addr = addr
+    DFRobot_Environmental_Sensor.__init__(self,bus,0)   
     
   '''
     @brief read the data from the register
@@ -160,7 +185,7 @@ class dfrobot_environmental_sensor_i2c(dfrobot_environmental_sensor):
   '''
   def _read_reg(self, reg_addr ,length):
     try:
-      rslt = self.i2cbus.read_i2c_block_data(self.__addr ,reg_addr , length)
+      rslt = self.i2cbus.read_i2c_block_data(self._addr ,reg_addr , length)
     except:
       rslt = -1
     return rslt    
@@ -168,23 +193,21 @@ class dfrobot_environmental_sensor_i2c(dfrobot_environmental_sensor):
 '''
   @brief An example of an UART interface module
 '''
-class dfrobot_environmental_sensor_uart(dfrobot_environmental_sensor):
-  SERIAL_DATA_BUF_MAX_SIZE = 20
-  RTU_READ_REG_CMD = 0x03
-  RTU_WRITE_REG_CMD = 0x06
-  RTU_WRITE_MULTIPLE_REG_CMD = 0x10
-  def __init__(self ,Baud):
-    self.__Baud = Baud
+class DFRobot_Environmental_Sensor_UART(DFRobot_Environmental_Sensor):
+  
+  def __init__(self ,baud, addr):
+    self._baud = baud
+    self._addr = addr
     try:
-      super(dfrobot_environmental_sensor, self).__init__(Baud, 8, 'N', 1)
-      #super(dfrobot_blood_oxygen_s_uart, self).__init__(0,Baud)
+      DFRobot_Environmental_Sensor.__init__(self,0,self._baud)
     except:
       print ("plese get root!")
+ 
   
    
   '''
     @brief 从传感器读出数据
   '''
   def _read_reg(self, reg_addr ,length):
-    return self.read_holding_registers(0x22,int(math.ceil(reg_addr/2)),int(math.ceil(length/2)))[1:]
-       
+    return list(self.master.execute(self._addr, cst.READ_INPUT_REGISTERS, reg_addr/2, length/2))
+    

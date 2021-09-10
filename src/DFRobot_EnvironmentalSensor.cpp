@@ -90,8 +90,7 @@ float DFRobot_EnvironmentalSensor::getTemperature(uint8_t unist)
 		data -= 4500;
 		temp = data / 100 + (data % 100 ) * 0.01;
 	}	
-  if(unist == TEMP_F)
-  {
+  if(unist == TEMP_F){
     temp = temp * 1.8 + 32 ;
   }
   return temp;
@@ -166,7 +165,7 @@ uint8_t DFRobot_EnvironmentalSensor::readReg(uint16_t reg, void *pBuf, uint8_t s
       
     return size;
   }else{
-    return readHoldingRegister(_addr, reg, _pBuf, size);
+    return readInputRegister(_addr, reg, _pBuf, size);
   }
 }
 
@@ -179,7 +178,8 @@ bool  DFRobot_EnvironmentalSensor::detectDeviceAddress(uint8_t addr)
     return true;
     
   }else{
-    uint16_t ret = readHoldingRegister(addr, REG_DEVICE_ADDR);
+    uint16_t ret = readInputRegister(addr, REG_DEVICE_ADDR);
+    DBG(ret);
     if((ret & 0xFF) == addr)
       return true;
   }

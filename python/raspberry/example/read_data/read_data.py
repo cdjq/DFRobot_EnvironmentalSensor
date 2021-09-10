@@ -17,28 +17,31 @@ import time
 import RPi.GPIO as GPIO
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))))
-from dfrobot_environmental_sensor import *
+from DFRobot_Environmental_Sensor import *
 
 '''
-  ctype=1：UART
-  ctype=0：IIC
+  @brief 选择通信模式
+  @n ctype=1：UART
+  @n ctype=0：IIC
 '''
-ctype=0
+ctype=1
 
+ADDRESS = 0x22  
+I2C_1   = 0x01               
 if ctype==0:
-  I2C_1       = 0x01               # I2C_1 使用i2c1接口驱动传感器， 可以调整为i2c0但是需要配置树莓派的文件
-  I2C_ADDRESS = 0x22               # I2C 设备的地址，可以更改A1、A0来更换地址，默认地址为0x77
-  sen050x = dfrobot_environmental_sensor_i2c(I2C_1 ,I2C_ADDRESS)
+  sen050x = DFRobot_Environmental_Sensor_I2C(I2C_1 ,ADDRESS)
 else:
-  sen050x = dfrobot_environmental_sensor_uart(9600)
+  sen050x = DFRobot_Environmental_Sensor_UART(9600, ADDRESS)
 
-
-
-'''大气压强单位选择'''
+'''
+  @brief大气压强单位选择
+'''
 HPA                       = 0x01
 KPA                       = 0X02
 
-'''温度单位选择'''
+'''
+  @brief 温度单位选择
+'''
 TEMP_C                    = 0X03
 TEMP_F                    = 0X04
  
