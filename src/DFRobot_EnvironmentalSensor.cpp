@@ -83,13 +83,7 @@ float DFRobot_EnvironmentalSensor::getTemperature(uint8_t unist)
   readReg(REG_TEMP,buffer,2);
 
   data = buffer[0] << 8 | buffer[1];
-  if(data >= 4500){
-		data -= 4500;
-		temp = data / 100 + ((data % 100) * 0.01);
-	}else{
-		data -= 4500;
-		temp = data / 100 + (data % 100 ) * 0.01;
-	}	
+  temp = (-45) +((data * 175.00) / 1024.00 / 64.00);
   if(unist == TEMP_F){
     temp = temp * 1.8 + 32 ;
   }
@@ -99,10 +93,12 @@ float DFRobot_EnvironmentalSensor::getTemperature(uint8_t unist)
 uint16_t DFRobot_EnvironmentalSensor::getHumidity(void)
 {
   uint8_t buffer[2];
-  int16_t humidity;
+  uint32_t humidity;
+  uint16_t data;
 
   readReg(REG_HUMIDITY,buffer, 2);
-  humidity = buffer[0] << 8 | buffer[1];
+  data = ((buffer[0] << 8 | buffer[1]));
+  humidity = (data / 1024) * 100 / 64;
   return humidity;
 }
 

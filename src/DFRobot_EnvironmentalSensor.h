@@ -26,7 +26,7 @@
 
 #define FACILITY_ID          0X20  //设备ID
 
-#if 0
+#if 1
 #define DBG(...) {Serial.print("["); Serial.print(__FUNCTION__); Serial.print("(): "); Serial.print(__LINE__); Serial.print(" ] "); Serial.println(__VA_ARGS__);}
 #else
 #define DBG(...)
