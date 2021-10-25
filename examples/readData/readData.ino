@@ -30,9 +30,9 @@
 #if MODESWITCH
 #if defined(ARDUINO_AVR_UNO)||defined(ESP8266)
   SoftwareSerial mySerial(/*rx =*/4, /*tx =*/5);
-  DFRobot_EnvironmentalSensor environment(/*addr =*/SEN050X_DEFAULT_DEVICE_ADDRESS, /*s =*/&mySerial);//创建一个广播地址的对象，可批量配置总线上的所有设备
+  DFRobot_EnvironmentalSensor environment(/*addr =*/SEN050X_DEFAULT_DEVICE_ADDRESS, /*s =*/&mySerial);
 #else
-  DFRobot_EnvironmentalSensor environment(/*addr =*/SEN050X_DEFAULT_DEVICE_ADDRESS, /*s =*/&Serial1); //创建一个广播地址的对象，可批量配置总线上的所有设备
+  DFRobot_EnvironmentalSensor environment(/*addr =*/SEN050X_DEFAULT_DEVICE_ADDRESS, /*s =*/&Serial1);
 #endif
 #else
 DFRobot_EnvironmentalSensor environment(/*addr = */SEN050X_DEFAULT_DEVICE_ADDRESS, /*pWire = */&Wire);

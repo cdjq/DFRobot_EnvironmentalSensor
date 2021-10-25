@@ -24,7 +24,7 @@
 #include "HardwareSerial.h"
 #endif
 
-#define FACILITY_ID          0X20  //设备ID
+//#define           0X20  //设备ID
 
 #if 1
 #define DBG(...) {Serial.print("["); Serial.print(__FUNCTION__); Serial.print("(): "); Serial.print(__LINE__); Serial.print(" ] "); Serial.println(__VA_ARGS__);}
@@ -35,7 +35,7 @@
 #ifndef RTU_BROADCAST_ADDRESS
 #define RTU_BROADCAST_ADDRESS                      0x00 /**<modbus协议的广播地址为0x00*/
 #endif
-#define SEN050X_DEFAULT_DEVICE_ADDRESS             0x22 /**<SEN0501传感器的默认设备地址为0x20*/
+#define SEN050X_DEFAULT_DEVICE_ADDRESS             0x22 /**<SEN0501传感器的默认设备地址为0x22*/
 
 class DFRobot_EnvironmentalSensor: public DFRobot_RTU{
 
@@ -120,7 +120,7 @@ float getUltravioletIntensity(void);
  * 
  * @return 返回获取的光线强度数据
  */
-uint16_t getLuminousIntensity(void);
+float getLuminousIntensity(void);
 /**
  * @brief 获取SEN050X大气压强数据
  * 
@@ -135,11 +135,12 @@ uint16_t getAtmospherePressure(uint8_t units);
  * 
  * @return 返回获取的海拔数据
  */
-uint16_t getElevation(void);
+float getElevation(void);
 
 
 protected:
   uint16_t getDevicePID();
+  float mapfloat(float x, float in_min, float in_max, float out_min, float out_max);
   uint16_t getDeviceVID();
   uint8_t  readReg(uint16_t reg, void *pBuf, uint8_t size);
   bool detectDeviceAddress(uint8_t addr);

@@ -20,6 +20,8 @@ typedef uint32_t    platformBitWidth_t;
 
 
 
+
+
 DFRobot_EnvironmentalSensor::DFRobot_EnvironmentalSensor(uint8_t addr, TwoWire *pWire)
 {
   _pWire = pWire;
@@ -102,21 +104,37 @@ uint16_t DFRobot_EnvironmentalSensor::getHumidity(void)
   return humidity;
 }
 
-float DFRobot_EnvironmentalSensor::getUltravioletIntensity(void)
+float DFRobot_EnvironmentalSensor::mapfloat(float x, float in_min, float in_max, float out_min, float out_max)
 {
-  uint16_t ultraviolet;
-  uint8_t buffer[2];
-  readReg(REG_ULTRAVIOLET_INTENSITY,buffer,2);
-  ultraviolet = buffer[0] << 8 | buffer[1];
-  return (ultraviolet / 100) + (ultraviolet % 100) * 0.01;
+      return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-uint16_t DFRobot_EnvironmentalSensor::getLuminousIntensity(void)
+float DFRobot_EnvironmentalSensor::getUltravioletIntensity(void)
 {
-  uint16_t luminous;
+  uint16_t uvLevel;
   uint8_t buffer[2];
+  float ultraviolet;
+  readReg(REG_ULTRAVIOLET_INTENSITY,buffer,2);
+  uvLevel = buffer[0] << 8 | buffer[1];
+  float outputVoltage = 3.0 * uvLevel/1024;
+  ultraviolet = mapfloat(outputVoltage, 0.99, 2.9, 0.0, 15.0);
+  return ultraviolet;
+}
+
+float DFRobot_EnvironmentalSensor::getLuminousIntensity(void)
+{
+  uint16_t data;
+  uint8_t buffer[2];
+  float factor1, factor2, result;
+	factor1 = 0.5f;
+	factor2 = 0.0576f;
   readReg(REG_LUMINOUS_INTENSITY, buffer, 2);
-  luminous = buffer[0] << 8 | buffer[1];
+
+  data = buffer[0] << 8 | buffer[1];
+
+  result = data * factor1 * factor2;
+  float luminous = result;
+	luminous = luminous * (1.0023f + luminous * (8.1488e-5f + luminous * (-9.3924e-9f + luminous * 6.0135e-13f)));
   return luminous;
 }
 
@@ -132,12 +150,13 @@ uint16_t DFRobot_EnvironmentalSensor::getAtmospherePressure(uint8_t units)
   return atmosphere;
 }
 
-uint16_t DFRobot_EnvironmentalSensor::getElevation(void)
+float DFRobot_EnvironmentalSensor::getElevation(void)
 {
-  uint16_t elevation;
+  uint16_t atmosphere;
   uint8_t buffer[2];
-  readReg(REG_ELEVATION, buffer, 2);
-  elevation = buffer[0] << 8 | buffer[1];
+  readReg(REG_ATMOSPHERIC_PRESSURE, buffer, 2);
+  atmosphere = buffer[0] << 8 | buffer[1];
+ float elevation = 44330 * (1.0 - pow(atmosphere / 1015.0f, 0.1903));
   return elevation;
 }
 
@@ -181,3 +200,4 @@ bool  DFRobot_EnvironmentalSensor::detectDeviceAddress(uint8_t addr)
   }
   return false;
 }
+
