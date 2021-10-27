@@ -17,7 +17,7 @@ import time
 import RPi.GPIO as GPIO
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))))
-from DFRobot_Environmental_Sensor import *
+from dfrobot_environmental_sensor import *
 
 '''
   @brief 选择通信模式
@@ -47,8 +47,8 @@ TEMP_F                    = 0X04
  
 def setup():
   '''
-    @brief 初始化SEN050X传感器
-    @return 返回值;
+    @brief 初始化SEN050X传感�?
+    @return 返回�?
     @n      True:成功
     @n      False:失败
   '''

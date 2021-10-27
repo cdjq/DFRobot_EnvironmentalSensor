@@ -133,9 +133,9 @@ float DFRobot_EnvironmentalSensor::getLuminousIntensity(void)
   data = buffer[0] << 8 | buffer[1];
 
   result = data * factor1 * factor2;
-  float luminous = result;
-	luminous = luminous * (1.0023f + luminous * (8.1488e-5f + luminous * (-9.3924e-9f + luminous * 6.0135e-13f)));
-  return luminous;
+  // float luminous = result;
+	// luminous = luminous * (1.0023f + luminous * (8.1488e-5f + luminous * (-9.3924e-9f + luminous * 6.0135e-13f)));
+  return result;
 }
 
 uint16_t DFRobot_EnvironmentalSensor::getAtmospherePressure(uint8_t units)
