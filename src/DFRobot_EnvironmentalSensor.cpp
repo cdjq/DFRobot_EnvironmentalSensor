@@ -100,7 +100,7 @@ uint16_t DFRobot_EnvironmentalSensor::getHumidity(void)
 
   readReg(REG_HUMIDITY,buffer, 2);
   data = ((buffer[0] << 8 | buffer[1]));
-  humidity = (data / 1024) * 100 / 64;
+  humidity = data / 1024 * 100 /64;
   return humidity;
 }
 

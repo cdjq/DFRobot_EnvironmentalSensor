@@ -47,8 +47,8 @@ TEMP_F                    = 0X04
  
 def setup():
   '''
-    @brief 初始化SEN050X传感�?
-    @return 返回�?
+    @brief 初始化SEN050X传感器
+    @return 返回状态
     @n      True:成功
     @n      False:失败
   '''
