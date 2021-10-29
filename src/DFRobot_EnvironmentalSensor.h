@@ -108,7 +108,7 @@ float getTemperature(uint8_t unist);
  * 
  * @return 返回获取的湿度数据
  */
-uint16_t getHumidity(void);
+float getHumidity(void);
 /**
  * @brief 获取SEN050X紫外线强度指数数据
  * 
