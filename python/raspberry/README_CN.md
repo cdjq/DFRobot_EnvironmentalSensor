@@ -13,11 +13,14 @@ DFRobot_Environmental_Sensor库是DFRobot专门为该传感器写的一个Arduin
   
 ## Table of Contents
 
-* [Installation](#installation)
-* [Methods](#methods)
-* [Compatibility](#compatibility)
-* [History](#history)
-* [Credits](#credits)
+- [DFRobot_EnvironmentalSensor](#dfrobot_environmentalsensor)
+  - [Product Link（链接到英文商城）](#product-link链接到英文商城)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Methods](#methods)
+  - [Compatibility](#compatibility)
+  - [History](#history)
+  - [Credits](#credits)
 
 
 ## Installation
@@ -27,51 +30,53 @@ DFRobot_Environmental_Sensor库是DFRobot专门为该传感器写的一个Arduin
 ## Methods
 
 ```python
-
-  '''
+'''!
     @brief 初始化SEN050X传感器
-    @return 返回值；
-            True:成功
-            False:失败
+    @brief 初始化SEN050X传感器
+    @return 返回值初始化状态
+    @retval 0  成功
+    @retval -1 失败
   '''
   def begin(self)
-  '''
+
+  '''!
     @brief 获取SEN050X温度数据
-    @param unist 返回数据单位选择
-    @n     TEMP_C:摄氏度
-    @n     TEMP_F:华氏度
+    @param units 温度数据单位选择
+    @n     TEMP_C 摄氏度
+    @n     TEMP_F 华氏度 
     @return 返回获取的温度数据
   '''
   def get_temperature(self,unist)
-  '''
-    @brief 获取SEN050X湿度数据
-    @param NULL
+
+  '''!
+    @brief 获取SEN050X湿度数据 
     @return 返回获取的湿度数据
   '''
   def get_humidity(self)
-  '''
-    @brief 获取SEN050X紫外线强度指数数据
-    @param NULL
+
+  '''!
+    @brief 获取SEN050X紫外线强度指数数据 
     @return 返回获取的紫外线强度指数数据
   '''
   def get_ultraviolet_intensity(self)
-  '''
-    @brief 获取SEN050X光线强度数据
-    @paran NULL 
+
+  '''!
+    @brief 获取SEN050X光线强度数据 
     @return 返回获取的光线强度数据
   '''
   def get_luminousintensity(self)
-  '''
-    @brief 获取SEN050X大气压强数据
-    @paran units 返回数据单位选择
-    @n     HPA:百帕
-    @n     KPA:千帕
+
+  '''!
+    @brief 获取SEN050X大气压强数据 
+    @param units 大气压强数据单位选择
+    @n            HPA 百帕
+    @n            KPA 千帕
     @return 返回获取的大气压强数据
   '''
   def get_atmosphere_pressure(self, units)
-  '''
-    @brief 获取SEN050X海拔数据
-    @paran NULL
+
+  '''!
+    @brief 获取SEN050X海拔数据 
     @return 返回获取的海拔数据
   '''
   def get_elevation(self):
@@ -93,7 +98,6 @@ DFRobot_Environmental_Sensor库是DFRobot专门为该传感器写的一个Arduin
 | ------- | :-------: | :--------: | :------: | ------- |
 | Python2 |     √     |            |          |         |
 | Python3 |     √     |            |          |         |
-
 
 ## History
 

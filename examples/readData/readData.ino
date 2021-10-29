@@ -13,12 +13,11 @@
  * ---------------------------------------------------------------------------------------------------------------
  * 
  * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
- * @licence     The MIT License (MIT)
+ * @license     The MIT License (MIT)
  * @author      [TangJie](jie.tang@dfrobot.com)
  * @version     V1.0
  * @date        2021-08-31
- * @get         from https://www.dfrobot.com
- * @url         https://github.com/cdjq/DFRobot_EnvironmentalSensor
+ * @url         https://github.com/DFRobot/DFRobot_EnvironmentalSensor
  */
 #include "DFRobot_EnvironmentalSensor.h"
 #if defined(ARDUINO_AVR_UNO)||defined(ESP8266)
@@ -50,13 +49,6 @@ void setup()
 #endif
 #endif
   Serial.begin(115200);
- /**
-  * @brief 初始化SEN050X传感器
-  * 
-  * @return 返回值;
-  * @n      0：成功
-  * @n      -1:失败
-  */
   while(environment.begin() != 0){
     Serial.println(" Sensor initialize failed!!");
     delay(1000);

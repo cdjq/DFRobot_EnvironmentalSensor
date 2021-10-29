@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*
-'''
+'''!
+  @file        dfrobot_environmental_sensor.py
+  @brief       DFRobot_EnvironmentalSensor 类的基础结构
   @copyright   Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
   @licence     The MIT License (MIT)
   @author      TangJie(jie.tang@dfrobot.com)
   @version     V1.0
   @date        2021-08-31
-  @get         from https://www.dfrobot.com
-  @url         https://github.com/cdjq/DFRobot_EnvironmentalSensor
+  @url         https://github.com/DFRobot/DFRobot_EnvironmentalSensor
 '''
 
 import serial
@@ -28,12 +29,13 @@ DEV_ADDRESS               = 0x22
 DEVICE_VID                = 0x3343
 DEVICE_ADDRESS            = 0x22
 
-#大气压强单位选择
+##大气压强百帕单位
 HPA                       = 0x01
+##大气压强千帕单位
 KPA                       = 0X02
-
-#温度单位选择
+##温度单位摄氏度
 TEMP_C                    = 0X03
+##温度单位华氏度
 TEMP_F                    = 0X04
 
 class DFRobot_Environmental_Sensor():
@@ -49,10 +51,9 @@ class DFRobot_Environmental_Sensor():
       self._uart_i2c = UART_MODE
        
   
-  '''
-    @brief 判断地址是否正确
-    @n
-    @return  true:地址匹配成功 false:地址匹配失败
+  '''!
+    @brief 获取传感器地址
+    @return  返回传感器地址
   '''
   def _detect_device_address(self):
     rbuf = self._read_reg(0x04,2)
@@ -62,24 +63,23 @@ class DFRobot_Environmental_Sensor():
       data = rbuf[0]
     return data
 
-  '''
+  '''!
     @brief 初始化SEN050X传感器
-  
-    @param pid 初始化传感器的PID, 用于判断通行是否正确
-    @return 返回值；
-            True:成功
-            False:失败
+    @brief 初始化SEN050X传感器
+    @return 返回值初始化状态
+    @retval 0  成功
+    @retval -1 失败
   '''
   def begin(self):
     if self._detect_device_address() != DEV_ADDRESS:
       return False
     return True
 
-  '''
+  '''!
     @brief 获取SEN050X温度数据
-    @param unist 返回数据单位选择
-    @n     TEMP_C:摄氏度
-    @n     TEMP_F:华氏度
+    @param units 温度数据单位选择
+    @n     TEMP_C 摄氏度
+    @n     TEMP_F 华氏度 
     @return 返回获取的温度数据
   '''
   def get_temperature(self,unist):
@@ -93,9 +93,8 @@ class DFRobot_Environmental_Sensor():
       temp = temp * 1.8 + 32 
     return round(temp,2)
     
-  '''
-    @brief 获取SEN050X湿度数据
-    @param NULL
+  '''!
+    @brief 获取SEN050X湿度数据 
     @return 返回获取的湿度数据
   '''
   def get_humidity(self):
@@ -107,9 +106,8 @@ class DFRobot_Environmental_Sensor():
     humidity = (humidity / 1024) * 100 / 64
     return humidity
   
-  '''
-    @brief 获取SEN050X紫外线强度指数数据
-    @param NULL
+  '''!
+    @brief 获取SEN050X紫外线强度指数数据 
     @return 返回获取的紫外线强度指数数据
   '''
   def get_ultraviolet_intensity(self):
@@ -122,9 +120,8 @@ class DFRobot_Environmental_Sensor():
     ultraviolet = (outputVoltage - 0.99) * (15.0 - 0.0) / (2.9 - 0.99) + 0.0 
     return round(ultraviolet,2)
       
-  '''
-    @brief 获取SEN050X光线强度数据
-    @paran NULL 
+  '''!
+    @brief 获取SEN050X光线强度数据 
     @return 返回获取的光线强度数据
   '''
   def get_luminousintensity(self):
@@ -138,11 +135,11 @@ class DFRobot_Environmental_Sensor():
     result = data * factor1 * factor2
     return round(result,2)
 
-  '''
-    @brief 获取SEN050X大气压强数据
-    @paran units 返回数据单位选择
-    @n     HPA:百帕
-    @n     KPA:千帕
+  '''!
+    @brief 获取SEN050X大气压强数据 
+    @param units 大气压强数据单位选择
+    @n            HPA 百帕
+    @n            KPA 千帕
     @return 返回获取的大气压强数据
   '''
   def get_atmosphere_pressure(self, units):
@@ -155,9 +152,8 @@ class DFRobot_Environmental_Sensor():
       atmosphere /= 10
     return atmosphere
 
-  '''
-    @brief 获取SEN050X海拔数据
-    @paran NULL
+  '''!
+    @brief 获取SEN050X海拔数据 
     @return 返回获取的海拔数据
   '''
   def get_elevation(self):
@@ -171,7 +167,7 @@ class DFRobot_Environmental_Sensor():
 
   
         
-'''
+'''!
   @brief An example of an i2c interface module
 '''
 class DFRobot_Environmental_Sensor_I2C(DFRobot_Environmental_Sensor):
@@ -179,7 +175,7 @@ class DFRobot_Environmental_Sensor_I2C(DFRobot_Environmental_Sensor):
     self._addr = addr
     DFRobot_Environmental_Sensor.__init__(self,bus,0)   
     
-  '''
+  '''!
     @brief read the data from the register
     @param reg register address
     @param value read data
@@ -191,7 +187,7 @@ class DFRobot_Environmental_Sensor_I2C(DFRobot_Environmental_Sensor):
       rslt = -1
     return rslt    
 
-'''
+'''!
   @brief An example of an UART interface module
 '''
 class DFRobot_Environmental_Sensor_UART(DFRobot_Environmental_Sensor):
@@ -203,10 +199,8 @@ class DFRobot_Environmental_Sensor_UART(DFRobot_Environmental_Sensor):
       DFRobot_Environmental_Sensor.__init__(self,0,self._baud)
     except:
       print ("plese get root!")
- 
-  
    
-  '''
+  '''!
     @brief 从传感器读出数据
   '''
   def _read_reg(self, reg_addr ,length):
