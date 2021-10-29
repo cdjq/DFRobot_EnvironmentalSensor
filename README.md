@@ -121,7 +121,7 @@ raspberry          |      X       |      √       |      √       |
 
 ## History
 
-- 2021-08-31 - 1.0.0 版本
+- 2019/08/31 - Version 1.0.0 released.
 
 ## Credits
 
