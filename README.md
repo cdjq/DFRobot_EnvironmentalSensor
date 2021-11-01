@@ -29,25 +29,6 @@ To use this library, first download the library file, paste it into the \Arduino
 ## Methods
 
 ```C++
-/**
-   * @fn DFRobot_EnvironmentalSensor
-   * @brief DFRobot_Multifunctional_Environmental_Sensor构造函数。
-   * @param pWire 指向TowWire流的I2C指针,此种传递方式需要在demo中调用begin初始化ArduinoI2C配置。
-   * @param addr  SEN0501设备I2C通信的I2C地址。
-   */
-  DFRobot_EnvironmentalSensor(uint8_t addr, TwoWire *pWire = &Wire);
-
-  /**
-   * @fnDFRobot_EnvironmentalSensor
-   * @brief DFRobot_Multifunctional_Environmental_Sensor构造函数。
-   * @param addr: 主机要和SEN0501从机设备通信的设备地址
-   * @n     SEN0501_DEFAULT_DEVICE_ADDRESS or 32（0x20）: SEN0501设备出厂默认设备地址，如果用户没有修改设备的地址，那么SEN0501的设备地址为32。
-   * @param s   : 指向Stream流的串口指针，此种传递方式需要在demo中调用begin初始化Arduino主控的通信串口配置，需和SEN0501设备从机的串口配置一致
-   * @n SEN0501串口配置为：9600波特率，8位数据位，无校验位，1位停止位，参数无法修改。
-   */
-  DFRobot_EnvironmentalSensor(uint8_t addr, Stream *s);
-  ~DFRobot_EnvironmentalSensor(){};
-
   /**
    * @fn begin
    * @brief 初始化SEN050X传感器
@@ -121,8 +102,8 @@ raspberry          |      X       |      √       |      √       |
 
 ## History
 
-- 2019/08/31 - Version 1.0.0 released.
+- 2021-08-31 - 1.0.0 version
 
 ## Credits
 
-Written by(jie.tang@dfrobot.com), 2021. (Welcome to our [website](https://www.dfrobot.com/))
+Written by TangJie(jie.tang@dfrobot.com), 2021. (Welcome to our [website](https://www.dfrobot.com/))

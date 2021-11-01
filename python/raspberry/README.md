@@ -101,7 +101,7 @@ DFRobot_Environmental_Sensor库是DFRobot专门为该传感器写的一个Arduin
 
 ## History
 
-- 2021-08-31 - 1.0.0 版本
+- 2021-08-31 - 1.0.0 version
 
 ## Credits
 

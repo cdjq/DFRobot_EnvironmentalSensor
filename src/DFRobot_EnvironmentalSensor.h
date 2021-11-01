@@ -37,7 +37,6 @@
 
 class DFRobot_EnvironmentalSensor: public DFRobot_RTU{
 
-
 public:
 #define DEVICE_PID_GRAVITY   0x01F5
 #define DEVICE_PID_BREAKOUT  0x01F4
@@ -67,7 +66,7 @@ public:
 
   /**
    * @fn DFRobot_EnvironmentalSensor
-   * @brief DFRobot_Multifunctional_Environmental_Sensor构造函数。
+   * @brief DFRobot_EnvironmentalSensor构造函数。
    * @param pWire 指向TowWire流的I2C指针,此种传递方式需要在demo中调用begin初始化ArduinoI2C配置。
    * @param addr  SEN0501设备I2C通信的I2C地址。
    */
@@ -75,7 +74,7 @@ public:
 
   /**
    * @fn DFRobot_EnvironmentalSensor
-   * @brief DFRobot_Multifunctional_Environmental_Sensor构造函数。
+   * @brief DFRobot_EnvironmentalSensor构造函数。
    * @param addr: 主机要和SEN0501从机设备通信的设备地址
    * @n     SEN0501_DEFAULT_DEVICE_ADDRESS or 32（0x20）: SEN0501设备出厂默认设备地址，如果用户没有修改设备的地址，那么SEN0501的设备地址为32。
    * @param s   : 指向Stream流的串口指针，此种传递方式需要在demo中调用begin初始化Arduino主控的通信串口配置，需和SEN0501设备从机的串口配置一致
