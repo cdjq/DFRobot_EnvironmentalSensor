@@ -3,19 +3,14 @@ DFRobot_EnvironmentalSensor
 
 - [中文版](./README_CN.md)
 
-数据手册上抄一下芯片的描述
+SEN050X 是一个气象传感器，模块个上集成了，紫外线传感器、光照传感器、大气压强传感器、温湿度传感器，模块有Gravity接口和Breakout两种接口方式，通过串口或I2C进行数据传输，通过模块上的切换开关进行通信方式选择。
+DFRobot_Environmental_Sensor库是DFRobot专门为该传感器写的一个Arduino驱动库，用户可以用此驱动库来驱动Ardunio主控连接的传感器获取传感器数据。
 
-这里写模块介绍，做到读完这段，就能对模块有初步了解，让客户懂的用这个模块能干什么（数据手册通常比较官方，这里你可以举例子，更场景化）<br>
-这个模块的优点，告诉用户为什么要购买这个模块。一些关键术语，我们要在readme中有解释
-
-这里需要显示拍照图片，可以一张图片，可以多张图片（不要用SVG图）
-
-![产品效果图](../../resources/images/SEN0001.png)
-
+![产品效果图](../../resources/images/SEN050X.png)
 
 ## Product Link (https://www.dfrobot.com)
 
-    SKU：产品名称
+    SKU：SEN0500/SEN0501
 
 ## Table of Contents
 
