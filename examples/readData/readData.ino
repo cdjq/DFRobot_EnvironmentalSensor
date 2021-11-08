@@ -2,7 +2,6 @@
  *@file  read_data.ino
  *@brief 这个demo演示获取SEN050X传感器上的数据，通过IIC或串口连接传感器
  *@n 将SEN050X返回的数据打印在串口监视器上
- *
  * @n connected table
  * ---------------------------------------------------------------------------------------------------------------
  *    board   |             MCU                | Leonardo/Mega2560/M0 |    UNO    | ESP8266 | ESP32 |  microbit  |
