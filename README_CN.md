@@ -6,27 +6,31 @@ DFRobot_EnvironmentalSensor
 SEN050X 是一个气象传感器，模块上集成了，紫外线传感器、光照传感器、大气压强传感器、温湿度传感器，模块有Gravity接口和Breakout两种接口方式，通过串口或I2C进行数据传输，通过模块上的切换开关进行通信方式选择。
 DFRobot_Environmental_Sensor库是DFRobot专门为该传感器写的一个Arduino驱动库，用户可以用此驱动库来驱动Ardunio主控连接的传感器获取传感器数据。
 
-![正反面svg效果图](https://www.dfrobot.co)
+![正反面svg效果图](../../resources/images/SEN0001.png)
 
-## Product Link（链接到英文商城）
-  在运行此库的demo之前，你需要下载关联库: https://github.com/DFRobot/DFRobot_RTU
+## 产品链接（https://www.dfrobot.com）
+
+    SKU：SEN0500/SEN0501
   
-## Table of Contents
+## 目录
 
-- [DFRobot_EnvironmentalSensor](#dfrobot_environmentalsensor)
-  - [Product Link（链接到英文商城）](#product-link链接到英文商城)
-  - [Table of Contents](#table-of-contents)
-  - [Installation](#installation)
-  - [Methods](#methods)
-  - [Compatibility](#compatibility)
-  - [History](#history)
-  - [Credits](#credits)
+  * [概述](#概述)
+  * [库安装](#库安装)
+  * [方法](#方法)
+  * [兼容性](#兼容性)
+  * [历史](#历史)
+  * [创作者](#创作者)
 
-## Installation
+## 概述
 
-To use this library, first download the library file, paste it into the \Arduino\libraries directory, then open the examples folder and run the demo in the folder.
+这是一个多气象传感器得库，使用该库能够很便捷得获取温度、湿度、压强、紫外线强度、自然光线强度和海拔等信息，
+模块还提供了Gravity版本和breakout版本方便使用。
 
-## Methods
+## 库安装
+
+使用此库前，请首先下载库文件，将其粘贴到\Arduino\libraries目录中，然后打开examples文件夹并在该文件夹中运行演示。
+
+## 方法
 
 ```C++
   /**
@@ -88,7 +92,7 @@ To use this library, first download the library file, paste it into the \Arduino
 ```
 
 
-## Compatibility
+## 兼容性
 
 MCU                | SoftwareSerial | HardwareSerial |      IIC      |
 ------------------ | :----------: | :----------: | :----------: | 
@@ -101,10 +105,9 @@ micro:bit          |      X       |      X       |      √       |
 FireBeetle M0      |      X       |      √       |      X        |
 raspberry          |      X       |      √       |      √       |
 
-## History
-
+## 历史
 - 2021-08-31 - 1.0.0 版本
 
-## Credits
+## 创作者
 
 Written by TangJie(jie.tang@dfrobot.com), 2021. (Welcome to our [website](https://www.dfrobot.com/))

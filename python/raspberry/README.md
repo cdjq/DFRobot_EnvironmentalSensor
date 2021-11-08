@@ -1,31 +1,42 @@
 DFRobot_EnvironmentalSensor
 ===========================
 
-* [中文版](./README_CN.md)
+- [中文版](./README_CN.md)
 
-SEN050X 是一个气象传感器，模块个上集成了，紫外线传感器、光照传感器、大气压强传感器、温湿度传感器，模块有Gravity接口和Breakout两种接口方式，通过串口或I2C进行数据传输，通过模块上的切换开关进行通信方式选择。
-DFRobot_Environmental_Sensor库是DFRobot专门为该传感器写的一个Arduino驱动库，用户可以用此驱动库来驱动Ardunio主控连接的传感器获取传感器数据。
+数据手册上抄一下芯片的描述
 
-![正反面svg效果图](https://www.dfrobot.co)
+这里写模块介绍，做到读完这段，就能对模块有初步了解，让客户懂的用这个模块能干什么（数据手册通常比较官方，这里你可以举例子，更场景化）<br>
+这个模块的优点，告诉用户为什么要购买这个模块。一些关键术语，我们要在readme中有解释
 
-## Product Link（链接到英文商城）
-  在运行此库的demo之前，你需要下载关联库: https://github.com/DFRobot/DFRobot_RTU
-  
+这里需要显示拍照图片，可以一张图片，可以多张图片（不要用SVG图）
+
+![产品效果图](../../resources/images/SEN0001.png)
+
+
+## Product Link (https://www.dfrobot.com)
+
+    SKU：产品名称
+
 ## Table of Contents
 
-- [DFRobot_EnvironmentalSensor](#dfrobot_environmentalsensor)
-  - [Product Link（链接到英文商城）](#product-link链接到英文商城)
-  - [Table of Contents](#table-of-contents)
-  - [Installation](#installation)
-  - [Methods](#methods)
-  - [Compatibility](#compatibility)
-  - [History](#history)
-  - [Credits](#credits)
+  * [summary](#summary)
+  * [installation](#installation)
+  * [methods](#methods)
+  * [compatibility](#compatibility)
+  * [history](#history)
+  * [credits](#credits)
 
+## Summary
+
+这里填写当前Python软件库完成了基础功能，特色功能
 
 ## Installation
 
-使用库，首先下载库文件，将其粘贴到指定的目录中，然后打开Examples文件夹并在该文件夹中运行演示。
+要使用这个库，首先将库下载到Raspberry Pi，然后打开例程文件夹。要执行一个例程demox.py，请在命令行中输入python demox.py。例如，要执行control_led.py例程，你需要输入:
+
+```python
+python control_led.py
+```
 
 ## Methods
 
@@ -37,7 +48,7 @@ DFRobot_Environmental_Sensor库是DFRobot专门为该传感器写的一个Arduin
     @retval 0  成功
     @retval -1 失败
   '''
-  def begin(self)
+  def begin(self):
 
   '''!
     @brief 获取SEN050X温度数据
@@ -46,25 +57,25 @@ DFRobot_Environmental_Sensor库是DFRobot专门为该传感器写的一个Arduin
     @n     TEMP_F 华氏度 
     @return 返回获取的温度数据
   '''
-  def get_temperature(self,unist)
+  def get_temperature(self,unist):
 
   '''!
     @brief 获取SEN050X湿度数据 
     @return 返回获取的湿度数据
   '''
-  def get_humidity(self)
+  def get_humidity(self):
 
   '''!
     @brief 获取SEN050X紫外线强度指数数据 
     @return 返回获取的紫外线强度指数数据
   '''
-  def get_ultraviolet_intensity(self)
+  def get_ultraviolet_intensity(self):
 
   '''!
     @brief 获取SEN050X光线强度数据 
     @return 返回获取的光线强度数据
   '''
-  def get_luminousintensity(self)
+  def get_luminousintensity(self):
 
   '''!
     @brief 获取SEN050X大气压强数据 
@@ -73,7 +84,7 @@ DFRobot_Environmental_Sensor库是DFRobot专门为该传感器写的一个Arduin
     @n            KPA 千帕
     @return 返回获取的大气压强数据
   '''
-  def get_atmosphere_pressure(self, units)
+  def get_atmosphere_pressure(self, units):
 
   '''!
     @brief 获取SEN050X海拔数据 
@@ -89,8 +100,8 @@ DFRobot_Environmental_Sensor库是DFRobot专门为该传感器写的一个Arduin
 | Board        | Work Well | Work Wrong | Untested | Remarks |
 | ------------ | :-------: | :--------: | :------: | ------- |
 | RaspberryPi2 |           |            |    √     |         |
-| RaspberryPi3 |     √     |            |          |         |
-| RaspberryPi4 |           |            |     √    |         |
+| RaspberryPi3 |           |            |    √     |         |
+| RaspberryPi4 |       √   |            |          |         |
 
 * Python Version
 
@@ -101,7 +112,7 @@ DFRobot_Environmental_Sensor库是DFRobot专门为该传感器写的一个Arduin
 
 ## History
 
-- 2021-08-31 - 1.0.0 version
+- 2021-08-31 - Version 1.0.0 released.
 
 ## Credits
 

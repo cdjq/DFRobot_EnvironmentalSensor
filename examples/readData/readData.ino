@@ -12,7 +12,7 @@
  *     TX     |              RX                |     Serial1 RX1      |     4     |   4/D7  |  D3   |     X      |
  * ---------------------------------------------------------------------------------------------------------------
  * 
- * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
+ * @copyright   Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @license     The MIT License (MIT)
  * @author      [TangJie](jie.tang@dfrobot.com)
  * @version     V1.0

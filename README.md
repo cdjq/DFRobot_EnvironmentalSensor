@@ -7,20 +7,24 @@ SEN050X 是一个气象传感器，模块个上集成了，紫外线传感器、
 DFRobot_Environmental_Sensor库是DFRobot专门为该传感器写的一个Arduino驱动库，用户可以用此驱动库来驱动Ardunio主控连接的传感器获取传感器数据。
 
 ![正反面svg效果图](https://www.dfrobot.co)
-
-## Product Link（链接到英文商城）
-  在运行此库的demo之前，你需要下载关联库: https://github.com/DFRobot/DFRobot_RTU
   
+## Product Link (https://www.dfrobot.com)
+    SKU: SEN0500/SEN0501
+
 ## Table of Contents
 
-- [DFRobot_EnvironmentalSensor](#dfrobot_environmentalsensor)
-  - [Product Link（链接到英文商城）](#product-link链接到英文商城)
-  - [Table of Contents](#table-of-contents)
-  - [Installation](#installation)
-  - [Methods](#methods)
-  - [Compatibility](#compatibility)
-  - [History](#history)
-  - [Credits](#credits)
+  * [Summary](#summary)
+  * [Installation](#installation)
+  * [Methods](#methods)
+  * [Compatibility](#compatibility)
+  * [History](#history)
+  * [Credits](#credits)
+
+## Summary
+
+这是一个多气象传感器得库，使用该库能够很便捷得获取温度、湿度、压强、紫外线强度、自然光线强度和海拔等信息，
+模块还提供了Gravity版本和breakout版本方便使用。
+
 
 ## Installation
 
@@ -102,7 +106,7 @@ raspberry          |      X       |      √       |      √       |
 
 ## History
 
-- 2021-08-31 - 1.0.0 version
+- 2021-08-31 - Version 1.0.0 released.
 
 ## Credits
 

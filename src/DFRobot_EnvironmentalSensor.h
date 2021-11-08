@@ -1,5 +1,5 @@
 /*!
- * @file  DFRobot_Sensor.h
+ * @file  DFRobot_EnvironmentalSensor.h
  * @brief DFRobot_EnvironmentalSensor 类的基础结构
  * @copyright	Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @license   The MIT License (MIT)
@@ -17,7 +17,7 @@
 #include "DFRobot_RTU.h"
 #include "String.h"
 
-#if (!defined ARDUINO_ESP32_DEV) && (!defined __SAMD21G18A__)
+#if (defined ARDUINO_AVR_UNO) && (defined ESP8266)
 #include "SoftwareSerial.h"
 #else
 #include "HardwareSerial.h"
@@ -31,9 +31,9 @@
 #endif
 
 #ifndef RTU_BROADCAST_ADDRESS
-#define RTU_BROADCAST_ADDRESS                      0x00 ///<modbus协议的广播地址为0x00
+#define RTU_BROADCAST_ADDRESS                      0x00 ///< modbus协议的广播地址为0x00
 #endif
-#define SEN050X_DEFAULT_DEVICE_ADDRESS             0x22 ///SEN050X传感器的默认设备地址为0x22
+#define SEN050X_DEFAULT_DEVICE_ADDRESS             0x22 ///< SEN050X传感器的默认设备地址为0x22
 
 class DFRobot_EnvironmentalSensor: public DFRobot_RTU{
 
@@ -42,25 +42,25 @@ public:
 #define DEVICE_PID_BREAKOUT  0x01F4
 #define DEVICE_VID           0x3343
 
-#define HPA                  0x01 ///<大气压强百帕
-#define KPA                  0X02 ///<大气压强千帕
+#define HPA                  0x01 ///< 大气压强百帕
+#define KPA                  0X02 ///< 大气压强千帕
 
-#define TEMP_C                    0X03  ///<摄氏度
-#define TEMP_F                    0X04  ///<华氏度
+#define TEMP_C                    0X03  ///< 摄氏度
+#define TEMP_F                    0X04  ///< 华氏度
 
-#define REG_PID                   0x0000 ///<协议转换板的寄存器
-#define REG_VID                   0x0001 ///<协议转换板的寄存器
-#define REG_DEVICE_ADDR           0x0002 ///<协议转换板的寄存器
-#define REG_UART_CTRL0            0x0003 ///<协议转换板的寄存器
-#define EG_UART_CTRL1             0x0004 ///<协议转换板的寄存器
-#define REG_VERSION               0x0005 ///<协议转换板的寄存器
+#define REG_PID                   0x0000 ///< 协议转换板的寄存器
+#define REG_VID                   0x0001 ///< 协议转换板的寄存器
+#define REG_DEVICE_ADDR           0x0002 ///< 协议转换板的寄存器
+#define REG_UART_CTRL0            0x0003 ///< 协议转换板的寄存器
+#define EG_UART_CTRL1             0x0004 ///< 协议转换板的寄存器
+#define REG_VERSION               0x0005 ///< 协议转换板的寄存器
 
-#define REG_ULTRAVIOLET_INTENSITY 0x0008 ///<协议转换板的寄存器
-#define REG_LUMINOUS_INTENSITY    0x0009 ///<协议转换板的寄存器
-#define REG_TEMP                  0x000A ///<协议转换板的寄存器
-#define REG_HUMIDITY              0x000B ///<协议转换板的寄存器
-#define REG_ATMOSPHERIC_PRESSURE  0x000C ///<协议转换板的寄存器
-#define REG_ELEVATION             0x000D ///<协议转换板的寄存器
+#define REG_ULTRAVIOLET_INTENSITY 0x0008 ///< 协议转换板的寄存器
+#define REG_LUMINOUS_INTENSITY    0x0009 ///< 协议转换板的寄存器
+#define REG_TEMP                  0x000A ///< 协议转换板的寄存器
+#define REG_HUMIDITY              0x000B ///< 协议转换板的寄存器
+#define REG_ATMOSPHERIC_PRESSURE  0x000C ///< 协议转换板的寄存器
+#define REG_ELEVATION             0x000D ///< 协议转换板的寄存器
 
 
 
