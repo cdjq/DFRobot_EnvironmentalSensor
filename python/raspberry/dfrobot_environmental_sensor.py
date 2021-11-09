@@ -207,7 +207,7 @@ class DFRobot_Environmental_Sensor_UART(DFRobot_Environmental_Sensor):
   
   def _read_reg(self, reg_addr ,length):
     '''!
-      @brief 浠庝紶鎰熷櫒璇诲嚭鏁版嵁
+      @brief 从传感器读出数据
     '''
     return list(self.master.execute(self._addr, cst.READ_INPUT_REGISTERS, reg_addr/2, length/2))
     
