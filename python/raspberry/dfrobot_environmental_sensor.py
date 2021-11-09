@@ -45,7 +45,7 @@ class DFRobot_Environmental_Sensor():
       self._uart_i2c = I2C_MODE
       
     else:
-      self.master = modbus_rtu.RtuMaster(serial.Serial(port="/dev/ttyAMA0",baud, bytesize=8, parity='N', stopbits=1))
+      self.master = modbus_rtu.RtuMaster(serial.Serial(port="/dev/ttyAMA0",baudrate=baud, bytesize=8, parity='N', stopbits=1))
       self.master.set_timeout(1.0)
       self._uart_i2c = UART_MODE
   
