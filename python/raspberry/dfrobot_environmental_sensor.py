@@ -55,8 +55,8 @@ class DFRobot_Environmental_Sensor():
   
   def _detect_device_address(self):
     '''!
-      @brief 鑾峰彇浼犳劅鍣ㄥ湴鍧€
-      @return  杩斿洖浼犳劅鍣ㄥ湴鍧€
+      @brief 获取传感器地址
+      @return  返回传感器地址
     '''
     rbuf = self._read_reg(0x04,2)
     if self._uart_i2c == I2C_MODE:
@@ -68,11 +68,10 @@ class DFRobot_Environmental_Sensor():
   
   def begin(self):
     '''!
-    @brief 鍒濆鍖朣EN050X浼犳劅鍣?
-    @brief 鍒濆鍖朣EN050X浼犳劅鍣?
-    @return 杩斿洖鍊煎垵濮嬪寲鐘舵€?
-    @retval 0  鎴愬姛
-    @retval -1 澶辫触
+      @brief 初始化SEN050X传感器
+      @return 返回值初始化状态
+      @retval 0  成功
+      @retval -1 失败
     '''
     if self._detect_device_address() != DEV_ADDRESS:
       return False
@@ -81,11 +80,11 @@ class DFRobot_Environmental_Sensor():
   
   def get_temperature(self,unist):
     '''!
-    @brief 鑾峰彇SEN050X娓╁害鏁版嵁
-    @param units 娓╁害鏁版嵁鍗曚綅閫夋嫨
-    @n     TEMP_C 鎽勬皬搴?
-    @n     TEMP_F 鍗庢皬搴?
-    @return 杩斿洖鑾峰彇鐨勬俯搴︽暟鎹?
+      @brief 获取SEN050X温度数据
+      @param units 温度数据单位选择
+      @n     TEMP_C 摄氏度
+      @n     TEMP_F 华氏度 
+      @return 返回获取的温度数据
     '''
     rbuf = self._read_reg(0x14, 2)
     if self._uart_i2c == I2C_MODE:
@@ -100,8 +99,8 @@ class DFRobot_Environmental_Sensor():
   
   def get_humidity(self):
     '''!
-    @brief 鑾峰彇SEN050X婀垮害鏁版嵁 
-    @return 杩斿洖鑾峰彇鐨勬箍搴︽暟鎹?
+      @brief 获取SEN050X湿度数据 
+      @return 返回获取的湿度数据
     '''
     rbuf = self._read_reg(0x16, 2)
     if self._uart_i2c == I2C_MODE:
@@ -114,8 +113,8 @@ class DFRobot_Environmental_Sensor():
  
   def get_ultraviolet_intensity(self):
     '''!
-    @brief 鑾峰彇SEN050X绱绾垮己搴︽寚鏁版暟鎹?
-    @return 杩斿洖鑾峰彇鐨勭传澶栫嚎寮哄害鎸囨暟鏁版嵁
+      @brief 获取SEN050X紫外线强度指数数据 
+      @return 返回获取的紫外线强度指数数据
     '''
     rbuf = self._read_reg(0x10, 2)
     if self._uart_i2c == I2C_MODE:
@@ -129,8 +128,8 @@ class DFRobot_Environmental_Sensor():
   
   def get_luminousintensity(self):
     '''!
-    @brief 鑾峰彇SEN050X鍏夌嚎寮哄害鏁版嵁 
-    @return 杩斿洖鑾峰彇鐨勫厜绾垮己搴︽暟鎹?
+      @brief 获取SEN050X光线强度数据 
+      @return 返回获取的光线强度数据
     '''
     rbuf = self._read_reg(0x12 ,2)
     if self._uart_i2c == I2C_MODE:
@@ -143,11 +142,11 @@ class DFRobot_Environmental_Sensor():
   
   def get_atmosphere_pressure(self, units):
     '''!
-    @brief 鑾峰彇SEN050X澶ф皵鍘嬪己鏁版嵁 
-    @param units 澶ф皵鍘嬪己鏁版嵁鍗曚綅閫夋嫨
-    @n            HPA 鐧惧笗
-    @n            KPA 鍗冨笗
-    @return 杩斿洖鑾峰彇鐨勫ぇ姘斿帇寮烘暟鎹?
+      @brief 获取SEN050X大气压强数据 
+      @param units 大气压强数据单位选择
+      @n            HPA 百帕
+      @n            KPA 千帕
+      @return 返回获取的大气压强数据
     '''
     rbuf = self._read_reg(0x18, 2)
     if self._uart_i2c == I2C_MODE:
@@ -161,8 +160,8 @@ class DFRobot_Environmental_Sensor():
   
   def get_elevation(self):
     '''!
-    @brief 鑾峰彇SEN050X娴锋嫈鏁版嵁 
-    @return 杩斿洖鑾峰彇鐨勬捣鎷旀暟鎹?
+      @brief 获取SEN050X海拔数据 
+      @return 返回获取的海拔数据
     '''
     rbuf = self._read_reg(0x18, 2)
     if self._uart_i2c == I2C_MODE:
@@ -177,7 +176,7 @@ class DFRobot_Environmental_Sensor():
 
 class DFRobot_Environmental_Sensor_I2C(DFRobot_Environmental_Sensor):
   '''!
-  @brief An example of an i2c interface module
+    @brief An example of an i2c interface module
   '''
   def __init__(self ,bus ,addr):
     self._addr = addr
@@ -186,9 +185,9 @@ class DFRobot_Environmental_Sensor_I2C(DFRobot_Environmental_Sensor):
   
   def _read_reg(self, reg_addr ,length):
     '''!
-    @brief read the data from the register
-    @param reg register address
-    @param value read data
+      @brief read the data from the register
+      @param reg register address
+      @param value read data
     '''
     try:
       rslt = self.i2cbus.read_i2c_block_data(self._addr ,reg_addr , length)
@@ -199,7 +198,7 @@ class DFRobot_Environmental_Sensor_I2C(DFRobot_Environmental_Sensor):
 
 class DFRobot_Environmental_Sensor_UART(DFRobot_Environmental_Sensor):
   '''!
-  @brief An example of an UART interface module
+    @brief An example of an UART interface module
   '''
   def __init__(self ,baud, addr):
     self._baud = baud
@@ -212,7 +211,7 @@ class DFRobot_Environmental_Sensor_UART(DFRobot_Environmental_Sensor):
   
   def _read_reg(self, reg_addr ,length):
     '''!
-    @brief 浠庝紶鎰熷櫒璇诲嚭鏁版嵁
+      @brief 浠庝紶鎰熷櫒璇诲嚭鏁版嵁
     '''
     return list(self.master.execute(self._addr, cst.READ_INPUT_REGISTERS, reg_addr/2, length/2))
     
