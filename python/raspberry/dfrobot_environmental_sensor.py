@@ -39,13 +39,13 @@ class DFRobot_Environmental_Sensor():
     @brief 定义DFRobot_Environmental_Sensor基类
     @details 用于驱动气象传感器
   '''
-  def __init__(self ,bus ,baud):
+  def __init__(self ,bus ,baud = 9600):
     if bus != 0:
       self.i2cbus = smbus.SMBus(bus)
       self._uart_i2c = I2C_MODE
       
     else:
-      self.master = modbus_rtu.RtuMaster(serial.Serial(port="/dev/ttyAMA0",baud=9600, bytesize=8, parity='N', stopbits=1))
+      self.master = modbus_rtu.RtuMaster(serial.Serial(port="/dev/ttyAMA0",baud, bytesize=8, parity='N', stopbits=1))
       self.master.set_timeout(1.0)
       self._uart_i2c = UART_MODE
   
