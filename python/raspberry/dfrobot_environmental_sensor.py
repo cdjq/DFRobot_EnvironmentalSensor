@@ -3,7 +3,7 @@
   @file        dfrobot_environmental_sensor.py
   @brief       DFRobot_EnvironmentalSensor是一个气象传感器库
   @copyright   Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
-  @licence     The MIT License (MIT)
+  @license     The MIT License (MIT)
   @author      TangJie(jie.tang@dfrobot.com)
   @version     V1.0
   @date        2021-08-31
@@ -29,13 +29,9 @@ DEV_ADDRESS               = 0x22
 DEVICE_VID                = 0x3343
 DEVICE_ADDRESS            = 0x22
 
-##澶ф皵鍘嬪己鐧惧笗鍗曚綅
 HPA                       = 0x01
-##澶ф皵鍘嬪己鍗冨笗鍗曚綅
 KPA                       = 0X02
-##娓╁害鍗曚綅鎽勬皬搴?
 TEMP_C                    = 0X03
-##娓╁害鍗曚綅鍗庢皬搴?
 TEMP_F                    = 0X04
 
 class DFRobot_Environmental_Sensor():
