@@ -33,7 +33,7 @@
 #ifndef RTU_BROADCAST_ADDRESS
 #define RTU_BROADCAST_ADDRESS                      0x00 ///< modbus协议的广播地址为0x00
 #endif
-#define SEN050X_DEFAULT_DEVICE_ADDRESS             0x22 ///< SEN050X传感器的默认设备地址为0x22
+#define SEN0500/SEN0501_DEFAULT_DEVICE_ADDRESS             0x22 ///< SEN0500/SEN0501传感器的默认设备地址为0x22
 
 class DFRobot_EnvironmentalSensor: public DFRobot_RTU{
 
@@ -68,24 +68,24 @@ public:
    * @fn DFRobot_EnvironmentalSensor
    * @brief DFRobot_EnvironmentalSensor构造函数。
    * @param pWire 指向TowWire流的I2C指针,此种传递方式需要在demo中调用begin初始化ArduinoI2C配置。
-   * @param addr  SEN0501设备I2C通信的I2C地址。
+   * @param addr  SEN0500/SEN0501设备I2C通信的I2C地址。
    */
   DFRobot_EnvironmentalSensor(uint8_t addr, TwoWire *pWire = &Wire);
 
   /**
    * @fn DFRobot_EnvironmentalSensor
    * @brief DFRobot_EnvironmentalSensor构造函数。
-   * @param addr: 主机要和SEN0501从机设备通信的设备地址
-   * @n     SEN0501_DEFAULT_DEVICE_ADDRESS or 32（0x20）: SEN0501设备出厂默认设备地址，如果用户没有修改设备的地址，那么SEN0501的设备地址为32。
-   * @param s   : 指向Stream流的串口指针，此种传递方式需要在demo中调用begin初始化Arduino主控的通信串口配置，需和SEN0501设备从机的串口配置一致
-   * @n SEN0501串口配置为：9600波特率，8位数据位，无校验位，1位停止位，参数无法修改。
+   * @param addr: 主机要和SEN0500/SEN0501从机设备通信的设备地址
+   * @n     SEN0501_DEFAULT_DEVICE_ADDRESS or 32（0x20）: SEN0500/SEN0501设备出厂默认设备地址，如果用户没有修改设备的地址，那么SEN0500/SEN0501的设备地址为32。
+   * @param s   : 指向Stream流的串口指针，此种传递方式需要在demo中调用begin初始化Arduino主控的通信串口配置，需和SEN0500/SEN0501设备从机的串口配置一致
+   * @n SEN0500/SEN0501串口配置为：9600波特率，8位数据位，无校验位，1位停止位，参数无法修改。
    */
   DFRobot_EnvironmentalSensor(uint8_t addr, Stream *s);
   ~DFRobot_EnvironmentalSensor(){};
 
   /**
    * @fn begin
-   * @brief 初始化SEN050X传感器
+   * @brief 初始化SEN0500/SEN0501传感器
    * @return 返回值初始化状态
    * @retval 0  成功
    * @retval -1 失败
@@ -94,7 +94,7 @@ public:
 
   /**
    * @fn getTemperature
-   * @brief 获取SEN050X温度数据
+   * @brief 获取SEN0500/SEN0501温度数据
    * @param units 温度数据单位选择
    * @n     TEMP_C 摄氏度
    * @n     TEMP_F 华氏度 
@@ -104,28 +104,28 @@ public:
 
   /**
    * @fn getHumidity
-   * @brief 获取SEN050X湿度数据 
+   * @brief 获取SEN0500/SEN0501湿度数据 
    * @return 返回获取的湿度数据
    */
   float getHumidity(void);
 
   /**
    * @fn getUltravioletIntensity
-   * @brief 获取SEN050X紫外线强度指数数据 
+   * @brief 获取SEN0500/SEN0501紫外线强度指数数据 
    * @return 返回获取的紫外线强度指数数据
    */
   float getUltravioletIntensity(void);
 
   /**
    * @fn getLuminousIntensity
-   * @brief 获取SEN050X光线强度数据 
+   * @brief 获取SEN0500/SEN0501光线强度数据 
    * @return 返回获取的光线强度数据
    */
   float getLuminousIntensity(void);
 
   /**
    * @fn getAtmospherePressure
-   * @brief 获取SEN050X大气压强数据 
+   * @brief 获取SEN0500/SEN0501大气压强数据 
    * @param units 大气压强数据单位选择
    * @n            HPA 百帕
    * @n            KPA 千帕
@@ -135,7 +135,7 @@ public:
 
   /**
    * @fn getElevation
-   * @brief 获取SEN050X海拔数据 
+   * @brief 获取SEN0500/SEN0501海拔数据 
    * @return 返回获取的海拔数据
    */
   float getElevation(void);

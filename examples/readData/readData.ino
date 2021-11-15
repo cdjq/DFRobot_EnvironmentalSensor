@@ -1,7 +1,7 @@
 /*!
  *@file  read_data.ino
- *@brief 这个demo演示获取SEN050X传感器上的数据，通过IIC或串口连接传感器
- *@n 将SEN050X返回的数据打印在串口监视器上
+ *@brief 这个demo演示获取SEN0500/SEN0501传感器上的数据，通过IIC或串口连接传感器
+ *@n 将SEN0500/SEN0501返回的数据打印在串口监视器上
  * @n connected table
  * ---------------------------------------------------------------------------------------------------------------
  *    board   |             MCU                | Leonardo/Mega2560/M0 |    UNO    | ESP8266 | ESP32 |  microbit  |
@@ -28,12 +28,12 @@
 #if MODESWITCH
 #if defined(ARDUINO_AVR_UNO)||defined(ESP8266)
   SoftwareSerial mySerial(/*rx =*/4, /*tx =*/5);
-  DFRobot_EnvironmentalSensor environment(/*addr =*/SEN050X_DEFAULT_DEVICE_ADDRESS, /*s =*/&mySerial);
+  DFRobot_EnvironmentalSensor environment(/*addr =*/SEN0500/SEN0501_DEFAULT_DEVICE_ADDRESS, /*s =*/&mySerial);
 #else
-  DFRobot_EnvironmentalSensor environment(/*addr =*/SEN050X_DEFAULT_DEVICE_ADDRESS, /*s =*/&Serial1);
+  DFRobot_EnvironmentalSensor environment(/*addr =*/SEN0500/SEN0501_DEFAULT_DEVICE_ADDRESS, /*s =*/&Serial1);
 #endif
 #else
-DFRobot_EnvironmentalSensor environment(/*addr = */SEN050X_DEFAULT_DEVICE_ADDRESS, /*pWire = */&Wire);
+DFRobot_EnvironmentalSensor environment(/*addr = */SEN0500/SEN0501_DEFAULT_DEVICE_ADDRESS, /*pWire = */&Wire);
 #endif
 void setup()
 {

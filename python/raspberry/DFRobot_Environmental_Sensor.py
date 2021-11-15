@@ -64,7 +64,7 @@ class DFRobot_Environmental_Sensor():
   
   def begin(self):
     '''!
-      @brief 初始化SEN050X传感器
+      @brief 初始化SEN0500/SEN0501传感器
       @return 返回值初始化状态
       @retval 0  成功
       @retval -1 失败
@@ -76,7 +76,7 @@ class DFRobot_Environmental_Sensor():
   
   def get_temperature(self,unist):
     '''!
-      @brief 获取SEN050X温度数据
+      @brief 获取SEN0500/SEN0501温度数据
       @param units 温度数据单位选择
       @n     TEMP_C 摄氏度
       @n     TEMP_F 华氏度 
@@ -95,7 +95,7 @@ class DFRobot_Environmental_Sensor():
   
   def get_humidity(self):
     '''!
-      @brief 获取SEN050X湿度数据 
+      @brief 获取SEN0500/SEN0501湿度数据 
       @return 返回获取的湿度数据
     '''
     rbuf = self._read_reg(0x16, 2)
@@ -109,7 +109,7 @@ class DFRobot_Environmental_Sensor():
  
   def get_ultraviolet_intensity(self):
     '''!
-      @brief 获取SEN050X紫外线强度指数数据 
+      @brief 获取SEN0500/SEN0501紫外线强度指数数据 
       @return 返回获取的紫外线强度指数数据
     '''
     rbuf = self._read_reg(0x10, 2)
@@ -124,7 +124,7 @@ class DFRobot_Environmental_Sensor():
   
   def get_luminousintensity(self):
     '''!
-      @brief 获取SEN050X光线强度数据 
+      @brief 获取SEN0500/SEN0501光线强度数据 
       @return 返回获取的光线强度数据
     '''
     rbuf = self._read_reg(0x12 ,2)
@@ -138,7 +138,7 @@ class DFRobot_Environmental_Sensor():
   
   def get_atmosphere_pressure(self, units):
     '''!
-      @brief 获取SEN050X大气压强数据 
+      @brief 获取SEN0500/SEN0501大气压强数据 
       @param units 大气压强数据单位选择
       @n            HPA 百帕
       @n            KPA 千帕
@@ -156,7 +156,7 @@ class DFRobot_Environmental_Sensor():
   
   def get_elevation(self):
     '''!
-      @brief 获取SEN050X海拔数据 
+      @brief 获取SEN0500/SEN0501海拔数据 
       @return 返回获取的海拔数据
     '''
     rbuf = self._read_reg(0x18, 2)
