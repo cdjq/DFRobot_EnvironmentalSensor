@@ -3,8 +3,8 @@ DFRobot_EnvironmentalSensor
 
 * [中文版](./README_CN.md)
 
-SEN0500/SEN0501 是一个多气象传感器，模块个上集成了，紫外线传感器、光照传感器、大气压强传感器、温湿度传感器，模块有Gravity接口和Breakout两种接口方式，通过串口或I2C进行数据传输，通过模块上的切换开关进行通信方式选择。
-DFRobot_Environmental_Sensor库是DFRobot专门为该传感器写的一个Arduino驱动库，用户可以用此驱动库来驱动Ardunio主控连接的传感器获取传感器数据。
+This multifunctional environmental sensor, whose SKU number is SEN0500/SEN0501, integrates UV, illumination, atmospheric pressure and temperature and humidity sensor. It features Gravity and Breakout interfaces. Data can be transmitted through serial port or I2C and communication method can be selected by controlling the diverter switch on the module.
+The DFRobot_Environmental_Sensor library is an Arduino-drive one specially designed for the sensor by DFRobot. Users can use it to drive the sensor that Ardunio main controller connects and obtain the sensor data.
 
 ![产品效果图片](../../resources/images/SEN0500/SEN0501.png)
   
@@ -22,8 +22,8 @@ DFRobot_Environmental_Sensor库是DFRobot专门为该传感器写的一个Arduin
 
 ## Summary
 
-这是一个多气象传感器得库，使用该库能够很便捷得获取温度、湿度、压强、紫外线强度、自然光线强度和海拔等信息，
-模块还提供了Gravity版本和breakout版本方便使用。
+This multifunctional environmental sensor library may help conveniently obtain information like temperature, humidity, pressure, UV intensity, natural sunlight intensity and altitude.
+The module also offer Gravity and breakout version for use convenience.
 
 
 ## Installation
@@ -35,58 +35,58 @@ To use this library, first download the library file, paste it into the \Arduino
 ```C++
   /**
    * @fn begin
-   * @brief 初始化SEN0500/SEN0501传感器
-   * @return 返回值初始化状态
-   * @retval 0  成功
-   * @retval -1 失败
+   * @brief Init SEN0500/SEN0501 sensor
+   * @return Return value init status
+   * @retval 0  Succeed
+   * @retval -1 failed
    */
   int8_t begin(void);
 
   /**
    * @fn getTemperature
-   * @brief 获取SEN0500/SEN0501温度数据
-   * @param units 温度数据单位选择
-   * @n     TEMP_C 摄氏度
-   * @n     TEMP_F 华氏度 
-   * @return 返回获取的温度数据
+   * @brief Get SEN0500/SEN0501 temperature data
+   * @param units Temperature data unit select
+   * @n     TEMP_C ℃
+   * @n     TEMP_F ℉ 
+   * @return Return the obtained temperature data
    */
   float getTemperature(uint8_t unist);
 
   /**
    * @fn getHumidity
-   * @brief 获取SEN0500/SEN0501湿度数据 
-   * @return 返回获取的湿度数据
+   * @brief Get SEN0500/SEN0501 humidity data 
+   * @return Return the obtained humidity data
    */
   float getHumidity(void);
 
   /**
    * @fn getUltravioletIntensity
-   * @brief 获取SEN0500/SEN0501紫外线强度指数数据 
-   * @return 返回获取的紫外线强度指数数据
+   * @brief Get SEN0500/SEN0501 UV intensity index data 
+   * @return Return the obtained UV intensity index data
    */
   float getUltravioletIntensity(void);
 
   /**
    * @fn getLuminousIntensity
-   * @brief 获取SEN0500/SEN0501光线强度数据 
-   * @return 返回获取的光线强度数据
+   * @brief Get SEN0500/SEN0501 luminous intensity data 
+   * @return Return the obtained luminous intensity data
    */
   float getLuminousIntensity(void);
 
   /**
    * @fn getAtmospherePressure
-   * @brief 获取SEN0500/SEN0501大气压强数据 
-   * @param units 大气压强数据单位选择
-   * @n            HPA:百帕
-   * @n            KPA:千帕
-   * @return 返回获取的大气压强数据
+   * @brief Get SEN0500/SEN0501 atmosphere pressure data 
+   * @param units Atmosphere pressure data unit select
+   * @n            HPA: Hectopascal
+   * @n            KPA: Kilopascal
+   * @return Return the obtained atmosphere pressure data
    */
   uint16_t getAtmospherePressure(uint8_t units);
 
   /**
    * @fn getElevation
-   * @brief 获取SEN0500/SEN0501海拔数据 
-   * @return 返回获取的海拔数据
+   * @brief Get SEN0500/SEN0501 altitude data 
+   * @return Return the obtained altitude data
    */
   float getElevation(void);
 ```
