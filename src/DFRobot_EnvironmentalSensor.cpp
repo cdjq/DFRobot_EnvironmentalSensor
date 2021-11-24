@@ -1,6 +1,6 @@
 /*!
  * @file  DFRobot_EnvironmentalSensor.cpp
- * @brief DFRobot_EnvironmentalSensor 类的基础结构，基础方法的实现
+ * @brief Basic structure of DFRobot_EnvironmentalSensor class, the implementation of basic method
  *
  * @copyright	Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @license   The MIT License (MIT)
