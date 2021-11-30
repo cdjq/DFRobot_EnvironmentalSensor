@@ -1,7 +1,7 @@
 /*!
  *@file  read_data.ino
- *@brief 这个demo演示获取SEN0500/SEN0501传感器上的数据，通过IIC或串口连接传感器
- *@n 将SEN0500/SEN0501返回的数据打印在串口监视器上
+ *@brief This demo shows how to get data of the SEN0500/SEN0501 sensor and connect the sensor through I2C or serial port.
+ *@n Print the data returned by SEN0500/SEN0501 in the serial port monitor.
  * @n connected table
  * ---------------------------------------------------------------------------------------------------------------
  *    board   |             MCU                | Leonardo/Mega2560/M0 |    UNO    | ESP8266 | ESP32 |  microbit  |
@@ -38,7 +38,7 @@ DFRobot_EnvironmentalSensor environment(/*addr = */SEN0500/SEN0501_DEFAULT_DEVIC
 void setup()
 {
 #if MODESWITCH
-  //初始化MCU通信串口
+  //Init MCU communication serial port
 #if defined(ARDUINO_AVR_UNO)||defined(ESP8266)
   mySerial.begin(9600);
 #elif defined(ESP32)
@@ -57,7 +57,7 @@ void setup()
 
 void loop()
 {
-  //打印从传感器后获取的数据
+  //Print the data obtained from sensor
   Serial.println("-------------------------------");
   Serial.print("Temp: ");
   Serial.print(environment.getTemperature(TEMP_C));
