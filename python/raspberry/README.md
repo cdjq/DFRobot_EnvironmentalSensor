@@ -3,8 +3,8 @@ DFRobot_EnvironmentalSensor
 
 - [中文版](./README_CN.md)
 
-SEN0500/SEN0501 是一个气象传感器，模块个上集成了，紫外线传感器、光照传感器、大气压强传感器、温湿度传感器，模块有Gravity接口和Breakout两种接口方式，通过串口或I2C进行数据传输，通过模块上的切换开关进行通信方式选择。
-DFRobot_Environmental_Sensor库是DFRobot专门为该传感器写的一个Arduino驱动库，用户可以用此驱动库来驱动Ardunio主控连接的传感器获取传感器数据。
+This multifunctional environmental sensor, whose SKU number is SEN0500/SEN0501, integrates UV, illumination, atmospheric pressure and temperature and humidity sensor. It features Gravity and Breakout interfaces. Data can be transmitted through serial port or I2C and communication method can be selected by controlling the diverter switch on the module.
+The DFRobot_Environmental_Sensor library is an Arduino-drive one specially designed for the sensor by DFRobot. Users can use it to drive the sensor that Ardunio main controller connects and obtain the sensor data.
 
 ![产品效果图](../../resources/images/SEN0500/SEN0501.png)
 
@@ -27,7 +27,7 @@ DFRobot_Environmental_Sensor库是DFRobot专门为该传感器写的一个Arduin
 
 ## Installation
 
-要使用这个库，首先将库下载到Raspberry Pi，然后打开例程文件夹。要执行一个例程demox.py，请在命令行中输入python demox.py。例如，要执行control_led.py例程，你需要输入:
+Download this library to Raspberry Pi before use, then open the routine folder. Type python demox.py on the command line to execute a routine demox.py. For example, to execute the control_led.py routine, you need to enter:
 
 ```python
 python control_led.py
@@ -37,53 +37,53 @@ python control_led.py
 
 ```python
   '''!
-    @brief 初始化SEN0500/SEN0501传感器
-    @brief 初始化SEN0500/SEN0501传感器
-    @return 返回值初始化状态
-    @retval 0  成功
-    @retval -1 失败
+    @brief Init SEN0500/SEN0501 sensor
+    @brief Init SEN0500/SEN0501 sensor
+    @return Return value init status
+    @retval 0  Succeed
+    @retval -1 Failed
   '''
   def begin(self):
 
   '''!
-    @brief 获取SEN0500/SEN0501温度数据
-    @param units 温度数据单位选择
-    @n     TEMP_C 摄氏度
-    @n     TEMP_F 华氏度 
-    @return 返回获取的温度数据
+    @brief Get SEN0500/SEN0501 temperature data
+    @param units Temperature data unit select
+    @n     TEMP_C ℃
+    @n     TEMP_F ℉ 
+    @return Return the obtained temperature data
   '''
   def get_temperature(self,unist):
 
   '''!
-    @brief 获取SEN0500/SEN0501湿度数据 
-    @return 返回获取的湿度数据
+    @brief Get SEN0500/SEN0501 humidity data 
+    @return Return the obtained humidity data
   '''
   def get_humidity(self):
 
   '''!
-    @brief 获取SEN0500/SEN0501紫外线强度指数数据 
-    @return 返回获取的紫外线强度指数数据
+    @brief Get SEN0500/SEN0501 UV intensity index data 
+    @return Return the obtained UV intensity index data
   '''
   def get_ultraviolet_intensity(self):
 
   '''!
-    @brief 获取SEN0500/SEN0501光线强度数据 
-    @return 返回获取的光线强度数据
+    @brief Get SEN0500/SEN0501 luminous intensity data 
+    @return Return the obtained luminous intensity data
   '''
   def get_luminousintensity(self):
 
   '''!
-    @brief 获取SEN0500/SEN0501大气压强数据 
-    @param units 大气压强数据单位选择
-    @n            HPA 百帕
-    @n            KPA 千帕
-    @return 返回获取的大气压强数据
+    @brief Get SEN0500/SEN0501 atmosphere pressure data 
+    @param units Atmosphere pressure data unit select
+    @n            HPA Hectopascal
+    @n            KPA Kilopascal
+    @return Return the obtained atmosphere pressure data
   '''
   def get_atmosphere_pressure(self, units):
 
   '''!
-    @brief 获取SEN0500/SEN0501海拔数据 
-    @return 返回获取的海拔数据
+    @brief Get SEN0500/SEN0501 elevation data 
+    @return Return the obtained elevation data
   '''
   def get_elevation(self):
 ```
