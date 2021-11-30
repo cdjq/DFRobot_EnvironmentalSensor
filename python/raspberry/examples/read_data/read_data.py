@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*
 '''!
   @file  read_data.py
-  @brief 这个demo演示获取SEN0500/SEN0501传感器上的数据，通过IIC或串口连接传感器
-  @n 将SEN0500/SEN0501返回的数据打印在串口监视器上
+  @brief This demo shows how to get data of the SEN0500/SEN0501 sensor and connect the sensor through I2C or serial port.
+  @n Print the data returned by SEN0500/SEN0501 in the serial port monitor.
   @copyright   Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
   @license     The MIT License (MIT)
   @author      TangJie(jie.tang@dfrobot.com)
@@ -19,7 +19,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath
 from dfrobot_environmental_sensor import *
 
 '''
-  选择通信模式
+  Select communication mode
   ctype=1：UART
   ctype=0：IIC
 '''
@@ -33,13 +33,13 @@ else:
   SEN0500/SEN0501 = DFRobot_Environmental_Sensor_UART(9600, ADDRESS)
 
 '''
-  大气压强单位选择
+  Atmospheric pressure unit select
 '''
 HPA                       = 0x01
 KPA                       = 0X02
 
 '''
-  温度单位选择
+  Temperature unit select
 '''
 TEMP_C                    = 0X03
 TEMP_F                    = 0X04
@@ -51,7 +51,7 @@ def setup():
   print("Sensor  initialize success!!")
   
 def loop():
-  ##获取传感器数据
+  ##Obtain sensor data
   print("-----------------------\r\n")
   print("Temp: " + str(SEN0500/SEN0501.get_temperature(TEMP_C)) + " 'C\r\n")
   print("Temp: " + str(SEN0500/SEN0501.get_temperature(TEMP_F)) + " 'F\r\n")
