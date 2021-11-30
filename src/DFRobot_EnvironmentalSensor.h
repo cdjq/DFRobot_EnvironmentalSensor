@@ -1,6 +1,6 @@
 /*!
  * @file  DFRobot_EnvironmentalSensor.h
- * @brief DFRobot_EnvironmentalSensor 类的基础结构
+ * @brief Basic structure of DFRobot_URM09 class, the implementation of basic method
  * @copyright	Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @license   The MIT License (MIT)
  * @author    [TangJie](jie.tang@dfrobot.com)
@@ -31,9 +31,9 @@
 #endif
 
 #ifndef RTU_BROADCAST_ADDRESS
-#define RTU_BROADCAST_ADDRESS                      0x00 ///< modbus协议的广播地址为0x00
+#define RTU_BROADCAST_ADDRESS                      0x00 ///< Broadcast address of the modbus protocol is 0x00
 #endif
-#define SEN0500/SEN0501_DEFAULT_DEVICE_ADDRESS             0x22 ///< SEN0500/SEN0501传感器的默认设备地址为0x22
+#define SEN0500/SEN0501_DEFAULT_DEVICE_ADDRESS             0x22 ///< Default device address of SEN0500/SEN0501 sensor is 0x22
 
 class DFRobot_EnvironmentalSensor: public DFRobot_RTU{
 
@@ -42,101 +42,101 @@ public:
 #define DEVICE_PID_BREAKOUT  0x01F4
 #define DEVICE_VID           0x3343
 
-#define HPA                  0x01 ///< 大气压强百帕
-#define KPA                  0X02 ///< 大气压强千帕
+#define HPA                  0x01 ///< Atmospheric pressure Hectopascal
+#define KPA                  0X02 ///< Atmospheric pressure Kilopascal
 
-#define TEMP_C                    0X03  ///< 摄氏度
-#define TEMP_F                    0X04  ///< 华氏度
+#define TEMP_C                    0X03  ///< ℃
+#define TEMP_F                    0X04  ///< ℉
 
-#define REG_PID                   0x0000 ///< 协议转换板的寄存器
-#define REG_VID                   0x0001 ///< 协议转换板的寄存器
-#define REG_DEVICE_ADDR           0x0002 ///< 协议转换板的寄存器
-#define REG_UART_CTRL0            0x0003 ///< 协议转换板的寄存器
-#define EG_UART_CTRL1             0x0004 ///< 协议转换板的寄存器
-#define REG_VERSION               0x0005 ///< 协议转换板的寄存器
+#define REG_PID                   0x0000 ///< Register for protocol transition adapter
+#define REG_VID                   0x0001 ///< Register for protocol transition adapter
+#define REG_DEVICE_ADDR           0x0002 ///< Register for protocol transition adapter
+#define REG_UART_CTRL0            0x0003 ///< Register for protocol transition adapter
+#define EG_UART_CTRL1             0x0004 ///< Register for protocol transition adapter
+#define REG_VERSION               0x0005 ///< Register for protocol transition adapter
 
-#define REG_ULTRAVIOLET_INTENSITY 0x0008 ///< 协议转换板的寄存器
-#define REG_LUMINOUS_INTENSITY    0x0009 ///< 协议转换板的寄存器
-#define REG_TEMP                  0x000A ///< 协议转换板的寄存器
-#define REG_HUMIDITY              0x000B ///< 协议转换板的寄存器
-#define REG_ATMOSPHERIC_PRESSURE  0x000C ///< 协议转换板的寄存器
-#define REG_ELEVATION             0x000D ///< 协议转换板的寄存器
+#define REG_ULTRAVIOLET_INTENSITY 0x0008 ///< Register for protocol transition adapter
+#define REG_LUMINOUS_INTENSITY    0x0009 ///< Register for protocol transition adapter
+#define REG_TEMP                  0x000A ///< Register for protocol transition adapter
+#define REG_HUMIDITY              0x000B ///< Register for protocol transition adapter
+#define REG_ATMOSPHERIC_PRESSURE  0x000C ///< Register for protocol transition adapter
+#define REG_ELEVATION             0x000D ///< Register for protocol transition adapter
 
 
 
   /**
    * @fn DFRobot_EnvironmentalSensor
-   * @brief DFRobot_EnvironmentalSensor构造函数。
-   * @param pWire 指向TowWire流的I2C指针,此种传递方式需要在demo中调用begin初始化ArduinoI2C配置。
-   * @param addr  SEN0500/SEN0501设备I2C通信的I2C地址。
+   * @brief DFRobot_EnvironmentalSensor constructor
+   * @param pWire I2C pointer to the TowWire stream, which requires calling begin in the demo to init Arduino I2C config.
+   * @param addr  I2C communication address of SEN0500/SEN0501 device
    */
   DFRobot_EnvironmentalSensor(uint8_t addr, TwoWire *pWire = &Wire);
 
   /**
    * @fn DFRobot_EnvironmentalSensor
-   * @brief DFRobot_EnvironmentalSensor构造函数。
-   * @param addr: 主机要和SEN0500/SEN0501从机设备通信的设备地址
-   * @n     SEN0501_DEFAULT_DEVICE_ADDRESS or 32（0x20）: SEN0500/SEN0501设备出厂默认设备地址，如果用户没有修改设备的地址，那么SEN0500/SEN0501的设备地址为32。
-   * @param s   : 指向Stream流的串口指针，此种传递方式需要在demo中调用begin初始化Arduino主控的通信串口配置，需和SEN0500/SEN0501设备从机的串口配置一致
-   * @n SEN0500/SEN0501串口配置为：9600波特率，8位数据位，无校验位，1位停止位，参数无法修改。
+   * @brief DFRobot_EnvironmentalSensor constructor
+   * @param addr: The device address of the communication between the host computer and SEN0500/SEN0501 slave device
+   * @n     SEN0501_DEFAULT_DEVICE_ADDRESS or 32（0x20）: Default address of SEN0500/SEN0501 device, if users do not change the device address, it's default to 32.
+   * @param s   : The serial port pointer to the Stream, which requires calling begin in the demo to init communication serial port config of Arduino main controller, in line with that of SEN0500/SEN0501 device slave.
+   * @n SEN0500/SEN0501 serial port config: 9600 baud rate, 8-bit data bit, no check bit, 1 stop bit, the parameters can't be changed.
    */
   DFRobot_EnvironmentalSensor(uint8_t addr, Stream *s);
   ~DFRobot_EnvironmentalSensor(){};
 
   /**
    * @fn begin
-   * @brief 初始化SEN0500/SEN0501传感器
-   * @return 返回值初始化状态
-   * @retval 0  成功
-   * @retval -1 失败
+   * @brief Init SEN0500/SEN0501 sensor
+   * @return Return value init status
+   * @retval 0  Succeed
+   * @retval -1 Failed
    */
   int8_t begin(void);
 
   /**
    * @fn getTemperature
-   * @brief 获取SEN0500/SEN0501温度数据
-   * @param units 温度数据单位选择
-   * @n     TEMP_C 摄氏度
-   * @n     TEMP_F 华氏度 
-   * @return 返回获取的温度数据
+   * @brief Get SEN0500/SEN0501 temperature data
+   * @param units Temperature data unit select
+   * @n     TEMP_C ℃
+   * @n     TEMP_F ℉ 
+   * @return Return the obtained temperature data
    */
   float getTemperature(uint8_t unist);
 
   /**
    * @fn getHumidity
-   * @brief 获取SEN0500/SEN0501湿度数据 
-   * @return 返回获取的湿度数据
+   * @brief Get SEN0500/SEN0501 humidity data 
+   * @return Return the obtained humidity data
    */
   float getHumidity(void);
 
   /**
    * @fn getUltravioletIntensity
-   * @brief 获取SEN0500/SEN0501紫外线强度指数数据 
-   * @return 返回获取的紫外线强度指数数据
+   * @brief Get SEN0500/SEN0501 ultraviolet intensity index data 
+   * @return Return the obtained ultraviolet intensity index data
    */
   float getUltravioletIntensity(void);
 
   /**
    * @fn getLuminousIntensity
-   * @brief 获取SEN0500/SEN0501光线强度数据 
-   * @return 返回获取的光线强度数据
+   * @brief Get SEN0500/SEN0501 luminous intensity data 
+   * @return Return the obtained luminous intensity data
    */
   float getLuminousIntensity(void);
 
   /**
    * @fn getAtmospherePressure
-   * @brief 获取SEN0500/SEN0501大气压强数据 
-   * @param units 大气压强数据单位选择
-   * @n            HPA 百帕
-   * @n            KPA 千帕
-   * @return 返回获取的大气压强数据
+   * @brief Get SEN0500/SEN0501 atmosphere pressure data 
+   * @param units Atmosphere pressure data unit select
+   * @n            HPA Hectopascal
+   * @n            KPA Kilopascal
+   * @return Return the obtained atmosphere pressure data
    */
   uint16_t getAtmospherePressure(uint8_t units);
 
   /**
    * @fn getElevation
-   * @brief 获取SEN0500/SEN0501海拔数据 
-   * @return 返回获取的海拔数据
+   * @brief Get SEN0500/SEN0501 elevation data 
+   * @return Return the obtained elevation data
    */
   float getElevation(void);
 
