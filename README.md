@@ -23,7 +23,7 @@ The DFRobot_Environmental_Sensor library is an Arduino-drive one specially desig
 ## Summary
 
 This multifunctional environmental sensor library may help conveniently obtain information like temperature, humidity, pressure, UV intensity, natural sunlight intensity and altitude.
-The module also offer Gravity and breakout version for use convenience.
+The module also offer Gravity and breakout version for easy use.
 
 
 ## Installation
