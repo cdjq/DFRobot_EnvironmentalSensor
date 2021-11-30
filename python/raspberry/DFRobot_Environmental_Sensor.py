@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*
 '''!
   @file        dfrobot_environmental_sensor.py
-  @brief       DFRobot_EnvironmentalSensor是一个气象传感器库
+  @brief       DFRobot_EnvironmentalSensor is library of the meteorological sensor.
   @copyright   Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
   @license     The MIT License (MIT)
   @author      TangJie(jie.tang@dfrobot.com)
@@ -36,8 +36,8 @@ TEMP_F                    = 0X04
 
 class DFRobot_Environmental_Sensor():
   '''!
-    @brief 定义DFRobot_Environmental_Sensor基类
-    @details 用于驱动气象传感器
+    @brief Define DFRobot_Environmental_Sensor basic class
+    @details For driving the meteorological sensor
   '''
   def __init__(self ,bus ,baud = 9600):
     if bus != 0:
@@ -51,8 +51,8 @@ class DFRobot_Environmental_Sensor():
   
   def _detect_device_address(self):
     '''!
-      @brief 获取传感器地址
-      @return  返回传感器地址
+      @brief Get sensor address
+      @return  Return sensor address
     '''
     rbuf = self._read_reg(0x04,2)
     if self._uart_i2c == I2C_MODE:
@@ -64,10 +64,10 @@ class DFRobot_Environmental_Sensor():
   
   def begin(self):
     '''!
-      @brief 初始化SEN0500/SEN0501传感器
-      @return 返回值初始化状态
-      @retval 0  成功
-      @retval -1 失败
+      @brief Init SEN0500/SEN0501 sensor
+      @return Return value init status
+      @retval 0  Succeed
+      @retval -1 Failed
     '''
     if self._detect_device_address() != DEV_ADDRESS:
       return False
@@ -76,11 +76,11 @@ class DFRobot_Environmental_Sensor():
   
   def get_temperature(self,unist):
     '''!
-      @brief 获取SEN0500/SEN0501温度数据
-      @param units 温度数据单位选择
-      @n     TEMP_C 摄氏度
-      @n     TEMP_F 华氏度 
-      @return 返回获取的温度数据
+      @brief Get SEN0500/SEN0501 temperature data
+      @param units Temperature data unit select
+      @n     TEMP_C ℃
+      @n     TEMP_F ℉ 
+      @return Return the obtained temperature data
     '''
     rbuf = self._read_reg(0x14, 2)
     if self._uart_i2c == I2C_MODE:
@@ -95,8 +95,8 @@ class DFRobot_Environmental_Sensor():
   
   def get_humidity(self):
     '''!
-      @brief 获取SEN0500/SEN0501湿度数据 
-      @return 返回获取的湿度数据
+      @brief Get SEN0500/SEN0501 humidity data 
+      @return Return the obtained humidity data
     '''
     rbuf = self._read_reg(0x16, 2)
     if self._uart_i2c == I2C_MODE:
@@ -109,8 +109,8 @@ class DFRobot_Environmental_Sensor():
  
   def get_ultraviolet_intensity(self):
     '''!
-      @brief 获取SEN0500/SEN0501紫外线强度指数数据 
-      @return 返回获取的紫外线强度指数数据
+      @brief Get SEN0500/SEN0501 UV intensity index data 
+      @return Return the obtained UV intensity index data
     '''
     rbuf = self._read_reg(0x10, 2)
     if self._uart_i2c == I2C_MODE:
@@ -124,8 +124,8 @@ class DFRobot_Environmental_Sensor():
   
   def get_luminousintensity(self):
     '''!
-      @brief 获取SEN0500/SEN0501光线强度数据 
-      @return 返回获取的光线强度数据
+      @brief Get SEN0500/SEN0501 luminous intensity data 
+      @return Return the obtained luminous intensity data
     '''
     rbuf = self._read_reg(0x12 ,2)
     if self._uart_i2c == I2C_MODE:
@@ -138,11 +138,11 @@ class DFRobot_Environmental_Sensor():
   
   def get_atmosphere_pressure(self, units):
     '''!
-      @brief 获取SEN0500/SEN0501大气压强数据 
-      @param units 大气压强数据单位选择
-      @n            HPA 百帕
-      @n            KPA 千帕
-      @return 返回获取的大气压强数据
+      @brief Get SEN0500/SEN0501 atmosphere pressure data 
+      @param units Atmosphere pressure data unit select
+      @n            HPA Hectopascal
+      @n            KPA Kilopascal
+      @return Return the obtained atmosphere pressure data
     '''
     rbuf = self._read_reg(0x18, 2)
     if self._uart_i2c == I2C_MODE:
@@ -156,8 +156,8 @@ class DFRobot_Environmental_Sensor():
   
   def get_elevation(self):
     '''!
-      @brief 获取SEN0500/SEN0501海拔数据 
-      @return 返回获取的海拔数据
+      @brief Get SEN0500/SEN0501 elevation data 
+      @return Return the obtained elevation data
     '''
     rbuf = self._read_reg(0x18, 2)
     if self._uart_i2c == I2C_MODE:
@@ -207,7 +207,7 @@ class DFRobot_Environmental_Sensor_UART(DFRobot_Environmental_Sensor):
   
   def _read_reg(self, reg_addr ,length):
     '''!
-      @brief 从传感器读出数据
+      @brief Read data from the sensor
     '''
     return list(self.master.execute(self._addr, cst.READ_INPUT_REGISTERS, reg_addr/2, length/2))
     
