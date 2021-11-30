@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*
 '''!
   @file        dfrobot_environmental_sensor.py
-  @brief       DFRobot_EnvironmentalSensor is library of the meteorological sensor.
+  @brief       DFRobot_EnvironmentalSensor is library of the environmental sensor.
   @copyright   Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
   @license     The MIT License (MIT)
   @author      TangJie(jie.tang@dfrobot.com)
