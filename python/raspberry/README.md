@@ -3,8 +3,8 @@ DFRobot_EnvironmentalSensor
 
 - [中文版](./README_CN.md)
 
-This multifunctional environmental sensor, whose SKU number is SEN0500/SEN0501, integrates UV, illumination, atmospheric pressure and temperature and humidity sensor. It features Gravity and Breakout interfaces. Data can be transmitted through serial port or I2C and communication method can be selected by controlling the diverter switch on the module.
-The DFRobot_Environmental_Sensor library is an Arduino-drive one specially designed for the sensor by DFRobot. Users can use it to drive the sensor that Ardunio main controller connects and obtain the sensor data.
+The multifunctional environmental sensor(SEN0500/SEN0501) integrates the UV, illumination, atmospheric pressure and temperature and humidity detection functions into one. It features Gravity and Breakout interfaces, and supports UART and I2C data communication, which can be selected by the onboard switch. <br/>
+This Arduino Library developed by DFRobot is specially designed for DFRobot Environmental sensor. Users can use the library to drive their sensor to obtain relevant environmental data conbining with an Arduino mainboard. 
 
 ![产品效果图](../../resources/images/SEN0500/SEN0501.png)
 
@@ -23,7 +23,8 @@ The DFRobot_Environmental_Sensor library is an Arduino-drive one specially desig
 
 ## Summary
 
-这里填写当前Python软件库完成了基础功能，特色功能
+This multifunctional environmental sensor library can help obtain information like temperature, humidity, pressure, UV intensity, natural sunlight intensity and altitude.
+The module also offers Gravity and breakout version for easy use.
 
 ## Installation
 
@@ -39,7 +40,7 @@ python control_led.py
   '''!
     @brief Init SEN0500/SEN0501 sensor
     @brief Init SEN0500/SEN0501 sensor
-    @return Return value init status
+    @return Return init status
     @retval 0  Succeed
     @retval -1 Failed
   '''
@@ -82,8 +83,8 @@ python control_led.py
   def get_atmosphere_pressure(self, units):
 
   '''!
-    @brief Get SEN0500/SEN0501 elevation data 
-    @return Return the obtained elevation data
+    @brief Get SEN0500/SEN0501 altitude data 
+    @return Return the obtained altitude data
   '''
   def get_elevation(self):
 ```
@@ -94,9 +95,9 @@ python control_led.py
 
 | Board        | Work Well | Work Wrong | Untested | Remarks |
 | ------------ | :-------: | :--------: | :------: | ------- |
-| RaspberryPi2 |           |            |    √     |         |
-| RaspberryPi3 |           |            |    √     |         |
-| RaspberryPi4 |       √   |            |          |         |
+| Raspberry Pi2 |           |            |    √     |         |
+| Raspberry Pi3 |           |            |    √     |         |
+| Raspberry Pi4 |       √   |            |          |         |
 
 * Python Version
 
