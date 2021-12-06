@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*
 '''!
   @file  read_data.py
-  @brief This demo shows how to get data of the SEN0500/SEN0501 sensor and connect the sensor through I2C or serial port.
+  @brief This demo shows how to get data of the SEN0500/SEN0501 sensor and outputs data through I2C or UART.
   @n Print the data returned by SEN0500/SEN0501 in the serial port monitor.
   @copyright   Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
   @license     The MIT License (MIT)
