@@ -1,6 +1,6 @@
 /*!
  *@file  read_data.ino
- *@brief This demo shows how to get data of the SEN0500/SEN0501 sensor and connect the sensor through I2C or serial port.
+ *@brief This demo shows how to get data of the SEN0500/SEN0501 sensor and outputs data through I2C or UART.
  *@n Print the data returned by SEN0500/SEN0501 in the serial port monitor.
  * @n connected table
  * ---------------------------------------------------------------------------------------------------------------
@@ -77,7 +77,7 @@ void loop()
   Serial.print("Atmospheric pressure: ");
   Serial.print(environment.getAtmospherePressure(HPA));
   Serial.println(" hpa");
-  Serial.print("Elevation: ");
+  Serial.print("Altitude: ");
   Serial.print(environment.getElevation());
   Serial.println(" m");
   Serial.println("-------------------------------");
