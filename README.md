@@ -3,8 +3,8 @@ DFRobot_EnvironmentalSensor
 
 * [中文版](./README_CN.md)
 
-This multifunctional environmental sensor, whose SKU number is SEN0500/SEN0501, integrates UV, illumination, atmospheric pressure and temperature and humidity sensor. It features Gravity and Breakout interfaces. Data can be transmitted through serial port or I2C and communication method can be selected by controlling the diverter switch on the module.
-The DFRobot_Environmental_Sensor library is an Arduino-drive one specially designed for the sensor by DFRobot. Users can use it to drive the sensor that Ardunio main controller connects and obtain the sensor data.
+The multifunctional environmental sensor(SEN0500/SEN0501) integrates the UV, illumination, atmospheric pressure and temperature and humidity detection functions into one. It features Gravity and Breakout interfaces, and supports UART and I2C data communication, which can be selected by the onboard switch.
+This Arduino Library developed by DFRobot is specially designed for DFRobot Environmental sensor. Users can use the library to drive their sensor to obtain relevant environmental data conbining with an Arduino mainboard. 
 
 ![产品效果图片](../../resources/images/SEN0500/SEN0501.png)
   
@@ -22,8 +22,8 @@ The DFRobot_Environmental_Sensor library is an Arduino-drive one specially desig
 
 ## Summary
 
-This multifunctional environmental sensor library may help conveniently obtain information like temperature, humidity, pressure, UV intensity, natural sunlight intensity and altitude.
-The module also offer Gravity and breakout version for easy use.
+This multifunctional environmental sensor library can help obtain information like temperature, humidity, pressure, UV intensity, natural sunlight intensity and altitude.
+The module also offers Gravity and breakout version for easy use.
 
 
 ## Installation
@@ -36,7 +36,7 @@ To use this library, first download the library file, paste it into the \Arduino
   /**
    * @fn begin
    * @brief Init SEN0500/SEN0501 sensor
-   * @return Return value init status
+   * @return Return init status
    * @retval 0  Succeed
    * @retval -1 failed
    */
