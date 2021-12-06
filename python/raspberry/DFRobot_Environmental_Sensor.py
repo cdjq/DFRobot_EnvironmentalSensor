@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*
 '''!
   @file        dfrobot_environmental_sensor.py
-  @brief       DFRobot_EnvironmentalSensor is library of the environmental sensor.
+  @brief       DFRobot_EnvironmentalSensor library is developed for DFRobot environmental sensor.
   @copyright   Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
   @license     The MIT License (MIT)
   @author      TangJie(jie.tang@dfrobot.com)
@@ -37,7 +37,7 @@ TEMP_F                    = 0X04
 class DFRobot_Environmental_Sensor():
   '''!
     @brief Define DFRobot_Environmental_Sensor basic class
-    @details For driving the meteorological sensor
+    @details For driving the environmental sensor
   '''
   def __init__(self ,bus ,baud = 9600):
     if bus != 0:
@@ -65,7 +65,7 @@ class DFRobot_Environmental_Sensor():
   def begin(self):
     '''!
       @brief Init SEN0500/SEN0501 sensor
-      @return Return value init status
+      @return Return init status
       @retval 0  Succeed
       @retval -1 Failed
     '''
