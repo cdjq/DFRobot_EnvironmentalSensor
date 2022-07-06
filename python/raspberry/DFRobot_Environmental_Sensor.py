@@ -116,7 +116,7 @@ class DFRobot_Environmental_Sensor():
     if (version[0] << 8 | version[1]) == 0x1001:
       rbuf = self._read_reg(0x10, 2)
       data = rbuf[0] << 8 | rbuf[1]
-      ultraviolet = data / 2300
+      ultraviolet = data / 8
     else:
       rbuf = self._read_reg(0x10, 2)
       if self._uart_i2c == I2C_MODE:
