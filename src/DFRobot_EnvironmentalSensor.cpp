@@ -123,7 +123,7 @@ float DFRobot_EnvironmentalSensor::getUltravioletIntensity(void)
     uvLevel = buffer[0] << 8 | buffer[1];
     DBG("A");
     DBG(uvLevel);
-    ultraviolet = (float)uvLevel/2300.0;
+    ultraviolet = (float)uvLevel/8;
   }else{
     readReg(REG_ULTRAVIOLET_INTENSITY,buffer,2);
     uvLevel = buffer[0] << 8 | buffer[1];
