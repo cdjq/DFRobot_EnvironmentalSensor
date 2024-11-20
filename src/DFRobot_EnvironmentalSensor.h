@@ -15,6 +15,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 #include "DFRobot_RTU.h"
+#include "String.h"
 
 #if (defined ARDUINO_AVR_UNO) && (defined ESP8266)
 #include "SoftwareSerial.h"
@@ -22,9 +23,9 @@
 #include "HardwareSerial.h"
 #endif
 
-
-#if 1
-#define DBG(...) {Serial.print("["); Serial.print(__FUNCTION__); Serial.print("(): "); Serial.print(__LINE__); Serial.print(" ] "); Serial.println(__VA_ARGS__);}
+//#define ENABLE_DBG ///< 打开这个宏, 可以看到程序的详细运行过程
+#ifdef ENABLE_DBG
+#define DBG(...) {Serial.print("[");Serial.print(__FUNCTION__); Serial.print("(): "); Serial.print(__LINE__); Serial.print(" ] "); Serial.println(__VA_ARGS__);}
 #else
 #define DBG(...)
 #endif
@@ -32,7 +33,12 @@
 #ifndef RTU_BROADCAST_ADDRESS
 #define RTU_BROADCAST_ADDRESS                      0x00 ///< Broadcast address of the modbus protocol is 0x00
 #endif
-#define SEN0500/SEN0501_DEFAULT_DEVICE_ADDRESS             0x22 ///< Default device address of SEN0500/SEN0501 sensor is 0x22
+#define SEN050X_DEFAULT_DEVICE_ADDRESS             0x22 ///< Default device address of SEN0500/SEN0501 sensor is 0x22
+
+typedef enum{
+  eLTR390UV,
+  eS12SD
+}eUVSOC;
 
 class DFRobot_EnvironmentalSensor: public DFRobot_RTU{
 
@@ -111,9 +117,10 @@ public:
   /**
    * @fn getUltravioletIntensity
    * @brief Get SEN0500/SEN0501 ultraviolet intensity index data 
+   * @param soc UV sensor
    * @return Return the obtained ultraviolet intensity index data
    */
-  float getUltravioletIntensity(void);
+  float getUltravioletIntensity(eUVSOC soc = eLTR390UV);
 
   /**
    * @fn getLuminousIntensity

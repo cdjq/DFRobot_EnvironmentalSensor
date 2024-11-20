@@ -18,10 +18,6 @@ typedef uint16_t    platformBitWidth_t;
 typedef uint32_t    platformBitWidth_t;
 #endif
 
-
-
-
-
 DFRobot_EnvironmentalSensor::DFRobot_EnvironmentalSensor(uint8_t addr, TwoWire *pWire)
 {
   _pWire = pWire;
@@ -79,11 +75,9 @@ uint16_t DFRobot_EnvironmentalSensor::getDeviceVID(void)
 float DFRobot_EnvironmentalSensor::getTemperature(uint8_t unist)
 {
   uint8_t buffer[2];
-  int16_t data;
+  uint16_t data;
   float temp;
-  
   readReg(REG_TEMP,buffer,2);
-
   data = buffer[0] << 8 | buffer[1];
   temp = (-45) +((data * 175.00) / 1024.00 / 64.00);
   if(unist == TEMP_F){
@@ -97,7 +91,6 @@ float DFRobot_EnvironmentalSensor::getHumidity(void)
   uint8_t buffer[2];
   float humidity;
   uint16_t data;
-
   readReg(REG_HUMIDITY,buffer, 2);
   data = ((buffer[0] << 8 | buffer[1]));
   humidity = (float)data * 100 / 65536;
@@ -109,24 +102,24 @@ float DFRobot_EnvironmentalSensor::mapfloat(float x, float in_min, float in_max,
       return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-float DFRobot_EnvironmentalSensor::getUltravioletIntensity(void)
+float DFRobot_EnvironmentalSensor::getUltravioletIntensity(eUVSOC soc)
 {
   uint16_t uvLevel;
-  uint16_t version = 0;
   uint8_t buffer[2];
   float ultraviolet;
-  readReg(0x05,buffer,2);
-  version = buffer[0] << 8 | buffer[1];
-  DBG(buffer[0] << 8 | buffer[1]);
-  if(version == 0x1001){
-    readReg(REG_ULTRAVIOLET_INTENSITY,buffer,2);
-    uvLevel = buffer[0] << 8 | buffer[1];
-    DBG("A");
-    DBG(uvLevel);
-    ultraviolet = (float)uvLevel/8;
-  }else{
-    readReg(REG_ULTRAVIOLET_INTENSITY,buffer,2);
-    uvLevel = buffer[0] << 8 | buffer[1];
+  readReg(REG_ULTRAVIOLET_INTENSITY,buffer,2);
+  uvLevel = buffer[0] << 8 | buffer[1];
+  DBG(uvLevel);
+  if(soc == eUVSOC::eS12SD){
+    float outputVoltage = 3000.0 * uvLevel/1024.0;
+    if(outputVoltage < 50.0){
+      outputVoltage = 50.0;
+    }else if(outputVoltage > 1180.0){
+      outputVoltage = 1180.0;
+    }
+    DBG(outputVoltage);
+    ultraviolet = mapfloat(outputVoltage, 50.0, 1180.0, 0.0, 11.0);
+  }else {
     float outputVoltage = 3.0 * uvLevel/1024;
     if(outputVoltage <= 0.99)
       outputVoltage = 0.99;
