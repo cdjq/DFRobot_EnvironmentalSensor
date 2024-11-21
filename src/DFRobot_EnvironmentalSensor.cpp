@@ -111,14 +111,9 @@ float DFRobot_EnvironmentalSensor::getUltravioletIntensity(eUVSOC soc)
   uvLevel = buffer[0] << 8 | buffer[1];
   DBG(uvLevel);
   if(soc == eUVSOC::eS12SD){
-    float outputVoltage = 3000.0 * uvLevel/1024.0;
-    if(outputVoltage < 50.0){
-      outputVoltage = 50.0;
-    }else if(outputVoltage > 1180.0){
-      outputVoltage = 1180.0;
-    }
-    DBG(outputVoltage);
-    ultraviolet = mapfloat(outputVoltage, 50.0, 1180.0, 0.0, 11.0);
+    float outputVoltage = 3000.0 * uvLevel / (1024.0 * 1000.0);
+    float na  = (outputVoltage * 1000000000.0) / 4303300;
+    ultraviolet = na / 113.0;
   }else {
     float outputVoltage = 3.0 * uvLevel/1024;
     if(outputVoltage <= 0.99)

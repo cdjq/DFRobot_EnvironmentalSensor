@@ -110,7 +110,6 @@ Raspberry Pi       |      X       |      √       |      √       |
 
 - 2021-08-31 - Version 1.0.0 released.
 - 2021-01-18 - Version 1.0.1 released.
-- 2024-10-20 - Version 1.1.0 released.
 
 ## Credits
 

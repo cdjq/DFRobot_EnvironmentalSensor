@@ -126,9 +126,8 @@ class DFRobot_Environmental_Sensor():
       ultraviolet = (outputVoltage - 0.99) * (15.0 - 0.0) / (2.9 - 0.99) + 0.0 
     else:
       outputVoltage = 3000.0 * data/1024
-      if(outputVoltage < 50.0):
-        outputVoltage = 50.0
-      ultraviolet = (outputVoltage - 50.0) * (11.0 - 0.0) / (1180 - 50.0) + 0.0 
+      na =  (outputVoltage * 1000000000.0) / 4303300
+      ultraviolet = na / 113
     return round(ultraviolet,2)
       
   

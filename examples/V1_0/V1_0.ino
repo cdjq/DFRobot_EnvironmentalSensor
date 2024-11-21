@@ -12,8 +12,8 @@
  * @copyright   Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @license     The MIT License (MIT)
  * @author      [TangJie](jie.tang@dfrobot.com)
- * @version     V1.1.0
- * @date        2024-11-20
+ * @version     V1.0
+ * @date        2021-08-31
  * @url         https://github.com/DFRobot/DFRobot_EnvironmentalSensor
  */
 #include "DFRobot_EnvironmentalSensor.h"

@@ -111,7 +111,6 @@ python control_led.py
 ## History
 
 - 2021-08-31 - Version 1.0.0 released.
-- 2024-11-20 - Version 1.1.0 released.
 
 ## Credits
 
