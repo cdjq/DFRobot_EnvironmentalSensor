@@ -3,9 +3,9 @@
  * @brief Basic structure of DFRobot_URM09 class, the implementation of basic method
  * @copyright	Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @license   The MIT License (MIT)
- * @author    [TangJie](jie.tang@dfrobot.com)
- * @version   V1.0
- * @date      2021-08-31
+ * @author    [thdyyl](yuanlong.yu@dfrobot.com)
+ * @version   V1.3.0
+ * @date      2026-09-01
  * @url       https://github.com/DFRobot/DFRobot_EnvironmentalSensor
  */
 
@@ -23,7 +23,7 @@
 #include "HardwareSerial.h"
 #endif
 
-//#define ENABLE_DBG ///< 打开这个宏, 可以看到程序的详细运行过程
+//#define ENABLE_DBG ///< Enable this macro to print detailed debug logs
 #ifdef ENABLE_DBG
 #define DBG(...) {Serial.print("[");Serial.print(__FUNCTION__); Serial.print("(): "); Serial.print(__LINE__); Serial.print(" ] "); Serial.println(__VA_ARGS__);}
 #else
@@ -36,8 +36,9 @@
 #define SEN050X_DEFAULT_DEVICE_ADDRESS             0x22 ///< Default device address of SEN0500/SEN0501 sensor is 0x22
 
 typedef enum{
-  eLTR390UV,
-  eS12SD
+  eML8511 = 0,         ///< V1.0 ML8511 legacy UV index
+  eS12SD = 1,          ///< V3.0 GUVA-S12SD equivalent UVA irradiance, mW/cm2
+  eLTR390UV = 2        ///< V2.0 LTR390 equivalent UVA irradiance, mW/cm2
 }eUVSOC;
 
 class DFRobot_EnvironmentalSensor: public DFRobot_RTU{
@@ -116,11 +117,14 @@ public:
 
   /**
    * @fn getUltravioletIntensity
-   * @brief Get SEN0500/SEN0501 ultraviolet intensity index data 
-   * @param soc UV sensor
-   * @return Return the obtained ultraviolet intensity index data
+   * @brief Get SEN0500/SEN0501 ultraviolet data
+   * @param soc UV sensor and output type
+   * @n eML8511: V1.0 ML8511 legacy UV index
+   * @n eLTR390UV: V2.0 LTR390 equivalent UVA irradiance, mW/cm2
+   * @n eS12SD: V3.0 GUVA-S12SD equivalent UVA irradiance, mW/cm2
+   * @return Return the selected ultraviolet measurement
    */
-  float getUltravioletIntensity(eUVSOC soc = eLTR390UV);
+  float getUltravioletIntensity(eUVSOC soc = eML8511);
 
   /**
    * @fn getLuminousIntensity

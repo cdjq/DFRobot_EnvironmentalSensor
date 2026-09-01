@@ -27,6 +27,14 @@ DFRobot_Environmental_Sensor库是DFRobot专门为该传感器写的一个Arduin
 这是一个多气象传感器得库，使用该库能够很便捷得获取温度、湿度、压强、紫外线强度、自然光线强度和海拔等信息，
 模块还提供了Gravity版本和breakout版本方便使用。
 
+不同硬件版本使用不同的紫外线传感器和换算方式：
+
+硬件版本 | 紫外线传感器 | API参数 | 返回值 |
+-------- | ------------ | ------- | ------ |
+V1.0 | ML8511 | `eML8511` | 旧版模拟电压映射得到的UV指数 |
+V2.0 | LTR390UV | `eLTR390UV` | 等效UVA辐照度，mW/cm² |
+V3.0 | GUVA-S12SD | `eS12SD` | 352nm UVA灯条件下的等效辐照度，mW/cm² |
+
 ## 库安装
 
 使用此库前，请首先下载库文件，将其粘贴到\Arduino\libraries目录中，然后打开examples文件夹并在该文件夹中运行演示。
@@ -62,11 +70,14 @@ DFRobot_Environmental_Sensor库是DFRobot专门为该传感器写的一个Arduin
 
   /**
    * @fn getUltravioletIntensity
-   * @brief 获取SEN0500/SEN0501紫外线强度指数数据 
-   * @param soc UV 传感器
-   * @return 返回获取的紫外线强度指数数据
+   * @brief 获取SEN0500/SEN0501紫外线数据
+   * @param soc UV传感器和输出类型
+   * @n eML8511：V1.0 ML8511旧版紫外线指数
+   * @n eLTR390UV：V2.0 LTR390等效UVA辐照度，单位mW/cm2
+   * @n eS12SD：V3.0 GUVA-S12SD等效UVA辐照度，单位mW/cm2
+   * @return 返回选择的紫外线测量结果
    */
-  float getUltravioletIntensity(eUVSOC soc = eLTR390UV);
+  float getUltravioletIntensity(eUVSOC soc = eML8511);
 
   /**
    * @fn getLuminousIntensity
@@ -108,9 +119,10 @@ FireBeetle M0      |      X       |      √       |      X        |
 raspberry          |      X       |      √       |      √       |
 
 ## 历史
+- 2026-09-01 - 1.3.1版本，V2.0 LTR390与V3.0 GUVA-S12SD紫外线数据统一为mW/cm²。
 - 2021-08-31 - 1.0.0 版本
 - 2022-01-18 - 1.0.1 版本
 
 ## 创作者
 
-Written by TangJie(jie.tang@dfrobot.com), 2021. (Welcome to our [website](https://www.dfrobot.com/))
+Written by thdyyl(yuanlong.yu@dfrobot.com), 2026. (Welcome to our [website](https://www.dfrobot.com/))

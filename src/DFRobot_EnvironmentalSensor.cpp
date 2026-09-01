@@ -4,9 +4,9 @@
  *
  * @copyright	Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @license   The MIT License (MIT)
- * @author    [TangJie](jie.tang@dfrobot.com)
- * @version   V1.0
- * @date      2021-08-31
+ * @author    [thdyyl](yuanlong.yu@dfrobot.com)
+ * @version   V1.3.0
+ * @date      2026-09-01
  * @url       https://github.com/DFRobot/DFRobot_EnvironmentalSensor
  */
 
@@ -17,6 +17,25 @@ typedef uint16_t    platformBitWidth_t;
 #else
 typedef uint32_t    platformBitWidth_t;
 #endif
+
+static const float ML8511_ADC_REFERENCE_VOLTAGE = 3.0f;
+static const float ML8511_ADC_FULL_SCALE = 1024.0f;
+static const float ML8511_OUTPUT_MIN_VOLTAGE = 0.99f;
+static const float ML8511_OUTPUT_MAX_VOLTAGE = 2.90f;
+static const float ML8511_UVI_MAX = 15.0f;
+
+// V2.0 firmware configures LTR390 for 20-bit resolution and 6x gain.
+// The datasheet lists 2300 counts/UVI at 20-bit, 18x gain, so 6x gain is 2300/3.
+static const float LTR390_COUNTS_PER_UVI = 2300.0f / 3.0f;
+static const float LTR390_WINDOW_FACTOR = 1.0f;
+// 0.23 mW/cm2 per UVI is the GUVA sunlight scale. LTR390's 2300-based UVI
+// reads about 2x high versus GUVA (3.35 vs 1.58 mW/cm2), so scale 0.23 by 1.58/3.35.
+static const float LTR390_MW_CM2_PER_UVI = 0.23f * 1.58f / 3.35f;
+
+static const float S12SD_ADC_REFERENCE_VOLTAGE = 3.0f;
+static const float S12SD_ADC_FULL_SCALE = 1023.0f;
+static const float S12SD_TRANSIMPEDANCE_OHM = 4303300.0f;
+static const float S12SD_CURRENT_NA_PER_MW_CM2 = 113.0f;
 
 DFRobot_EnvironmentalSensor::DFRobot_EnvironmentalSensor(uint8_t addr, TwoWire *pWire)
 {
@@ -34,6 +53,9 @@ int8_t DFRobot_EnvironmentalSensor::begin(void)
 {
   delay(500);
   setTimeoutTimeMs(200);
+  if(_pWire){
+    _pWire->begin();
+  }
   if(_addr > 0xF7){
     DBG("Invaild Device addr.");
   }
@@ -106,23 +128,37 @@ float DFRobot_EnvironmentalSensor::getUltravioletIntensity(eUVSOC soc)
 {
   uint16_t uvLevel;
   uint8_t buffer[2];
-  float ultraviolet;
+  float ultraviolet = 0.0f;
   readReg(REG_ULTRAVIOLET_INTENSITY,buffer,2);
   uvLevel = buffer[0] << 8 | buffer[1];
   DBG(uvLevel);
-  if(soc == eUVSOC::eS12SD){
-    float outputVoltage = 3000.0 * uvLevel / (1024.0 * 1000.0);
-    float na  = (outputVoltage * 1000000000.0) / 4303300;
-    ultraviolet = na / 113.0;
-  }else {
-    float outputVoltage = 3.0 * uvLevel/1024;
-    if(outputVoltage <= 0.99)
-      outputVoltage = 0.99;
-    else if(outputVoltage >= 2.99)
-      outputVoltage = 2.99;
-    ultraviolet = mapfloat(outputVoltage, 0.99, 2.9, 0.0, 15.0);
+
+  if(soc == eUVSOC::eML8511){
+    // V1.0 register value is a 10-bit ADC reading. Map 0.99 V to 2.90 V onto UVI 0 to 15.
+    float outputVoltage = ML8511_ADC_REFERENCE_VOLTAGE * uvLevel / ML8511_ADC_FULL_SCALE;
+    if(outputVoltage <= ML8511_OUTPUT_MIN_VOLTAGE){
+      ultraviolet = 0.0f;
+    }else if(outputVoltage >= ML8511_OUTPUT_MAX_VOLTAGE){
+      ultraviolet = ML8511_UVI_MAX;
+    }else{
+      ultraviolet = mapfloat(outputVoltage,
+                             ML8511_OUTPUT_MIN_VOLTAGE,
+                             ML8511_OUTPUT_MAX_VOLTAGE,
+                             0.0f,
+                             ML8511_UVI_MAX);
+    }
+  }else if(soc == eUVSOC::eLTR390UV){
+    // V2.0 register value is an LTR390 digital count. Convert with 2300 counts/UVI, then to GUVA-equivalent mW/cm2.
+    float uvi = ((float)uvLevel / LTR390_COUNTS_PER_UVI) * LTR390_WINDOW_FACTOR;
+    ultraviolet = uvi * LTR390_MW_CM2_PER_UVI;
+  }else if(soc == eUVSOC::eS12SD){
+    // V3.0 register value is a 10-bit ADC reading from the GUVA-S12SD amplifier.
+    // Equivalent irradiance under a 352 nm UVA lamp.
+    float outputVoltage = S12SD_ADC_REFERENCE_VOLTAGE * uvLevel / S12SD_ADC_FULL_SCALE;
+    float currentNa = (outputVoltage * 1000000000.0f) / S12SD_TRANSIMPEDANCE_OHM;
+    ultraviolet = currentNa / S12SD_CURRENT_NA_PER_MW_CM2;
   }
-  
+
   return ultraviolet;
 }
 
@@ -156,7 +192,7 @@ float DFRobot_EnvironmentalSensor::getElevation(void)
   uint8_t buffer[2];
   readReg(REG_ATMOSPHERIC_PRESSURE, buffer, 2);
   atmosphere = buffer[0] << 8 | buffer[1];
- float elevation = 44330 * (1.0 - pow(atmosphere / 1015.0f, 0.1903));
+  float elevation = 44330 * (1.0 - pow(atmosphere / 1015.0f, 0.1903));
   return elevation;
 }
 
@@ -167,10 +203,9 @@ uint8_t DFRobot_EnvironmentalSensor::readReg(uint16_t reg, void *pBuf, uint8_t s
     if(pBuf == NULL){
       DBG("data error");
       return 0;
-    }
+  }
   if(_pWire){
     uint8_t _reg = reg * 2;
-    _pWire->begin();
     _pWire->beginTransmission(_addr);
     _pWire->write(_reg);
     _pWire->endTransmission();
@@ -200,4 +235,3 @@ bool  DFRobot_EnvironmentalSensor::detectDeviceAddress(uint8_t addr)
   }
   return false;
 }
-

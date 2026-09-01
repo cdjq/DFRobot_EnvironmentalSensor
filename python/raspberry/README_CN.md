@@ -66,11 +66,11 @@ python control_led.py
   def get_humidity(self):
 
   '''!
-    @brief 获取SEN0500/SEN0501紫外线强度指数数据
-    @param soc UV传感器 
-    @return 返回获取的紫外线强度指数数据
+    @brief 获取SEN0500/SEN0501紫外线数据
+    @param soc ML8511、LTR390UV或S12SD
+    @return ML8511紫外线指数，或LTR390/GUVA等效UVA辐照度（mW/cm2）
   '''
-  def get_ultraviolet_intensity(self,soc):
+  def get_ultraviolet_intensity(self, soc=ML8511):
 
   '''!
     @brief 获取SEN0500/SEN0501光线强度数据 
@@ -113,8 +113,9 @@ python control_led.py
 
 ## History
 
+- 2026-09-01 - 1.3.1版本，V2.0 LTR390与V3.0 GUVA-S12SD紫外线数据统一为mW/cm²。
 - 2021-08-31 - 1.0.0 版本
 
 ## Credits
 
-Written by TangJie(jie.tang@dfrobot.com), 2021. (Welcome to our [website](https://www.dfrobot.com/))
+Written by thdyyl(yuanlong.yu@dfrobot.com), 2026. (Welcome to our [website](https://www.dfrobot.com/))

@@ -6,8 +6,8 @@ DFRobot_EnvironmentalSensor
 The multifunctional environmental sensor(SEN0500/SEN0501) integrates the UV, illumination, atmospheric pressure and temperature and humidity detection functions into one. It features Gravity and Breakout interfaces, and supports UART and I2C data communication, which can be selected by the onboard switch. <br/>
 This Arduino Library developed by DFRobot is specially designed for DFRobot Environmental sensor. Users can use the library to drive their sensor to obtain relevant environmental data conbining with an Arduino mainboard. 
 
-![产品效果图片](./resources/images/SEN0501.png)
-![产品效果图片](./resources/images/SEN0500.png)
+![Product image](./resources/images/SEN0501.png)
+![Product image](./resources/images/SEN0500.png)
   
 ## Product Link (https://www.dfrobot.com)
     SKU: SEN0500/SEN0501
@@ -25,6 +25,14 @@ This Arduino Library developed by DFRobot is specially designed for DFRobot Envi
 
 This multifunctional environmental sensor library can help obtain information like temperature, humidity, pressure, UV intensity, natural sunlight intensity and altitude.
 The module also offers Gravity and breakout version for easy use.
+
+Different hardware revisions use different UV sensors and conversions:
+
+Hardware | UV sensor | API option | Return value |
+-------- | --------- | ---------- | ------------ |
+V1.0 | ML8511 | `eML8511` | Legacy analog-voltage UV index |
+V2.0 | LTR390UV | `eLTR390UV` | Equivalent UVA irradiance in mW/cm² |
+V3.0 | GUVA-S12SD | `eS12SD` | Equivalent 352nm UVA irradiance in mW/cm² |
 
 
 ## Installation
@@ -62,11 +70,14 @@ To use this library, first download the library file, paste it into the \Arduino
 
   /**
    * @fn getUltravioletIntensity
-   * @brief Get SEN0500/SEN0501 UV intensity index data 
-   * @param soc UV sensor
-   * @return Return the obtained UV intensity index data
+   * @brief Get SEN0500/SEN0501 UV data
+   * @param soc UV sensor and output type
+   * @n eML8511: V1.0 ML8511 legacy UV index
+   * @n eLTR390UV: V2.0 LTR390 equivalent UVA irradiance, mW/cm2
+   * @n eS12SD: V3.0 GUVA-S12SD equivalent UVA irradiance, mW/cm2
+   * @return Return the selected ultraviolet measurement
    */
-  float getUltravioletIntensity(eUVSOC soc = eLTR390UV);
+  float getUltravioletIntensity(eUVSOC soc = eML8511);
 
   /**
    * @fn getLuminousIntensity
@@ -108,9 +119,10 @@ Raspberry Pi       |      X       |      √       |      √       |
 
 ## History
 
+- 2026-09-01 - Version 1.3.1 reports V2.0 LTR390 and V3.0 GUVA-S12SD ultraviolet data in mW/cm².
 - 2021-08-31 - Version 1.0.0 released.
 - 2021-01-18 - Version 1.0.1 released.
 
 ## Credits
 
-Written by TangJie(jie.tang@dfrobot.com), 2021. (Welcome to our [website](https://www.dfrobot.com/))
+Written by thdyyl(yuanlong.yu@dfrobot.com), 2026. (Welcome to our [website](https://www.dfrobot.com/))

@@ -1,6 +1,6 @@
 /*!
  *@file  V1_0.ino
- *@brief 这个例程可以通过UART和I2C获取SEN0501/SEN0500 V1.0 传感器的数据。
+ *@brief This example can obtain data from the SEN0501/SEN0500 V1.0 sensor via UART and I2C.
  * ---------------------------------------------------------------------------------------------------------------
  *    board   |             MCU                | Leonardo/Mega2560/M0 |    UNO    | ESP8266 | ESP32 |  microbit  |
  *     VCC    |            3.3V/5V             |        VCC           |    VCC    |   VCC   |  VCC  |     X      |
@@ -11,9 +11,9 @@
  * 
  * @copyright   Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @license     The MIT License (MIT)
- * @author      [TangJie](jie.tang@dfrobot.com)
+ * @author      [thdyyl](yuanlong.yu@dfrobot.com)
  * @version     V1.0
- * @date        2021-08-31
+ * @date        2026-09-01
  * @url         https://github.com/DFRobot/DFRobot_EnvironmentalSensor
  */
 #include "DFRobot_EnvironmentalSensor.h"
@@ -66,9 +66,8 @@ void loop()
   Serial.print("Humidity: ");
   Serial.print(environment.getHumidity());
   Serial.println(" %");
-  Serial.print("Ultraviolet intensity: ");
-  Serial.print(environment.getUltravioletIntensity(eLTR390UV));
-  Serial.println(" mw/cm2");
+  Serial.print("UV index: ");
+  Serial.println(environment.getUltravioletIntensity(eML8511));
   Serial.print("LuminousIntensity: ");
   Serial.print(environment.getLuminousIntensity());
   Serial.println(" lx");

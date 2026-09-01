@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*
 '''!
   @file  V1_0.py
-  @brief 这个例程可以通过UART和I2C获取SEN0501/SEN0500 V3.0 传感器的数据。
+  @brief This example can obtain data from the SEN0501/SEN0500 V1.0 sensor via UART and I2C.
   @copyright   Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
   @license     The MIT License (MIT)
-  @author      TangJie(jie.tang@dfrobot.com)
+  @author      [thdyyl](yuanlong.yu@dfrobot.com)
   @version     V1.0
-  @date        2021-08-31
+  @date        2026-09-01
   @url         https://github.com/DFRobot/DFRobot_EnvironmentalSensor
 '''
 from __future__ import print_function
@@ -56,7 +56,7 @@ def loop():
   print("Temp: " + str(SEN050X.get_temperature(TEMP_C)) + " 'C\r\n")
   print("Temp: " + str(SEN050X.get_temperature(TEMP_F)) + " 'F\r\n")
   print("Humidity: " + str(SEN050X.get_humidity()) + " %\r\n")
-  print("Ultraviolet intensity: " + str(SEN050X.get_ultraviolet_intensity(LTR390UV)) + " mw/cm2\r\n")
+  print("UV index: " + str(SEN050X.get_ultraviolet_intensity(ML8511)) + "\r\n")
   print("LuminousIntensity: " + str(SEN050X.get_luminousintensity()) + " lx\r\n")
   print("Atmospheric pressure: " + str(SEN050X.get_atmosphere_pressure(HPA)) + " hpa\r\n")
   print("Elevation: " + str(SEN050X.get_elevation()) + " m\r\n")

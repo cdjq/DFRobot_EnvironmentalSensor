@@ -4,9 +4,9 @@
   @brief       DFRobot_EnvironmentalSensor library is developed for DFRobot environmental sensor.
   @copyright   Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
   @license     The MIT License (MIT)
-  @author      TangJie(jie.tang@dfrobot.com)
-  @version     V1.0
-  @date        2021-08-31
+  @author      [thdyyl](yuanlong.yu@dfrobot.com)
+  @version     V1.3.0
+  @date        2026-09-01
   @url         https://github.com/DFRobot/DFRobot_EnvironmentalSensor
 '''
 
@@ -34,8 +34,30 @@ KPA                       = 0X02
 TEMP_C                    = 0X03
 TEMP_F                    = 0X04
 
-LTR390UV = 0x00
-S12DS    = 0x01
+ML8511          = 0x00
+S12SD           = 0x01
+LTR390UV        = 0x02
+
+# Alias for a misspelled constant name.
+S12DS = S12SD
+
+ML8511_ADC_REFERENCE_VOLTAGE = 3.0
+ML8511_ADC_FULL_SCALE = 1024.0
+ML8511_OUTPUT_MIN_VOLTAGE = 0.99
+ML8511_OUTPUT_MAX_VOLTAGE = 2.90
+ML8511_UVI_MAX = 15.0
+
+# V2.0 firmware uses LTR390 at 20-bit resolution and 6x gain.
+LTR390_COUNTS_PER_UVI = 2300.0 / 3.0
+LTR390_WINDOW_FACTOR = 1.0
+# GUVA sunlight scale is 0.23 mW/cm2 per UVI. LTR390 UVI is about 2x high
+# versus GUVA (3.35 vs 1.58 mW/cm2), so scale 0.23 by 1.58/3.35.
+LTR390_MW_CM2_PER_UVI = 0.23 * 1.58 / 3.35
+
+S12SD_ADC_REFERENCE_VOLTAGE = 3.0
+S12SD_ADC_FULL_SCALE = 1023.0
+S12SD_TRANSIMPEDANCE_OHM = 4303300.0
+S12SD_CURRENT_NA_PER_MW_CM2 = 113.0
 
 class DFRobot_Environmental_Sensor():
   '''!
@@ -110,24 +132,37 @@ class DFRobot_Environmental_Sensor():
     return humidity
   
  
-  def get_ultraviolet_intensity(self,soc):
+  def get_ultraviolet_intensity(self, soc=ML8511):
     '''!
-      @brief Get SEN0500/SEN0501 UV intensity index data 
-      @param soc UV sensor
-      @return Return the obtained UV intensity index data
+      @brief Get SEN0500/SEN0501 UV data
+      @param soc UV sensor and output type
+      @n ML8511: V1.0 ML8511 legacy UV index
+      @n LTR390UV: V2.0 LTR390 equivalent UVA irradiance, mW/cm2
+      @n S12SD: V3.0 GUVA-S12SD equivalent UVA irradiance, mW/cm2
+      @return Return the selected ultraviolet measurement
     '''
     rbuf = self._read_reg(0x10, 2)
     if self._uart_i2c == I2C_MODE:
       data = rbuf[0] << 8 | rbuf[1]
     elif self._uart_i2c == UART_MODE:
       data = rbuf[0]
-    if (soc == LTR390UV):
-      outputVoltage = 3.0 * data/1024
-      ultraviolet = (outputVoltage - 0.99) * (15.0 - 0.0) / (2.9 - 0.99) + 0.0 
-    else:
-      outputVoltage = 3000.0 * data/1024
-      na =  (outputVoltage * 1000000000.0) / 4303300
-      ultraviolet = na / 113
+    ultraviolet = 0.0
+    if soc == ML8511:
+      outputVoltage = ML8511_ADC_REFERENCE_VOLTAGE * data / ML8511_ADC_FULL_SCALE
+      if outputVoltage <= ML8511_OUTPUT_MIN_VOLTAGE:
+        ultraviolet = 0.0
+      elif outputVoltage >= ML8511_OUTPUT_MAX_VOLTAGE:
+        ultraviolet = ML8511_UVI_MAX
+      else:
+        ultraviolet = ((outputVoltage - ML8511_OUTPUT_MIN_VOLTAGE) * ML8511_UVI_MAX /
+                       (ML8511_OUTPUT_MAX_VOLTAGE - ML8511_OUTPUT_MIN_VOLTAGE))
+    elif soc == LTR390UV:
+      uvi = data / LTR390_COUNTS_PER_UVI * LTR390_WINDOW_FACTOR
+      ultraviolet = uvi * LTR390_MW_CM2_PER_UVI
+    elif soc == S12SD:
+      outputVoltage = S12SD_ADC_REFERENCE_VOLTAGE * data / S12SD_ADC_FULL_SCALE
+      currentNa = (outputVoltage * 1000000000.0) / S12SD_TRANSIMPEDANCE_OHM
+      ultraviolet = currentNa / S12SD_CURRENT_NA_PER_MW_CM2
     return round(ultraviolet,2)
       
   
