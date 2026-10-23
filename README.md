@@ -4,11 +4,16 @@ DFRobot_EnvironmentalSensor
 * [中文版](./README_CN.md)
 
 The multifunctional environmental sensor(SEN0500/SEN0501) integrates the UV, illumination, atmospheric pressure and temperature and humidity detection functions into one. It features Gravity and Breakout interfaces, and supports UART and I2C data communication, which can be selected by the onboard switch. <br/>
-This Arduino Library developed by DFRobot is specially designed for DFRobot Environmental sensor. Users can use the library to drive their sensor to obtain relevant environmental data conbining with an Arduino mainboard. 
+This Arduino Library developed by DFRobot is specially designed for DFRobot Environmental sensor. Users can use the library to drive their sensor to obtain relevant environmental data conbining with an Arduino mainboard.
 
+## V1.0
 ![Product image](./resources/images/SEN0501.png)
 ![Product image](./resources/images/SEN0500.png)
-  
+
+## V3.0
+![Product image](./resources/images/V3.0/SEN0501.jpg)
+![Product image](./resources/images/V3.0/SEN0500.jpg)
+
 ## Product Link (https://www.dfrobot.com)
     SKU: SEN0500/SEN0501
 
@@ -56,14 +61,14 @@ To use this library, first download the library file, paste it into the \Arduino
    * @brief Get SEN0500/SEN0501 temperature data
    * @param units Temperature data unit select
    * @n     TEMP_C ℃
-   * @n     TEMP_F ℉ 
+   * @n     TEMP_F ℉
    * @return Return the obtained temperature data
    */
   float getTemperature(uint8_t unist);
 
   /**
    * @fn getHumidity
-   * @brief Get SEN0500/SEN0501 humidity data 
+   * @brief Get SEN0500/SEN0501 humidity data
    * @return Return the obtained humidity data
    */
   float getHumidity(void);
@@ -81,14 +86,14 @@ To use this library, first download the library file, paste it into the \Arduino
 
   /**
    * @fn getLuminousIntensity
-   * @brief Get SEN0500/SEN0501 luminous intensity data 
+   * @brief Get SEN0500/SEN0501 luminous intensity data
    * @return Return the obtained luminous intensity data
    */
   float getLuminousIntensity(void);
 
   /**
    * @fn getAtmospherePressure
-   * @brief Get SEN0500/SEN0501 atmosphere pressure data 
+   * @brief Get SEN0500/SEN0501 atmosphere pressure data
    * @param units Atmosphere pressure data unit select
    * @n            HPA: Hectopascal
    * @n            KPA: Kilopascal
@@ -98,7 +103,7 @@ To use this library, first download the library file, paste it into the \Arduino
 
   /**
    * @fn getElevation
-   * @brief Get SEN0500/SEN0501 altitude data 
+   * @brief Get SEN0500/SEN0501 altitude data
    * @return Return the obtained altitude data
    */
   float getElevation(void);
@@ -107,7 +112,7 @@ To use this library, first download the library file, paste it into the \Arduino
 ## Compatibility
 
 MCU                | SoftwareSerial | HardwareSerial |      IIC      |
------------------- | :----------: | :----------: | :----------: | 
+------------------ | :----------: | :----------: | :----------: |
 Arduino Uno        |      √       |      X       |      √       |
 Mega2560           |      √       |      √       |      √       |
 Leonardo           |      √       |      √       |      √       |
@@ -119,7 +124,7 @@ Raspberry Pi       |      X       |      √       |      √       |
 
 ## History
 
-- 2026-09-01 - Version 1.3.1 reports V2.0 LTR390 and V3.0 GUVA-S12SD ultraviolet data in mW/cm².
+- 2026-10-22 - Version 1.3.0 reports V2.0 LTR390 and V3.0 GUVA-S12SD ultraviolet data in mW/cm².
 - 2021-08-31 - Version 1.0.0 released.
 - 2021-01-18 - Version 1.0.1 released.
 

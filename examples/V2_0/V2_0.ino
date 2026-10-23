@@ -17,27 +17,27 @@
  * @url         https://github.com/DFRobot/DFRobot_EnvironmentalSensor
  */
 #include "DFRobot_EnvironmentalSensor.h"
-#if defined(ARDUINO_AVR_UNO)||defined(ESP8266)
+#if defined(ARDUINO_AVR_UNO) || defined(ESP8266)
 #include <SoftwareSerial.h>
 #endif
 
-#define MODESWITCH        /*UART:*/1 /*I2C: 0*/
+#define MODESWITCH /*UART:*/ 1 /*I2C: 0*/
 
 #if MODESWITCH
-#if defined(ARDUINO_AVR_UNO)||defined(ESP8266)
-  SoftwareSerial mySerial(/*rx =*/4, /*tx =*/5);
-  DFRobot_EnvironmentalSensor environment(/*addr =*/SEN050X_DEFAULT_DEVICE_ADDRESS, /*s =*/&mySerial);
+#if defined(ARDUINO_AVR_UNO) || defined(ESP8266)
+SoftwareSerial              mySerial(/*rx =*/4, /*tx =*/5);
+DFRobot_EnvironmentalSensor environment(/*addr =*/SEN050X_DEFAULT_DEVICE_ADDRESS, /*s =*/&mySerial);
 #else
-  DFRobot_EnvironmentalSensor environment(/*addr =*/SEN050X_DEFAULT_DEVICE_ADDRESS, /*s =*/&Serial1);
+DFRobot_EnvironmentalSensor environment(/*addr =*/SEN050X_DEFAULT_DEVICE_ADDRESS, /*s =*/&Serial1);
 #endif
 #else
-DFRobot_EnvironmentalSensor environment(/*addr = */SEN050X_DEFAULT_DEVICE_ADDRESS, /*pWire = */&Wire);
+DFRobot_EnvironmentalSensor environment(/*addr = */ SEN050X_DEFAULT_DEVICE_ADDRESS, /*pWire = */ &Wire);
 #endif
 
 void setup()
 {
 #if MODESWITCH
-#if defined(ARDUINO_AVR_UNO)||defined(ESP8266)
+#if defined(ARDUINO_AVR_UNO) || defined(ESP8266)
   mySerial.begin(9600);
 #elif defined(ESP32)
   Serial1.begin(9600, SERIAL_8N1, /*rx =*/D3, /*tx =*/D2);
@@ -46,7 +46,7 @@ void setup()
 #endif
 #endif
   Serial.begin(115200);
-  while(environment.begin() != 0){
+  while (environment.begin() != 0) {
     Serial.println(" Sensor initialize failed!!");
     delay(1000);
   }

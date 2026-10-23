@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*
 '''!
-  @file        dfrobot_environmental_sensor.py
-  @brief       DFRobot_EnvironmentalSensor library is developed for DFRobot environmental sensor.
-  @copyright   Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
-  @license     The MIT License (MIT)
-  @author      [thdyyl](yuanlong.yu@dfrobot.com)
-  @version     V1.3.0
-  @date        2026-09-01
-  @url         https://github.com/DFRobot/DFRobot_EnvironmentalSensor
+@file        dfrobot_environmental_sensor.py
+@brief       DFRobot_EnvironmentalSensor library is developed for DFRobot environmental sensor.
+@copyright   Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
+@license     The MIT License (MIT)
+@author      [thdyyl](yuanlong.yu@dfrobot.com)
+@version     V1.3.0
+@date        2026-09-01
+@url         https://github.com/DFRobot/DFRobot_EnvironmentalSensor
 '''
 
 import serial
@@ -22,21 +22,21 @@ import modbus_tk
 import modbus_tk.defines as cst
 from modbus_tk import modbus_rtu
 
-I2C_MODE                  = 0x01
-UART_MODE                 = 0x02
-DEV_ADDRESS               = 0x22
+I2C_MODE = 0x01
+UART_MODE = 0x02
+DEV_ADDRESS = 0x22
 
-DEVICE_VID                = 0x3343
-DEVICE_ADDRESS            = 0x22
+DEVICE_VID = 0x3343
+DEVICE_ADDRESS = 0x22
 
-HPA                       = 0x01
-KPA                       = 0X02
-TEMP_C                    = 0X03
-TEMP_F                    = 0X04
+HPA = 0x01
+KPA = 0x02
+TEMP_C = 0x03
+TEMP_F = 0x04
 
-ML8511          = 0x00
-S12SD           = 0x01
-LTR390UV        = 0x02
+ML8511 = 0x00
+S12SD = 0x01
+LTR390UV = 0x02
 
 # Alias for a misspelled constant name.
 S12DS = S12SD
@@ -59,93 +59,94 @@ S12SD_ADC_FULL_SCALE = 1023.0
 S12SD_TRANSIMPEDANCE_OHM = 4303300.0
 S12SD_CURRENT_NA_PER_MW_CM2 = 113.0
 
-class DFRobot_Environmental_Sensor():
+
+class DFRobot_Environmental_Sensor:
   '''!
-    @brief Define DFRobot_Environmental_Sensor basic class
-    @details For driving the environmental sensor
+  @brief Define DFRobot_Environmental_Sensor basic class
+  @details For driving the environmental sensor
   '''
-  def __init__(self ,bus ,baud = 9600):
+
+  def __init__(self, bus, baud=9600):
     if bus != 0:
       self.i2cbus = smbus.SMBus(bus)
       self._uart_i2c = I2C_MODE
-      
+
     else:
-      self.master = modbus_rtu.RtuMaster(serial.Serial(port="/dev/ttyAMA0",baudrate=baud, bytesize=8, parity='N', stopbits=1))
+      self.master = modbus_rtu.RtuMaster(serial.Serial(port="/dev/ttyAMA0", baudrate=baud, bytesize=8, parity='N', stopbits=1))
       self.master.set_timeout(1.0)
       self._uart_i2c = UART_MODE
-  
+
   def _detect_device_address(self):
     '''!
-      @brief Get sensor address
-      @return  Return sensor address
+    @brief Get sensor address
+    @return  Return sensor address
     '''
-    rbuf = self._read_reg(0x04,2)
-    if self._uart_i2c == I2C_MODE:
-      data = rbuf[0] << 8 | rbuf[1]
-    elif self._uart_i2c == UART_MODE:
-      data = rbuf[0]
-    return data
+    return self._read_value(0x04, 2)
 
-  
+  def _read_value(self, reg_addr, length):
+    """Read and decode a register, returning None when the read fails."""
+    rbuf = self._read_reg(reg_addr, length)
+    if rbuf == -1 or rbuf is None:
+      return None
+
+    expected_length = 2 if self._uart_i2c == I2C_MODE else 1
+    if not isinstance(rbuf, (list, tuple)) or len(rbuf) < expected_length:
+      return None
+
+    if self._uart_i2c == I2C_MODE:
+      return rbuf[0] << 8 | rbuf[1]
+    return rbuf[0]
+
   def begin(self):
     '''!
-      @brief Init SEN0500/SEN0501 sensor
-      @return Return init status
-      @retval 0  Succeed
-      @retval -1 Failed
+    @brief Init SEN0500/SEN0501 sensor
+    @return Return init status
+    @retval 0  Succeed
+    @retval -1 Failed
     '''
     if self._detect_device_address() != DEV_ADDRESS:
       return False
     return True
 
-  
-  def get_temperature(self,unist):
+  def get_temperature(self, unist):
     '''!
-      @brief Get SEN0500/SEN0501 temperature data
-      @param units Temperature data unit select
-      @n     TEMP_C ℃
-      @n     TEMP_F ℉ 
-      @return Return the obtained temperature data
+    @brief Get SEN0500/SEN0501 temperature data
+    @param units Temperature data unit select
+    @n     TEMP_C ℃
+    @n     TEMP_F ℉
+    @return Return the obtained temperature data
     '''
-    rbuf = self._read_reg(0x14, 2)
-    if self._uart_i2c == I2C_MODE:
-      data = rbuf[0] << 8 | rbuf[1]
-    elif self._uart_i2c == UART_MODE:
-      data = rbuf[0]
-    temp = (-45) +((data * 175.00) / 1024.00 / 64.00)
-    if(unist == TEMP_F):
-      temp = temp * 1.8 + 32 
-    return round(temp,2)
-    
-  
+    data = self._read_value(0x14, 2)
+    if data is None:
+      return -1
+    temp = (-45) + ((data * 175.00) / 1024.00 / 64.00)
+    if unist == TEMP_F:
+      temp = temp * 1.8 + 32
+    return round(temp, 2)
+
   def get_humidity(self):
     '''!
-      @brief Get SEN0500/SEN0501 humidity data 
-      @return Return the obtained humidity data
+    @brief Get SEN0500/SEN0501 humidity data
+    @return Return the obtained humidity data
     '''
-    rbuf = self._read_reg(0x16, 2)
-    if self._uart_i2c == I2C_MODE:
-      humidity = rbuf[0] << 8 | rbuf[1]
-    elif self._uart_i2c == UART_MODE:
-      humidity = rbuf[0]
+    humidity = self._read_value(0x16, 2)
+    if humidity is None:
+      return -1
     humidity = (humidity / 1024) * 100 / 64
-    return humidity
-  
- 
+    return round(humidity, 2)
+
   def get_ultraviolet_intensity(self, soc=ML8511):
     '''!
-      @brief Get SEN0500/SEN0501 UV data
-      @param soc UV sensor and output type
-      @n ML8511: V1.0 ML8511 legacy UV index
-      @n LTR390UV: V2.0 LTR390 equivalent UVA irradiance, mW/cm2
-      @n S12SD: V3.0 GUVA-S12SD equivalent UVA irradiance, mW/cm2
-      @return Return the selected ultraviolet measurement
+    @brief Get SEN0500/SEN0501 UV data
+    @param soc UV sensor and output type
+    @n ML8511: V1.0 ML8511 legacy UV index
+    @n LTR390UV: V2.0 LTR390 equivalent UVA irradiance, mW/cm2
+    @n S12SD: V3.0 GUVA-S12SD equivalent UVA irradiance, mW/cm2
+    @return Return the selected ultraviolet measurement
     '''
-    rbuf = self._read_reg(0x10, 2)
-    if self._uart_i2c == I2C_MODE:
-      data = rbuf[0] << 8 | rbuf[1]
-    elif self._uart_i2c == UART_MODE:
-      data = rbuf[0]
+    data = self._read_value(0x10, 2)
+    if data is None:
+      return -1
     ultraviolet = 0.0
     if soc == ML8511:
       outputVoltage = ML8511_ADC_REFERENCE_VOLTAGE * data / ML8511_ADC_FULL_SCALE
@@ -154,105 +155,95 @@ class DFRobot_Environmental_Sensor():
       elif outputVoltage >= ML8511_OUTPUT_MAX_VOLTAGE:
         ultraviolet = ML8511_UVI_MAX
       else:
-        ultraviolet = ((outputVoltage - ML8511_OUTPUT_MIN_VOLTAGE) * ML8511_UVI_MAX /
-                       (ML8511_OUTPUT_MAX_VOLTAGE - ML8511_OUTPUT_MIN_VOLTAGE))
+        ultraviolet = (outputVoltage - ML8511_OUTPUT_MIN_VOLTAGE) * ML8511_UVI_MAX / (ML8511_OUTPUT_MAX_VOLTAGE - ML8511_OUTPUT_MIN_VOLTAGE)
     elif soc == LTR390UV:
       uvi = data / LTR390_COUNTS_PER_UVI * LTR390_WINDOW_FACTOR
       ultraviolet = uvi * LTR390_MW_CM2_PER_UVI
     elif soc == S12SD:
+      data = data if data > 1 else 0
       outputVoltage = S12SD_ADC_REFERENCE_VOLTAGE * data / S12SD_ADC_FULL_SCALE
       currentNa = (outputVoltage * 1000000000.0) / S12SD_TRANSIMPEDANCE_OHM
       ultraviolet = currentNa / S12SD_CURRENT_NA_PER_MW_CM2
-    return round(ultraviolet,2)
-      
-  
+    return round(ultraviolet, 2)
+
   def get_luminousintensity(self):
     '''!
-      @brief Get SEN0500/SEN0501 luminous intensity data 
-      @return Return the obtained luminous intensity data
+    @brief Get SEN0500/SEN0501 luminous intensity data
+    @return Return the obtained luminous intensity data
     '''
-    rbuf = self._read_reg(0x12 ,2)
-    if self._uart_i2c == I2C_MODE:
-      data = rbuf[0] << 8 | rbuf[1]
-    elif self._uart_i2c == UART_MODE:
-      data = rbuf[0]
+    data = self._read_value(0x12, 2)
+    if data is None:
+      return -1
     luminous = data * (1.0023 + data * (8.1488e-5 + data * (-9.3924e-9 + data * 6.0135e-13)))
-    return round(luminous,2)
+    return round(luminous, 2)
 
-  
   def get_atmosphere_pressure(self, units):
     '''!
-      @brief Get SEN0500/SEN0501 atmosphere pressure data 
-      @param units Atmosphere pressure data unit select
-      @n            HPA Hectopascal
-      @n            KPA Kilopascal
-      @return Return the obtained atmosphere pressure data
+    @brief Get SEN0500/SEN0501 atmosphere pressure data
+    @param units Atmosphere pressure data unit select
+    @n            HPA Hectopascal
+    @n            KPA Kilopascal
+    @return Return the obtained atmosphere pressure data
     '''
-    rbuf = self._read_reg(0x18, 2)
-    if self._uart_i2c == I2C_MODE:
-      atmosphere = rbuf[0] << 8 | rbuf[1]
-    elif self._uart_i2c == UART_MODE:
-      atmosphere = rbuf[0]
+    atmosphere = self._read_value(0x18, 2)
+    if atmosphere is None:
+      return -1
     if units == KPA:
       atmosphere /= 10
     return atmosphere
 
-  
   def get_elevation(self):
     '''!
-      @brief Get SEN0500/SEN0501 elevation data 
-      @return Return the obtained elevation data
+    @brief Get SEN0500/SEN0501 elevation data
+    @return Return the obtained elevation data
     '''
-    rbuf = self._read_reg(0x18, 2)
-    if self._uart_i2c == I2C_MODE:
-      elevation = rbuf[0] << 8 | rbuf[1]
-    elif self._uart_i2c == UART_MODE:
-      elevation = rbuf[0]
-    elevation = 44330 * (1.0 - pow(elevation / 1015.0, 0.1903));
-    return round(elevation,2)
+    elevation = self._read_value(0x18, 2)
+    if elevation is None:
+      return -1
+    elevation = 44330 * (1.0 - pow(elevation / 1015.0, 0.1903))
+    return round(elevation, 2)
 
-  
-        
 
 class DFRobot_Environmental_Sensor_I2C(DFRobot_Environmental_Sensor):
   '''!
-    @brief An example of an i2c interface module
+  @brief An example of an i2c interface module
   '''
-  def __init__(self ,bus ,addr):
+
+  def __init__(self, bus, addr):
     self._addr = addr
-    DFRobot_Environmental_Sensor.__init__(self,bus,0)   
-    
-  
-  def _read_reg(self, reg_addr ,length):
+    DFRobot_Environmental_Sensor.__init__(self, bus, 0)
+
+  def _read_reg(self, reg_addr, length):
     '''!
-      @brief read the data from the register
-      @param reg register address
-      @param value read data
+    @brief read the data from the register
+    @param reg register address
+    @param value read data
     '''
     try:
-      rslt = self.i2cbus.read_i2c_block_data(self._addr ,reg_addr , length)
-    except:
+      rslt = self.i2cbus.read_i2c_block_data(self._addr, reg_addr, length)
+    except Exception:
       rslt = -1
-    return rslt    
+    return rslt
 
 
 class DFRobot_Environmental_Sensor_UART(DFRobot_Environmental_Sensor):
   '''!
-    @brief An example of an UART interface module
+  @brief An example of an UART interface module
   '''
-  def __init__(self ,baud, addr):
+
+  def __init__(self, baud, addr):
     self._baud = baud
     self._addr = addr
     try:
-      DFRobot_Environmental_Sensor.__init__(self,0,self._baud)
+      DFRobot_Environmental_Sensor.__init__(self, 0, self._baud)
     except:
-      print ("plese get root!")
-   
-  
-  def _read_reg(self, reg_addr ,length):
+      print("plese get root!")
+
+  def _read_reg(self, reg_addr, length):
     '''!
-      @brief Read data from the sensor
+    @brief Read data from the sensor
     '''
-    return list(self.master.execute(self._addr, cst.READ_INPUT_REGISTERS, reg_addr/2, length/2))
-    
-    
+    try:
+      return list(self.master.execute(self._addr, cst.READ_INPUT_REGISTERS, reg_addr // 2, length // 2))
+    except Exception:
+      return -1

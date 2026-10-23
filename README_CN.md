@@ -6,13 +6,18 @@ DFRobot_EnvironmentalSensor
 SEN0500/SEN0501 是一个多气象传感器，模块上集成了，紫外线传感器、光照传感器、大气压强传感器、温湿度传感器，模块有Gravity接口和Breakout两种接口方式，通过串口或I2C进行数据传输，通过模块上的切换开关进行通信方式选择。
 DFRobot_Environmental_Sensor库是DFRobot专门为该传感器写的一个Arduino驱动库，用户可以用此驱动库来驱动Ardunio主控连接的传感器获取传感器数据。
 
+## V1.0
 ![产品效果图片](./resources/images/SEN0501.png)
 ![产品效果图片](./resources/images/SEN0500.png)
+
+## V3.0
+![产品效果图片](./resources/images/V3.0/SEN0501.jpg)
+![产品效果图片](./resources/images/V3.0/SEN0500.jpg)
 
 ## 产品链接（https://www.dfrobot.com）
 
     SKU：SEN0500/SEN0501
-  
+
 ## 目录
 
   * [概述](#概述)
@@ -56,14 +61,14 @@ V3.0 | GUVA-S12SD | `eS12SD` | 352nm UVA灯条件下的等效辐照度，mW/cm²
    * @brief 获取SEN0500/SEN0501温度数据
    * @param units 温度数据单位选择
    * @n     TEMP_C 摄氏度
-   * @n     TEMP_F 华氏度 
+   * @n     TEMP_F 华氏度
    * @return 返回获取的温度数据
    */
   float getTemperature(uint8_t unist);
 
   /**
    * @fn getHumidity
-   * @brief 获取SEN0500/SEN0501湿度数据 
+   * @brief 获取SEN0500/SEN0501湿度数据
    * @return 返回获取的湿度数据
    */
   float getHumidity(void);
@@ -81,14 +86,14 @@ V3.0 | GUVA-S12SD | `eS12SD` | 352nm UVA灯条件下的等效辐照度，mW/cm²
 
   /**
    * @fn getLuminousIntensity
-   * @brief 获取SEN0500/SEN0501光线强度数据 
+   * @brief 获取SEN0500/SEN0501光线强度数据
    * @return 返回获取的光线强度数据
    */
   float getLuminousIntensity(void);
 
   /**
    * @fn getAtmospherePressure
-   * @brief 获取SEN0500/SEN0501大气压强数据 
+   * @brief 获取SEN0500/SEN0501大气压强数据
    * @param units 大气压强数据单位选择
    * @n            HPA:百帕
    * @n            KPA:千帕
@@ -98,7 +103,7 @@ V3.0 | GUVA-S12SD | `eS12SD` | 352nm UVA灯条件下的等效辐照度，mW/cm²
 
   /**
    * @fn getElevation
-   * @brief 获取SEN0500/SEN0501海拔数据 
+   * @brief 获取SEN0500/SEN0501海拔数据
    * @return 返回获取的海拔数据
    */
   float getElevation(void);
@@ -108,7 +113,7 @@ V3.0 | GUVA-S12SD | `eS12SD` | 352nm UVA灯条件下的等效辐照度，mW/cm²
 ## 兼容性
 
 MCU                | SoftwareSerial | HardwareSerial |      IIC      |
------------------- | :----------: | :----------: | :----------: | 
+------------------ | :----------: | :----------: | :----------: |
 Arduino Uno        |      √       |      X       |      √       |
 Mega2560           |      √       |      √       |      √       |
 Leonardo           |      √       |      √       |      √       |
@@ -119,7 +124,7 @@ FireBeetle M0      |      X       |      √       |      X        |
 raspberry          |      X       |      √       |      √       |
 
 ## 历史
-- 2026-09-01 - 1.3.1版本，V2.0 LTR390与V3.0 GUVA-S12SD紫外线数据统一为mW/cm²。
+- 2026-10-22 - 1.3.0版本，V2.0 LTR390与V3.0 GUVA-S12SD紫外线数据统一为mW/cm²。
 - 2021-08-31 - 1.0.0 版本
 - 2022-01-18 - 1.0.1 版本
 

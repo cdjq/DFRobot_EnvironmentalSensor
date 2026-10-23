@@ -13,9 +13,9 @@
 #define DFROBOT_MULTIFUNCTIONAL_ENVIRONMENTAL_SENSOR_H
 
 #include "Arduino.h"
-#include "Wire.h"
 #include "DFRobot_RTU.h"
 #include "String.h"
+#include "Wire.h"
 
 #if (defined ARDUINO_AVR_UNO) && (defined ESP8266)
 #include "SoftwareSerial.h"
@@ -25,50 +25,56 @@
 
 //#define ENABLE_DBG ///< Enable this macro to print detailed debug logs
 #ifdef ENABLE_DBG
-#define DBG(...) {Serial.print("[");Serial.print(__FUNCTION__); Serial.print("(): "); Serial.print(__LINE__); Serial.print(" ] "); Serial.println(__VA_ARGS__);}
+#define DBG(...)                 \
+  {                              \
+    Serial.print("[");           \
+    Serial.print(__FUNCTION__);  \
+    Serial.print("(): ");        \
+    Serial.print(__LINE__);      \
+    Serial.print(" ] ");         \
+    Serial.println(__VA_ARGS__); \
+  }
 #else
 #define DBG(...)
 #endif
 
 #ifndef RTU_BROADCAST_ADDRESS
-#define RTU_BROADCAST_ADDRESS                      0x00 ///< Broadcast address of the modbus protocol is 0x00
+#define RTU_BROADCAST_ADDRESS 0x00    ///< Broadcast address of the modbus protocol is 0x00
 #endif
-#define SEN050X_DEFAULT_DEVICE_ADDRESS             0x22 ///< Default device address of SEN0500/SEN0501 sensor is 0x22
+#define SEN050X_DEFAULT_DEVICE_ADDRESS 0x22    ///< Default device address of SEN0500/SEN0501 sensor is 0x22
 
-typedef enum{
-  eML8511 = 0,         ///< V1.0 ML8511 legacy UV index
-  eS12SD = 1,          ///< V3.0 GUVA-S12SD equivalent UVA irradiance, mW/cm2
-  eLTR390UV = 2        ///< V2.0 LTR390 equivalent UVA irradiance, mW/cm2
-}eUVSOC;
+typedef enum {
+  eML8511   = 0,    ///< V1.0 ML8511 legacy UV index
+  eS12SD    = 1,    ///< V3.0 GUVA-S12SD equivalent UVA irradiance, mW/cm2
+  eLTR390UV = 2     ///< V2.0 LTR390 equivalent UVA irradiance, mW/cm2
+} eUVSOC;
 
-class DFRobot_EnvironmentalSensor: public DFRobot_RTU{
+class DFRobot_EnvironmentalSensor : public DFRobot_RTU {
 
 public:
-#define DEVICE_PID_GRAVITY   0x01F5
-#define DEVICE_PID_BREAKOUT  0x01F4
-#define DEVICE_VID           0x3343
+#define DEVICE_PID_GRAVITY  0x01F5
+#define DEVICE_PID_BREAKOUT 0x01F4
+#define DEVICE_VID          0x3343
 
-#define HPA                  0x01 ///< Atmospheric pressure Hectopascal
-#define KPA                  0X02 ///< Atmospheric pressure Kilopascal
+#define HPA 0x01    ///< Atmospheric pressure Hectopascal
+#define KPA 0X02    ///< Atmospheric pressure Kilopascal
 
-#define TEMP_C                    0X03  ///< ℃
-#define TEMP_F                    0X04  ///< ℉
+#define TEMP_C 0X03    ///< ℃
+#define TEMP_F 0X04    ///< ℉
 
-#define REG_PID                   0x0000 ///< Register for protocol transition adapter
-#define REG_VID                   0x0001 ///< Register for protocol transition adapter
-#define REG_DEVICE_ADDR           0x0002 ///< Register for protocol transition adapter
-#define REG_UART_CTRL0            0x0003 ///< Register for protocol transition adapter
-#define EG_UART_CTRL1             0x0004 ///< Register for protocol transition adapter
-#define REG_VERSION               0x0005 ///< Register for protocol transition adapter
+#define REG_PID         0x0000    ///< Register for protocol transition adapter
+#define REG_VID         0x0001    ///< Register for protocol transition adapter
+#define REG_DEVICE_ADDR 0x0002    ///< Register for protocol transition adapter
+#define REG_UART_CTRL0  0x0003    ///< Register for protocol transition adapter
+#define EG_UART_CTRL1   0x0004    ///< Register for protocol transition adapter
+#define REG_VERSION     0x0005    ///< Register for protocol transition adapter
 
-#define REG_ULTRAVIOLET_INTENSITY 0x0008 ///< Register for protocol transition adapter
-#define REG_LUMINOUS_INTENSITY    0x0009 ///< Register for protocol transition adapter
-#define REG_TEMP                  0x000A ///< Register for protocol transition adapter
-#define REG_HUMIDITY              0x000B ///< Register for protocol transition adapter
-#define REG_ATMOSPHERIC_PRESSURE  0x000C ///< Register for protocol transition adapter
-#define REG_ELEVATION             0x000D ///< Register for protocol transition adapter
-
-
+#define REG_ULTRAVIOLET_INTENSITY 0x0008    ///< Register for protocol transition adapter
+#define REG_LUMINOUS_INTENSITY    0x0009    ///< Register for protocol transition adapter
+#define REG_TEMP                  0x000A    ///< Register for protocol transition adapter
+#define REG_HUMIDITY              0x000B    ///< Register for protocol transition adapter
+#define REG_ATMOSPHERIC_PRESSURE  0x000C    ///< Register for protocol transition adapter
+#define REG_ELEVATION             0x000D    ///< Register for protocol transition adapter
 
   /**
    * @fn DFRobot_EnvironmentalSensor
@@ -87,7 +93,7 @@ public:
    * @n SEN0500/SEN0501 serial port config: 9600 baud rate, 8-bit data bit, no check bit, 1 stop bit, the parameters can't be changed.
    */
   DFRobot_EnvironmentalSensor(uint8_t addr, Stream *s);
-  ~DFRobot_EnvironmentalSensor(){};
+  ~DFRobot_EnvironmentalSensor() {};
 
   /**
    * @fn begin
@@ -103,14 +109,14 @@ public:
    * @brief Get SEN0500/SEN0501 temperature data
    * @param units Temperature data unit select
    * @n     TEMP_C ℃
-   * @n     TEMP_F ℉ 
+   * @n     TEMP_F ℉
    * @return Return the obtained temperature data
    */
   float getTemperature(uint8_t unist);
 
   /**
    * @fn getHumidity
-   * @brief Get SEN0500/SEN0501 humidity data 
+   * @brief Get SEN0500/SEN0501 humidity data
    * @return Return the obtained humidity data
    */
   float getHumidity(void);
@@ -128,14 +134,14 @@ public:
 
   /**
    * @fn getLuminousIntensity
-   * @brief Get SEN0500/SEN0501 luminous intensity data 
+   * @brief Get SEN0500/SEN0501 luminous intensity data
    * @return Return the obtained luminous intensity data
    */
   float getLuminousIntensity(void);
 
   /**
    * @fn getAtmospherePressure
-   * @brief Get SEN0500/SEN0501 atmosphere pressure data 
+   * @brief Get SEN0500/SEN0501 atmosphere pressure data
    * @param units Atmosphere pressure data unit select
    * @n            HPA Hectopascal
    * @n            KPA Kilopascal
@@ -145,24 +151,22 @@ public:
 
   /**
    * @fn getElevation
-   * @brief Get SEN0500/SEN0501 elevation data 
+   * @brief Get SEN0500/SEN0501 elevation data
    * @return Return the obtained elevation data
    */
   float getElevation(void);
 
-
 protected:
   uint16_t getDevicePID();
-  float mapfloat(float x, float in_min, float in_max, float out_min, float out_max);
+  float    mapfloat(float x, float in_min, float in_max, float out_min, float out_max);
   uint16_t getDeviceVID();
   uint8_t  readReg(uint16_t reg, void *pBuf, uint8_t size);
-  bool detectDeviceAddress(uint8_t addr);
-  
-protected:
-  TwoWire   *_pWire = NULL;
-  Stream    *_s = NULL;
-  uint8_t   _addr;
+  bool     detectDeviceAddress(uint8_t addr);
 
+protected:
+  TwoWire *_pWire = NULL;
+  Stream  *_s     = NULL;
+  uint8_t  _addr;
 };
 
 #endif

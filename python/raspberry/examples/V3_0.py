@@ -1,17 +1,19 @@
 # -*- coding: utf-8 -*
 '''!
-  @file  V3_0.py
-  @brief This example can obtain data from the SEN0501/SEN0500 V3.0 sensor via UART and I2C.
-  @copyright   Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
-  @license     The MIT License (MIT)
-  @author      [thdyyl](yuanlong.yu@dfrobot.com)
-  @version     V1.3.0
-  @date        2026-09-01
-  @url         https://github.com/DFRobot/DFRobot_EnvironmentalSensor
+@file  V3_0.py
+@brief This example can obtain data from the SEN0501/SEN0500 V3.0 sensor via UART and I2C.
+@copyright   Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
+@license     The MIT License (MIT)
+@author      [thdyyl](yuanlong.yu@dfrobot.com)
+@version     V1.3.0
+@date        2026-09-01
+@url         https://github.com/DFRobot/DFRobot_EnvironmentalSensor
 '''
+
 from __future__ import print_function
 import sys
 import os
+
 sys.path.append("../")
 import time
 import RPi.GPIO as GPIO
@@ -23,33 +25,36 @@ from DFRobot_Environmental_Sensor import *
   ctype=1：UART
   ctype=0：IIC
 '''
-ctype=0
+ctype = 0
 
-ADDRESS = 0x22  
-I2C_1   = 0x01               
-if ctype==0:
-  SEN050X = DFRobot_Environmental_Sensor_I2C(I2C_1 ,ADDRESS)
+ADDRESS = 0x22
+I2C_1 = 0x01
+SEN050X: DFRobot_Environmental_Sensor
+if ctype == 0:
+  SEN050X = DFRobot_Environmental_Sensor_I2C(I2C_1, ADDRESS)
 else:
   SEN050X = DFRobot_Environmental_Sensor_UART(9600, ADDRESS)
 
 '''
   Atmospheric pressure unit select
 '''
-HPA                       = 0x01
-KPA                       = 0X02
+HPA = 0x01
+KPA = 0x02
 
 '''
   Temperature unit select
 '''
-TEMP_C                    = 0X03
-TEMP_F                    = 0X04
- 
+TEMP_C = 0x03
+TEMP_F = 0x04
+
+
 def setup():
-  while (SEN050X.begin() == False):
+  while SEN050X.begin() == False:
     print("Sensor initialize failed!!")
     time.sleep(1)
   print("Sensor  initialize success!!")
-  
+
+
 def loop():
   ##Obtain sensor data
   print("-----------------------\r\n")
@@ -63,8 +68,8 @@ def loop():
   print("-----------------------\r\n")
   time.sleep(1)
 
+
 if __name__ == "__main__":
   setup()
   while True:
     loop()
-    
