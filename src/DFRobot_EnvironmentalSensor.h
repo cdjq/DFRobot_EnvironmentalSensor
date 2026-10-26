@@ -4,8 +4,8 @@
  * @copyright	Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @license   The MIT License (MIT)
  * @author    [thdyyl](yuanlong.yu@dfrobot.com)
- * @version   V1.3.0
- * @date      2026-09-01
+ * @version   V1.4.0
+ * @date      2026-10-26
  * @url       https://github.com/DFRobot/DFRobot_EnvironmentalSensor
  */
 
@@ -14,7 +14,6 @@
 
 #include "Arduino.h"
 #include "DFRobot_RTU.h"
-#include "String.h"
 #include "Wire.h"
 
 #if (defined ARDUINO_AVR_UNO) && (defined ESP8266)
@@ -43,10 +42,29 @@
 #endif
 #define SEN050X_DEFAULT_DEVICE_ADDRESS 0x22    ///< Default device address of SEN0500/SEN0501 sensor is 0x22
 
+/**
+ * @enum eUVSOC
+ * @brief Hardware version of the SEN0500/SEN0501 board. The version is printed on the
+ * @n     front silkscreen, e.g. "Multifunctional Environmental Sensor V3.0".
+ * @n
+ * @n     Temperature, humidity, light, pressure and altitude are read the same way on every
+ * @n     version. Only the UV channel differs:
+ * @n     - V1.0: ML8511 analog UV sensor, 10-bit ADC. getUltravioletIntensity() returns a
+ * @n            UV index (0 to 15, unitless).
+ * @n     - V2.0: LTR390 digital UV sensor, raw count. getUltravioletIntensity() returns
+ * @n            equivalent UVA irradiance in mW/cm2.
+ * @n     - V3.0: GUVA-S12SD analog UV sensor, 10-bit ADC. getUltravioletIntensity() returns
+ * @n            equivalent UVA irradiance in mW/cm2 (352 nm UVA lamp calibration).
+ * @n     Passing the wrong version does not fail; it only produces a wrong UV value.
+ */
 typedef enum {
-  eML8511   = 0,    ///< V1.0 ML8511 legacy UV index
-  eS12SD    = 1,    ///< V3.0 GUVA-S12SD equivalent UVA irradiance, mW/cm2
-  eLTR390UV = 2     ///< V2.0 LTR390 equivalent UVA irradiance, mW/cm2
+  eSensorV1_0 = 0,    ///< V1.0 board, ML8511, returns UV index
+  eSensorV3_0 = 1,    ///< V3.0 board, GUVA-S12SD, returns mW/cm2
+  eSensorV2_0 = 2,    ///< V2.0 board, LTR390, returns mW/cm2
+
+  eML8511   = eSensorV1_0,    ///< Legacy name, use eSensorV1_0
+  eS12SD    = eSensorV3_0,    ///< Legacy name, use eSensorV3_0
+  eLTR390UV = eSensorV2_0     ///< Legacy name, use eSensorV2_0
 } eUVSOC;
 
 class DFRobot_EnvironmentalSensor : public DFRobot_RTU {
@@ -124,13 +142,14 @@ public:
   /**
    * @fn getUltravioletIntensity
    * @brief Get SEN0500/SEN0501 ultraviolet data
-   * @param soc UV sensor and output type
-   * @n eML8511: V1.0 ML8511 legacy UV index
-   * @n eLTR390UV: V2.0 LTR390 equivalent UVA irradiance, mW/cm2
-   * @n eS12SD: V3.0 GUVA-S12SD equivalent UVA irradiance, mW/cm2
-   * @return Return the selected ultraviolet measurement
+   * @param version Hardware version printed on the board silkscreen
+   * @n eSensorV1_0: V1.0 board (ML8511), returns UV index, 0 to 15, unitless
+   * @n eSensorV2_0: V2.0 board (LTR390), returns equivalent UVA irradiance, mW/cm2
+   * @n eSensorV3_0: V3.0 board (GUVA-S12SD), returns equivalent UVA irradiance, mW/cm2
+   * @n Default is eSensorV1_0 to keep the behaviour of earlier library releases.
+   * @return Return the ultraviolet measurement for the selected hardware version
    */
-  float getUltravioletIntensity(eUVSOC soc = eML8511);
+  float getUltravioletIntensity(eUVSOC version = eSensorV1_0);
 
   /**
    * @fn getLuminousIntensity

@@ -5,8 +5,8 @@
 @copyright   Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
 @license     The MIT License (MIT)
 @author      [thdyyl](yuanlong.yu@dfrobot.com)
-@version     V1.3.0
-@date        2026-09-01
+@version     V1.4.0
+@date        2026-10-26
 @url         https://github.com/DFRobot/DFRobot_EnvironmentalSensor
 '''
 
@@ -34,10 +34,22 @@ KPA = 0x02
 TEMP_C = 0x03
 TEMP_F = 0x04
 
-ML8511 = 0x00
-S12SD = 0x01
-LTR390UV = 0x02
+# Hardware version of the SEN0500/SEN0501 board, printed on the front silkscreen,
+# e.g. "Multifunctional Environmental Sensor V3.0".
+# Temperature, humidity, light, pressure and altitude are identical on all versions.
+# Only the UV channel differs:
+#   V1.0: ML8511 analog UV sensor, 10-bit ADC, get_ultraviolet_intensity() returns a UV index (0-15, unitless)
+#   V2.0: LTR390 digital UV sensor, raw count, get_ultraviolet_intensity() returns UVA irradiance in mW/cm2
+#   V3.0: GUVA-S12SD analog UV sensor, 10-bit ADC, get_ultraviolet_intensity() returns UVA irradiance in mW/cm2
+# Passing the wrong version does not fail; it only produces a wrong UV value.
+SENSOR_V1_0 = 0x00
+SENSOR_V3_0 = 0x01
+SENSOR_V2_0 = 0x02
 
+# Legacy names (UV sensor chip), kept for backward compatibility. Prefer SENSOR_Vx_x.
+ML8511 = SENSOR_V1_0
+S12SD = SENSOR_V3_0
+LTR390UV = SENSOR_V2_0
 # Alias for a misspelled constant name.
 S12DS = S12SD
 
@@ -135,20 +147,22 @@ class DFRobot_Environmental_Sensor:
     humidity = (humidity / 1024) * 100 / 64
     return round(humidity, 2)
 
-  def get_ultraviolet_intensity(self, soc=ML8511):
+  def get_ultraviolet_intensity(self, version=SENSOR_V1_0):
     '''!
     @brief Get SEN0500/SEN0501 UV data
-    @param soc UV sensor and output type
-    @n ML8511: V1.0 ML8511 legacy UV index
-    @n LTR390UV: V2.0 LTR390 equivalent UVA irradiance, mW/cm2
-    @n S12SD: V3.0 GUVA-S12SD equivalent UVA irradiance, mW/cm2
-    @return Return the selected ultraviolet measurement
+    @param version Hardware version printed on the board silkscreen
+    @n SENSOR_V1_0: V1.0 board (ML8511), returns UV index, 0 to 15, unitless
+    @n SENSOR_V2_0: V2.0 board (LTR390), returns equivalent UVA irradiance, mW/cm2
+    @n SENSOR_V3_0: V3.0 board (GUVA-S12SD), returns equivalent UVA irradiance, mW/cm2
+    @n Default is SENSOR_V1_0 to keep the behaviour of earlier library releases.
+    @return Return the ultraviolet measurement for the selected hardware version
     '''
     data = self._read_value(0x10, 2)
     if data is None:
       return -1
     ultraviolet = 0.0
-    if soc == ML8511:
+    # The register holds different raw data on each hardware version.
+    if version == SENSOR_V1_0:
       outputVoltage = ML8511_ADC_REFERENCE_VOLTAGE * data / ML8511_ADC_FULL_SCALE
       if outputVoltage <= ML8511_OUTPUT_MIN_VOLTAGE:
         ultraviolet = 0.0
@@ -156,10 +170,10 @@ class DFRobot_Environmental_Sensor:
         ultraviolet = ML8511_UVI_MAX
       else:
         ultraviolet = (outputVoltage - ML8511_OUTPUT_MIN_VOLTAGE) * ML8511_UVI_MAX / (ML8511_OUTPUT_MAX_VOLTAGE - ML8511_OUTPUT_MIN_VOLTAGE)
-    elif soc == LTR390UV:
+    elif version == SENSOR_V2_0:
       uvi = data / LTR390_COUNTS_PER_UVI * LTR390_WINDOW_FACTOR
       ultraviolet = uvi * LTR390_MW_CM2_PER_UVI
-    elif soc == S12SD:
+    elif version == SENSOR_V3_0:
       data = data if data > 1 else 0
       outputVoltage = S12SD_ADC_REFERENCE_VOLTAGE * data / S12SD_ADC_FULL_SCALE
       currentNa = (outputVoltage * 1000000000.0) / S12SD_TRANSIMPEDANCE_OHM

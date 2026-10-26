@@ -5,8 +5,8 @@
  * @copyright	Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @license   The MIT License (MIT)
  * @author    [thdyyl](yuanlong.yu@dfrobot.com)
- * @version   V1.3.0
- * @date      2026-09-01
+ * @version   V1.4.0
+ * @date      2026-10-26
  * @url       https://github.com/DFRobot/DFRobot_EnvironmentalSensor
  */
 
@@ -122,7 +122,7 @@ float DFRobot_EnvironmentalSensor::mapfloat(float x, float in_min, float in_max,
   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-float DFRobot_EnvironmentalSensor::getUltravioletIntensity(eUVSOC soc)
+float DFRobot_EnvironmentalSensor::getUltravioletIntensity(eUVSOC version)
 {
   uint16_t uvLevel;
   uint8_t  buffer[2];
@@ -131,8 +131,10 @@ float DFRobot_EnvironmentalSensor::getUltravioletIntensity(eUVSOC soc)
   uvLevel = buffer[0] << 8 | buffer[1];
   DBG(uvLevel);
 
-  if (soc == eUVSOC::eML8511) {
-    // V1.0 register value is a 10-bit ADC reading. Map 0.99 V to 2.90 V onto UVI 0 to 15.
+  // The register holds different raw data on each hardware version, so the
+  // conversion must match the board. See eUVSOC in the header for details.
+  if (version == eSensorV1_0) {
+    // V1.0 (ML8511): register value is a 10-bit ADC reading. Map 0.99 V to 2.90 V onto UVI 0 to 15.
     float outputVoltage = ML8511_ADC_REFERENCE_VOLTAGE * uvLevel / ML8511_ADC_FULL_SCALE;
     if (outputVoltage <= ML8511_OUTPUT_MIN_VOLTAGE) {
       ultraviolet = 0.0f;
@@ -141,12 +143,12 @@ float DFRobot_EnvironmentalSensor::getUltravioletIntensity(eUVSOC soc)
     } else {
       ultraviolet = mapfloat(outputVoltage, ML8511_OUTPUT_MIN_VOLTAGE, ML8511_OUTPUT_MAX_VOLTAGE, 0.0f, ML8511_UVI_MAX);
     }
-  } else if (soc == eUVSOC::eLTR390UV) {
-    // V2.0 register value is an LTR390 digital count. Convert with 2300 counts/UVI, then to GUVA-equivalent mW/cm2.
+  } else if (version == eSensorV2_0) {
+    // V2.0 (LTR390): register value is a digital count. Convert with 2300 counts/UVI, then to GUVA-equivalent mW/cm2.
     float uvi   = ((float)uvLevel / LTR390_COUNTS_PER_UVI) * LTR390_WINDOW_FACTOR;
     ultraviolet = uvi * LTR390_MW_CM2_PER_UVI;
-  } else if (soc == eUVSOC::eS12SD) {
-    // V3.0 register value is a 10-bit ADC reading from the GUVA-S12SD amplifier.
+  } else if (version == eSensorV3_0) {
+    // V3.0 (GUVA-S12SD): register value is a 10-bit ADC reading from the amplifier output.
     // Equivalent irradiance under a 352 nm UVA lamp.
     uvLevel             = uvLevel > 1 ? uvLevel : 0;
     float outputVoltage = S12SD_ADC_REFERENCE_VOLTAGE * uvLevel / S12SD_ADC_FULL_SCALE;
@@ -193,23 +195,23 @@ float DFRobot_EnvironmentalSensor::getElevation(void)
 
 uint8_t DFRobot_EnvironmentalSensor::readReg(uint16_t reg, void *pBuf, uint8_t size)
 {
-  uint8_t *_pBuf = (uint8_t *)pBuf;
+  uint8_t *pData = (uint8_t *)pBuf;
 
   if (pBuf == NULL) {
     DBG("data error");
     return 0;
   }
   if (_pWire) {
-    uint8_t _reg = reg * 2;
+    uint8_t regAddr = reg * 2;
     _pWire->beginTransmission(_addr);
-    _pWire->write(_reg);
+    _pWire->write(regAddr);
     _pWire->endTransmission();
     _pWire->requestFrom(_addr, size);
-    for (uint8_t i = 0; i < size; i++) _pBuf[i] = _pWire->read();
+    for (uint8_t i = 0; i < size; i++) pData[i] = _pWire->read();
 
     return size;
   } else {
-    return readInputRegister(_addr, reg, _pBuf, size);
+    return readInputRegister(_addr, reg, pData, size);
   }
 }
 
