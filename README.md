@@ -131,8 +131,7 @@ Raspberry Pi       |      X       |      √       |      √       |
 
 ## History
 
-- 2026-10-26 - Version 1.4.0 selects the UV conversion by hardware version (`eSensorV1_0` / `eSensorV2_0` / `eSensorV3_0`) instead of UV chip name, merges the three examples into `getData.ino`, and documents the V1.0 vs V2.0/V3.0 differences.
-- 2026-10-22 - Version 1.3.0 reports V2.0 LTR390 and V3.0 GUVA-S12SD ultraviolet data in mW/cm².
+- 2026-10-26 - Version 1.3.0 reports V2.0 LTR390 and V3.0 GUVA-S12SD ultraviolet data in mW/cm², selects the UV conversion by hardware version (`eSensorV1_0` / `eSensorV2_0` / `eSensorV3_0`), merges the examples into `getData.ino`, and documents the V1.0 vs V2.0/V3.0 differences.
 - 2021-08-31 - Version 1.0.0 released.
 - 2021-01-18 - Version 1.0.1 released.
 

@@ -15,7 +15,7 @@
 @copyright   Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
 @license     The MIT License (MIT)
 @author      [thdyyl](yuanlong.yu@dfrobot.com)
-@version     V1.4.0
+@version     V1.3.0
 @date        2026-10-26
 @url         https://github.com/DFRobot/DFRobot_EnvironmentalSensor
 '''
@@ -92,6 +92,11 @@ def loop():
 
 
 if __name__ == "__main__":
-  setup()
-  while True:
-    loop()
+  try:
+    setup()
+    while True:
+      loop()
+  except KeyboardInterrupt:
+    ##Ctrl+C: leave the loop without a traceback
+    print("\nExit by Ctrl+C")
+    sys.exit(0)

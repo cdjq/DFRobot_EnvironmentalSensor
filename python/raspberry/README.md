@@ -134,8 +134,7 @@ python control_led.py
 
 ## History
 
-- 2026-10-26 - Version 1.4.0 selects the UV conversion by hardware version (`SENSOR_V1_0` / `SENSOR_V2_0` / `SENSOR_V3_0`) instead of UV chip name, merges the three examples into `get_data.py`, and documents the V1.0 vs V2.0/V3.0 differences.
-- 2026-10-22 - Version 1.3.0 reports V2.0 LTR390 and V3.0 GUVA-S12SD ultraviolet data in mW/cm².
+- 2026-10-26 - Version 1.3.0 reports V2.0 LTR390 and V3.0 GUVA-S12SD ultraviolet data in mW/cm², selects the UV conversion by hardware version (`SENSOR_V1_0` / `SENSOR_V2_0` / `SENSOR_V3_0`), merges the examples into `get_data.py`, and documents the V1.0 vs V2.0/V3.0 differences.
 - 2021-08-31 - Version 1.0.0 released.
 
 ## Credits
