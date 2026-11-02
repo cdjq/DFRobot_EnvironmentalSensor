@@ -45,6 +45,8 @@
 #if defined(ARDUINO_AVR_UNO) || defined(ESP8266)
 SoftwareSerial              mySerial(/*rx =*/4, /*tx =*/5);
 DFRobot_EnvironmentalSensor environment(/*addr =*/SEN050X_DEFAULT_DEVICE_ADDRESS, /*s =*/&mySerial);
+#elif defined(ARDUINO_BBC_MICROBIT) || defined(ARDUINO_BBC_MICROBIT_V2)
+#error "BBC micro:bit (sandeepmistry nRF5): Serial1 is not defined. Set MODESWITCH to 0 and use I2C."
 #else
 DFRobot_EnvironmentalSensor environment(/*addr =*/SEN050X_DEFAULT_DEVICE_ADDRESS, /*s =*/&Serial1);
 #endif
@@ -60,6 +62,8 @@ void setup()
   mySerial.begin(9600);
 #elif defined(ESP32)
   Serial1.begin(9600, SERIAL_8N1, /*rx =*/26 /*D3*/, /*tx =*/25 /*D2*/);
+#elif defined(ARDUINO_BBC_MICROBIT) || defined(ARDUINO_BBC_MICROBIT_V2)
+#error "BBC micro:bit (sandeepmistry nRF5): Serial1 is not defined. Set MODESWITCH to 0 and use I2C."
 #else
   Serial1.begin(9600);
 #endif
