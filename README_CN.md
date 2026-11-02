@@ -48,11 +48,30 @@ V3.0（`V3.0`）   | `eSensorV3_0` | GUVA-S12SD，模拟输出 | 放大器输出
 
 ## 库安装
 
-使用此库前，请首先下载库文件，将其粘贴到\Arduino\libraries目录中，然后打开examples文件夹并在该文件夹中运行演示。
+这里有 2 种安装方法：
+
+1. 在 Arduino 库管理器中搜索并安装 DFRobot_EnvironmentalSensor（需同时安装依赖库 DFRobot_RTU）。
+2. 下载库文件，解压到 Arduino 的 `libraries` 目录，然后打开 examples 文件夹并运行演示。
 
 ## 方法
 
 ```C++
+  /**
+   * @fn DFRobot_EnvironmentalSensor
+   * @brief I2C 构造函数
+   * @param addr I2C 地址，默认 SEN050X_DEFAULT_DEVICE_ADDRESS（0x22）
+   * @param pWire TwoWire 指针，默认 &Wire
+   */
+  DFRobot_EnvironmentalSensor(uint8_t addr, TwoWire *pWire = &Wire);
+
+  /**
+   * @fn DFRobot_EnvironmentalSensor
+   * @brief UART（Modbus-RTU）构造函数
+   * @param addr 从机地址，默认 SEN050X_DEFAULT_DEVICE_ADDRESS（0x22）
+   * @param s Stream 指针（HardwareSerial 或 SoftwareSerial），9600 8N1
+   */
+  DFRobot_EnvironmentalSensor(uint8_t addr, Stream *s);
+
   /**
    * @fn begin
    * @brief 初始化SEN0500/SEN0501传感器
@@ -75,7 +94,8 @@ V3.0（`V3.0`）   | `eSensorV3_0` | GUVA-S12SD，模拟输出 | 放大器输出
   /**
    * @fn getHumidity
    * @brief 获取SEN0500/SEN0501湿度数据
-   * @return 返回获取的湿度数据
+   * @n 相对湿度，单位 %RH，通常为 0 到 100
+   * @return 湿度值，单位 %RH
    */
   float getHumidity(void);
 
@@ -89,12 +109,13 @@ V3.0（`V3.0`）   | `eSensorV3_0` | GUVA-S12SD，模拟输出 | 放大器输出
    * @n 默认为 eSensorV1_0，与旧版本库行为保持一致
    * @return 返回所选硬件版本对应的紫外线测量结果
    */
-  float getUltravioletIntensity(eUVSOC version = eSensorV1_0);
+  float getUltravioletIntensity(eSensorVersion_t version = eSensorV1_0);
 
   /**
    * @fn getLuminousIntensity
    * @brief 获取SEN0500/SEN0501光线强度数据
-   * @return 返回获取的光线强度数据
+   * @n 照度，单位 lx
+   * @return 光照强度，单位 lx
    */
   float getLuminousIntensity(void);
 
@@ -111,7 +132,8 @@ V3.0（`V3.0`）   | `eSensorV3_0` | GUVA-S12SD，模拟输出 | 放大器输出
   /**
    * @fn getElevation
    * @brief 获取SEN0500/SEN0501海拔数据
-   * @return 返回获取的海拔数据
+   * @n 海拔，单位 m，由大气压强换算
+   * @return 海拔，单位 m
    */
   float getElevation(void);
 ```

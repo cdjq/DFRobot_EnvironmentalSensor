@@ -122,7 +122,7 @@ float DFRobot_EnvironmentalSensor::mapfloat(float x, float in_min, float in_max,
   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-float DFRobot_EnvironmentalSensor::getUltravioletIntensity(eUVSOC version)
+float DFRobot_EnvironmentalSensor::getUltravioletIntensity(eSensorVersion_t version)
 {
   uint16_t uvLevel;
   uint8_t  buffer[2];
@@ -132,7 +132,7 @@ float DFRobot_EnvironmentalSensor::getUltravioletIntensity(eUVSOC version)
   DBG(uvLevel);
 
   // The register holds different raw data on each hardware version, so the
-  // conversion must match the board. See eUVSOC in the header for details.
+  // conversion must match the board. See eSensorVersion_t in the header for details.
   if (version == eSensorV1_0) {
     // V1.0 (ML8511): register value is a 10-bit ADC reading. Map 0.99 V to 2.90 V onto UVI 0 to 15.
     float outputVoltage = ML8511_ADC_REFERENCE_VOLTAGE * uvLevel / ML8511_ADC_FULL_SCALE;

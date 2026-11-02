@@ -1,6 +1,9 @@
 /*!
  * @file  DFRobot_EnvironmentalSensor.h
- * @brief Basic structure of DFRobot_URM09 class, the implementation of basic method
+ * @brief DFRobot SEN0500/SEN0501 multifunctional environmental sensor driver
+ * @details Supports UART (Modbus-RTU) and I2C. Reads temperature, humidity, UV,
+ * @n       luminous intensity, atmospheric pressure and elevation. UV conversion
+ * @n       depends on board hardware version V1.0 / V2.0 / V3.0.
  * @copyright	Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @license   The MIT License (MIT)
  * @author    [thdyyl](yuanlong.yu@dfrobot.com)
@@ -43,7 +46,7 @@
 #define SEN050X_DEFAULT_DEVICE_ADDRESS 0x22    ///< Default device address of SEN0500/SEN0501 sensor is 0x22
 
 /**
- * @enum eUVSOC
+ * @enum eSensorVersion_t
  * @brief Hardware version of the SEN0500/SEN0501 board. The version is printed on the
  * @n     front silkscreen, e.g. "Multifunctional Environmental Sensor V3.0".
  * @n
@@ -65,14 +68,14 @@ typedef enum {
   eML8511   = eSensorV1_0,    ///< Legacy name, use eSensorV1_0
   eS12SD    = eSensorV3_0,    ///< Legacy name, use eSensorV3_0
   eLTR390UV = eSensorV2_0     ///< Legacy name, use eSensorV2_0
-} eUVSOC;
+} eSensorVersion_t;
 
 class DFRobot_EnvironmentalSensor : public DFRobot_RTU {
 
 public:
-#define DEVICE_PID_GRAVITY  0x01F5
-#define DEVICE_PID_BREAKOUT 0x01F4
-#define DEVICE_VID          0x3343
+#define DEVICE_PID_GRAVITY  0x01F5    ///< Product ID for Gravity version
+#define DEVICE_PID_BREAKOUT 0x01F4    ///< Product ID for Breakout version
+#define DEVICE_VID          0x3343    ///< Vendor ID
 
 #define HPA 0x01    ///< Atmospheric pressure Hectopascal
 #define KPA 0X02    ///< Atmospheric pressure Kilopascal
@@ -84,7 +87,7 @@ public:
 #define REG_VID         0x0001    ///< Register for protocol transition adapter
 #define REG_DEVICE_ADDR 0x0002    ///< Register for protocol transition adapter
 #define REG_UART_CTRL0  0x0003    ///< Register for protocol transition adapter
-#define EG_UART_CTRL1   0x0004    ///< Register for protocol transition adapter
+#define REG_UART_CTRL1  0x0004    ///< Register for protocol transition adapter
 #define REG_VERSION     0x0005    ///< Register for protocol transition adapter
 
 #define REG_ULTRAVIOLET_INTENSITY 0x0008    ///< Register for protocol transition adapter
@@ -106,7 +109,7 @@ public:
    * @fn DFRobot_EnvironmentalSensor
    * @brief DFRobot_EnvironmentalSensor constructor
    * @param addr: The device address of the communication between the host computer and SEN0500/SEN0501 slave device
-   * @n     SEN0501_DEFAULT_DEVICE_ADDRESS or 32（0x20）: Default address of SEN0500/SEN0501 device, if users do not change the device address, it's default to 32.
+   * @n     SEN050X_DEFAULT_DEVICE_ADDRESS (0x22): default address of SEN0500/SEN0501 when the user has not changed it.
    * @param s   : The serial port pointer to the Stream, which requires calling begin in the demo to init communication serial port config of Arduino main controller, in line with that of SEN0500/SEN0501 device slave.
    * @n SEN0500/SEN0501 serial port config: 9600 baud rate, 8-bit data bit, no check bit, 1 stop bit, the parameters can't be changed.
    */
@@ -135,7 +138,8 @@ public:
   /**
    * @fn getHumidity
    * @brief Get SEN0500/SEN0501 humidity data
-   * @return Return the obtained humidity data
+   * @n Relative humidity in percent (%RH), typically 0 to 100
+   * @return Humidity value in %RH
    */
   float getHumidity(void);
 
@@ -149,12 +153,13 @@ public:
    * @n Default is eSensorV1_0 to keep the behaviour of earlier library releases.
    * @return Return the ultraviolet measurement for the selected hardware version
    */
-  float getUltravioletIntensity(eUVSOC version = eSensorV1_0);
+  float getUltravioletIntensity(eSensorVersion_t version = eSensorV1_0);
 
   /**
    * @fn getLuminousIntensity
    * @brief Get SEN0500/SEN0501 luminous intensity data
-   * @return Return the obtained luminous intensity data
+   * @n Illuminance in lux (lx)
+   * @return Luminous intensity in lx
    */
   float getLuminousIntensity(void);
 
@@ -171,7 +176,8 @@ public:
   /**
    * @fn getElevation
    * @brief Get SEN0500/SEN0501 elevation data
-   * @return Return the obtained elevation data
+   * @n Altitude in meters (m), derived from atmospheric pressure
+   * @return Elevation in m
    */
   float getElevation(void);
 
@@ -182,7 +188,7 @@ protected:
   uint8_t  readReg(uint16_t reg, void *pBuf, uint8_t size);
   bool     detectDeviceAddress(uint8_t addr);
 
-protected:
+private:
   TwoWire *_pWire = NULL;
   Stream  *_s     = NULL;
   uint8_t  _addr;

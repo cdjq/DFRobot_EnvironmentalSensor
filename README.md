@@ -48,11 +48,30 @@ Selecting the wrong version does not produce an error, only a wrong UV value. Th
 
 ## Installation
 
-To use this library, first download the library file, paste it into the \Arduino\libraries directory, then open the examples folder and run the demo in the folder.
+There are two methods:
+
+1. Search for DFRobot_EnvironmentalSensor in the Arduino Library Manager and install it (also install dependency DFRobot_RTU).
+2. Download the library file, then extract it into the Arduino `libraries` directory, open the examples folder and run the demo.
 
 ## Methods
 
 ```C++
+  /**
+   * @fn DFRobot_EnvironmentalSensor
+   * @brief I2C constructor
+   * @param addr I2C address, default SEN050X_DEFAULT_DEVICE_ADDRESS (0x22)
+   * @param pWire TwoWire pointer, default &Wire
+   */
+  DFRobot_EnvironmentalSensor(uint8_t addr, TwoWire *pWire = &Wire);
+
+  /**
+   * @fn DFRobot_EnvironmentalSensor
+   * @brief UART (Modbus-RTU) constructor
+   * @param addr Slave address, default SEN050X_DEFAULT_DEVICE_ADDRESS (0x22)
+   * @param s Stream pointer (HardwareSerial or SoftwareSerial), 9600 8N1
+   */
+  DFRobot_EnvironmentalSensor(uint8_t addr, Stream *s);
+
   /**
    * @fn begin
    * @brief Init SEN0500/SEN0501 sensor
@@ -75,7 +94,8 @@ To use this library, first download the library file, paste it into the \Arduino
   /**
    * @fn getHumidity
    * @brief Get SEN0500/SEN0501 humidity data
-   * @return Return the obtained humidity data
+   * @n Relative humidity in percent (%RH), typically 0 to 100
+   * @return Humidity value in %RH
    */
   float getHumidity(void);
 
@@ -89,12 +109,13 @@ To use this library, first download the library file, paste it into the \Arduino
    * @n Default is eSensorV1_0 to keep the behaviour of earlier library releases.
    * @return Return the ultraviolet measurement for the selected hardware version
    */
-  float getUltravioletIntensity(eUVSOC version = eSensorV1_0);
+  float getUltravioletIntensity(eSensorVersion_t version = eSensorV1_0);
 
   /**
    * @fn getLuminousIntensity
    * @brief Get SEN0500/SEN0501 luminous intensity data
-   * @return Return the obtained luminous intensity data
+   * @n Illuminance in lux (lx)
+   * @return Luminous intensity in lx
    */
   float getLuminousIntensity(void);
 
@@ -111,7 +132,8 @@ To use this library, first download the library file, paste it into the \Arduino
   /**
    * @fn getElevation
    * @brief Get SEN0500/SEN0501 altitude data
-   * @return Return the obtained altitude data
+   * @n Altitude in meters (m), derived from atmospheric pressure
+   * @return Elevation in m
    */
   float getElevation(void);
 ```
